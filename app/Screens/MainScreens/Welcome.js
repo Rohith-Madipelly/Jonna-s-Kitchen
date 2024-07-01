@@ -1,4 +1,4 @@
-import { Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Button, Dimensions, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
@@ -11,12 +11,13 @@ import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
 import { scrollToBottom } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
+import AutoScrollCarousels from "../../Components/UI/Carousels/AutoScrollCarousels";
 
 
 // import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
 
 
-
+const { width } = Dimensions.get('screen');
 
 const Welcome = () => {
     const navigation = useNavigation();
@@ -27,9 +28,15 @@ const Welcome = () => {
     const scrollViewRef = useRef(null);
 
 
+    const TransformationData = [
+        { id: 1, label: '1', image: require("../../assets/Images/Carousels/WelcomeTransformation1.png") },
+        { id: 2, label: '1', image: require("../../assets/Images/Carousels/WelcomeTransformation1.png") },
+    ]
 
-
-
+    const PregnancyStoriesData = [
+        { id: 1, label: '1', image: require("../../assets/Images/Carousels/Successful Pregnancy Stories.png") },
+        { id: 2, label: '1', image: require("../../assets/Images/Carousels/Successful Pregnancy Stories.png") },
+    ]
 
 
 
@@ -95,14 +102,19 @@ const Welcome = () => {
                                     }, styles.TextFamilyA2,]}>Transformation</Text>
 
                                     <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-                                        <Image
+                                        {/* <Image
                                             style={{ width: "90%", height: 191, borderRadius: 15 }}
                                             animation={"bounceIn"}
                                             source={require("../../assets/Images/Carousels/Transformation1.png")}
-                                            contentFit="cover"
+
                                             transition={1000}
                                             alt=''
-                                        />
+                                        /> */}
+                                        <AutoScrollCarousels CarouselsData={TransformationData}
+                                            CarouselsStyling={{
+                                                height: 200, width: width * 0.9, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
+                                            }}
+                                            transitionDelay={2000} imageStyling={{ width: "96%", height: 191, borderRadius: 15, marginLeft: 4 }} />
                                     </View>
 
 
@@ -117,14 +129,11 @@ const Welcome = () => {
                                     }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
 
                                     <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                                        <Image
-                                            style={{ width: "90%", height: 159, borderRadius: 15 }}
-                                            animation={"bounceIn"}
-                                            source={require("../../assets/Images/Carousels/Successful Pregnancy Stories.png")}
-                                            contentFit="cover"
-                                            transition={1000}
-                                            alt=''
-                                        />
+                                        <AutoScrollCarousels CarouselsData={PregnancyStoriesData}
+                                            CarouselsStyling={{
+                                                height: 180, width: width * 0.9, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
+                                            }}
+                                            transitionDelay={2000} imageStyling={{ width: "96%", height: 159, borderRadius: 15, marginLeft: 4 }} />
                                     </View>
 
 
@@ -135,18 +144,28 @@ const Welcome = () => {
                             <View style={{ flex: 0.1, alignItems: 'center' }}>
                                 <CustomButton1
                                     boxWidth={'92%'}
-                                    onPress={() => { navigation.navigate("Register") }}
-                                    // onPress={() => { scrollToBottom(scrollViewRef) }}
+                                    // onPress={item.onPress}
                                     textStyling={{ marginBottom: -5 }}
-                                    btnContainerprops={{ borderRadius: 10 }}
+
+                                    // onPress={() => { navigation.navigate("Register") }}
+                                    onPress={() => { scrollToBottom(scrollViewRef) }}
+
+                                    btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
                                     leftIcon={<Entypo
                                         // style={styles.icon}
                                         name={'login'} size={18} color={'white'} />}
 
-                                    RightIcon={<SimpleLineIcons
-                                        // style={styles.icon}
+                                    // RightIcon={<SimpleLineIcons
+                                    //     // style={styles.icon}
 
-                                        name={'arrow-right'} size={18} color={'white'} />}
+                                    //     name={'arrow-right'} size={18} color={'white'} />}
+                                    // leftIcon={<Image style={{ width: 24, height: 24, }}
+                                    //     source={item.logo}
+                                    //     resizeMode={"contain"} />}
+
+                                    RightIcon={<Image style={{ width: 15, height: 15, }}
+                                        source={require("../../assets/Images/ArrowWhite.png")}
+                                        resizeMode={"contain"} />}
                                     // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                     bgColor={"#FE7B07"}
                                     style={{ marginTop: 50 }}>Healthy life style programs</CustomButton1>
@@ -154,7 +173,7 @@ const Welcome = () => {
                         </View>
 
 
-                        <View style={{ flex: 1,  height: 500 }}>
+                        <View style={{ flex: 1, height: 500 }}>
 
 
                         </View>

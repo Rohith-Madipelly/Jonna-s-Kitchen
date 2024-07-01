@@ -28,21 +28,16 @@ const MorePage = () => {
 
     return (
         <>
-
             <View style={{
                 flex: 1,
                 // backgroundColor:'pink'
             }}>
 
-
-
                 <ImageBackground
                     source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
                     style={styles.container}
                 >
-
                     <View style={{ flex: 1, alignItems: 'center', marginTop: 25 }}>
-
                         <FlatList
                             data={MorePageBtns}
                             keyExtractor={(item, index) => index.toString()}
@@ -64,14 +59,8 @@ const MorePage = () => {
                                     style={{ marginTop: 50 }}>{item.title}</CustomButton1>
                             )}
                         />
-
-
-
-
                     </View>
                 </ImageBackground>
-
-
             </View>
         </>
 

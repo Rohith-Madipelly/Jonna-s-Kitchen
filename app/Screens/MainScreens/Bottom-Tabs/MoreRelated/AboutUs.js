@@ -1,10 +1,13 @@
-import { Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
+import AutoScrollCarousels from '../../../../Components/UI/Carousels/AutoScrollCarousels';
+
+const { width } = Dimensions.get('screen');
 
 const AboutUS = ({ navigation }) => {
 
@@ -16,6 +19,14 @@ const AboutUS = ({ navigation }) => {
     { id: '5', content: "That’s when the interest in FOOD n NUTRITION has strongly registered in my mind and I first transformed myself and helped transform my clients across the globe and also helped in conceiving Naturally." },
     { id: '6', content: "I’m now a Internationally certified Weight management specialist, Further continued my education in Diploma in Dietetics and Now Pursing now PG. Diploma in Adv. Nutrition and Dietetics, specialization in clinical Nutrition and Diabetologist." },
   ];
+
+  const AboutImageData = [
+    { id: 1, label: '1', image: require("../../../../assets/Images/Carousels/Banners/BannerSom1.png") },
+    { id: 2, label: '2', image: require("../../../../assets/Images/Carousels/Banners/BannerSom2.png") },
+    { id: 3, label: '3', image: require("../../../../assets/Images/Carousels/Banners/BannerSom3.png") },
+    { id: 4, label: '1', image: require("../../../../assets/Images/Carousels/Banners/BannerSom4.png") },
+    // { id: 2, label: '1', image: require("../../../../assets/Images/Carousels/WelcomeTransformation1.png") },
+  ]
 
   return (
     <View style={{ flex: 1 }}>
@@ -32,7 +43,7 @@ const AboutUS = ({ navigation }) => {
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
                 <Image
-                  style={{ width: '70%', height: 240,}}
+                  style={{ width: '70%', height: 240, }}
                   source={require("../../../../assets/Images/Food/Food1.png")}
                   resizeMode="contain"
                 />
@@ -46,14 +57,16 @@ const AboutUS = ({ navigation }) => {
               </View>
             )}
             ListFooterComponent={
-              <View style={{ justifyContent: 'center', alignItems: 'center',marginVertical:10 }}>
-                <Image
-                  style={{ width: '100%', height:163 }}
-                  source={require("../../../../assets/Images/Food/AboutEnd.png")} // Replace with the actual path to your image
-                  resizeMode="contain"
-                />
+
+                           <View>
+                <AutoScrollCarousels CarouselsData={AboutImageData}
+                  CarouselsStyling={{
+                    height: 200, width: width, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
+                  }}
+                  transitionDelay={2000} imageStyling={{ width: "90%", height: 163, borderRadius: 15,}} />
               </View>
             }
+
             contentContainerStyle={{ paddingHorizontal: 18 }}
           />
         </View>

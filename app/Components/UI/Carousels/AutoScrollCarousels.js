@@ -51,7 +51,8 @@ export default function AutoScrollCarousels({ CarouselsData, transitionDelay, Ca
             source={x.image}
             animation={"bounceIn"}
             // resizeMode={"contain"}
-            contentFit="cover" />
+            contentFit="cover" 
+            />
             {/* <View style={{backgroundColor:"pink",width:80,height:80}}></View> */}
         </View>
       ))}
@@ -62,6 +63,7 @@ export default function AutoScrollCarousels({ CarouselsData, transitionDelay, Ca
 const styles = StyleSheet.create({
   list: {
     alignItems: 'center',
+    width:'100%'
   },
   item: {
 

@@ -19,7 +19,7 @@ const SelectedFullCourse = () => {
 
     ]
     return (
-        <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20 }}>
+        <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20, marginHorizontal: 18 }}>
             <ImageBackground
                 source={require('../assets/Images/Home/HomeProgram04.png')} // Replace with the actual path to your image
                 style={[styles.container, { width: '100%', height: 1054, borderRadius: 20, overflow: 'hidden' }]}

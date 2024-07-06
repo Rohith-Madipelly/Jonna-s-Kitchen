@@ -1,20 +1,43 @@
 import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native';
 
-
-
-
-import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
-import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../Components/UI/CustomToolKitHeader';
 import onShare from '../../../Utils/ShareBtn';
 import { APP_LINK } from '../../../Enviornment';
 import SelectedFullCourse from '../../SelectedFullCourse';
+import CarouselsBasic from '../../../Components/UI/CarouselsBasic/CarouselsBasic';
 
 
 const Home = ({ navigation }) => {
+
+  const DATA12 = [
+    {
+      "key": "3571572",
+      "title": "Multi-lateral intermediate moratorium",
+      "description": "I'll back up the multi-byte XSS matrix, that should feed the SCSI application!",
+      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+    },
+    {
+      "key": "3571747",
+      "title": "Automated radical data-warehouse",
+      "description": "Use the optical SAS system, then you can navigate the auxiliary alarm!",
+      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+    },
+    {
+      "key": "3571680",
+      "title": "Inverse attitude-oriented system engine",
+      "description": "The ADP array is down, compress the online sensor so we can input the HTTP panel!",
+      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+    },
+    {
+      "key": "3571603",
+      "title": "Monitored global data-warehouse",
+      "description": "We need to program the open-source IB interface!",
+      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+    }
+  ];
+
 
   return (
     <>
@@ -27,9 +50,11 @@ const Home = ({ navigation }) => {
           <ScrollView style={{ flex: 1 }}>
             <ImageBackground
               source={require('../../../assets/Images/Background2.png')} // Replace with the actual path to your image
-              style={[styles.container, { paddingHorizontal: 18, paddingTop: 20, resizeMode: 'contain' }]}
+              style={[styles.container, { 
+                // paddingHorizontal: 18, 
+                paddingTop: 20, resizeMode: 'contain' }]}
             >
-              <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, styles.containerCard]}>
+              <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',marginHorizontal: 18, }, styles.containerCard]}>
                 <View style={{ flex: 0.5 }}>
                   <Text style={{ color: '#0A3118', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 16 }}>Hello</Text>
                   <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 20 }}>Pardhu</Text>
@@ -52,14 +77,14 @@ const Home = ({ navigation }) => {
 
 
               <View style={{ flex: 0.7, marginTop: 20 }}>
-                <Image style={{ width: '100%', height: 159, }} source={require("../../../assets/Images/Home/HomeBanner1.png")} resizeMode="contain" />
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
-                  <Image style={{ width: 70, height: 15, }} source={require("../../../assets/Images/points.png")} resizeMode="contain" />
 
-                </View>
+                <CarouselsBasic DATA={DATA12} />
                 <SelectedFullCourse />
+
+
                 {/* <Image style={{ width: '100%', resizeMode: 'contain' }} source={require("../../../assets/Images/Home/HomeProgram.png")} resizeMode="contain" /> */}
               </View>
+
             </ImageBackground>
           </ScrollView>
 

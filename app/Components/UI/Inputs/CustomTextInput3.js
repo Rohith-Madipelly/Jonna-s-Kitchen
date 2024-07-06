@@ -174,6 +174,16 @@ const styles = StyleSheet.create({
 
 
     },
+    boxHeight: {
+        ...Platform.select({
+            ios: {
+                height: 100
+            },
+            android: {
+                // height:80
+            },
+        })
+    },
     outlined: {
         // borderBottomColor: 'darkgrey',
         // borderColor: 'darkgrey',

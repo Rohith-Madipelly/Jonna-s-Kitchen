@@ -1,15 +1,15 @@
-import { Button, Dimensions, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Button, Dimensions, Image, ImageBackground, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 
 import { useDispatch } from "react-redux";
 import { RegisterYupSchema } from "../../FormikYupSchema/RegisterYupSchema";
 import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
-import { scrollToBottom } from "../../Utils/Scrolls";
+import { scrollToBottom, scrollToTop } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import AutoScrollCarousels from "../../Components/UI/Carousels/AutoScrollCarousels";
 
@@ -18,7 +18,7 @@ import AutoScrollCarousels from "../../Components/UI/Carousels/AutoScrollCarouse
 
 
 const { width } = Dimensions.get('screen');
-
+ 
 const Welcome = () => {
     const navigation = useNavigation();
 
@@ -27,6 +27,40 @@ const Welcome = () => {
     const dispatch = useDispatch();
     const scrollViewRef = useRef(null);
 
+    const [expanded, setExpanded] = useState(false);
+    const animation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: expanded ? 1 : 0,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
+    }, [expanded]);
+
+    const toggleExpand = () => {
+        setExpanded(prevExpanded => !prevExpanded);
+    };
+
+    const buttonOpacity = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+    });
+
+    const buttonTranslateY1 = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-30, 0],
+    });
+
+    const buttonTranslateY2 = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-60, 0],
+    });
+
+    const buttonTranslateY3 = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-90, 0],
+    });
 
     const TransformationData = [
         { id: 1, label: '1', image: require("../../assets/Images/Carousels/WelcomeTransformation1.png") },
@@ -148,7 +182,7 @@ const Welcome = () => {
                                     textStyling={{ marginBottom: -5 }}
 
                                     // onPress={() => { navigation.navigate("Register") }}
-                                    onPress={() => { scrollToBottom(scrollViewRef) }}
+                                    onPress={() => { expanded?scrollToTop(scrollViewRef):scrollToBottom(scrollViewRef); toggleExpand(); }}
 
                                     btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
                                     leftIcon={<Entypo
@@ -169,14 +203,84 @@ const Welcome = () => {
                                     // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                     bgColor={"#FE7B07"}
                                     style={{ marginTop: 50 }}>Healthy life style programs</CustomButton1>
+
+
+                                <Animated.View
+                                    style={[
+                                        { position: 'relative', top: 0 },
+                                        { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY1 }], }
+                                    ]}
+                                >
+                                    <CustomButton1
+                                        boxWidth={'92%'}
+                                        // onPress={item.onPress}
+                                        textStyling={{ marginBottom: -5 }}
+                                        onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
+                                        btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
+
+                                        leftIcon={<Image style={{ width: 20, height: 20, }}
+                                            source={require("../../assets/Images/Programs.png")}
+                                            resizeMode={"contain"} />}
+
+
+                                        RightIcon={<Image style={{ width: 15, height: 15, }}
+                                            source={require("../../assets/Images/ArrowWhite.png")}
+                                            resizeMode={"contain"} />}
+                                        // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
+                                        bgColor={"#FE7B07"}
+                                        style={{ marginTop: 50 }}>Program 01</CustomButton1>
+                                </Animated.View>
+
+                                <Animated.View
+                                    style={[
+                                        { position: 'relative', top: 0 },
+                                        { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY2 }], }
+                                    ]}
+                                >
+                                    <CustomButton1
+                                        boxWidth={'92%'}
+                                        // onPress={item.onPress}
+                                        textStyling={{ marginBottom: -5 }}
+                                        onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
+                                        btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
+                                        leftIcon={<Image style={{ width: 20, height: 20, }}
+                                            source={require("../../assets/Images/Programs.png")}
+                                            resizeMode={"contain"} />}
+                                        RightIcon={<Image style={{ width: 15, height: 15, }}
+                                            source={require("../../assets/Images/ArrowWhite.png")}
+                                            resizeMode={"contain"} />}
+                                        // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
+                                        bgColor={"#FE7B07"}
+                                        style={{ marginTop: 50 }}>Program 02</CustomButton1>
+                                </Animated.View>
+
+                                <Animated.View
+                                    style={[
+                                        { position: 'relative', top: 0 },
+                                        { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY3 }], }
+                                    ]}
+                                >
+                                    <CustomButton1
+                                        boxWidth={'92%'}
+                                        // onPress={item.onPress}
+                                        textStyling={{ marginBottom: -5 }}
+                                        onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
+                                        btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
+                                        leftIcon={<Image style={{ width: 20, height: 20, }}
+                                            source={require("../../assets/Images/Programs.png")}
+                                            resizeMode={"contain"} />}
+                                        RightIcon={<Image style={{ width: 15, height: 15, }}
+                                            source={require("../../assets/Images/ArrowWhite.png")}
+                                            resizeMode={"contain"} />}
+                                        // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
+                                        bgColor={"#FE7B07"}
+                                        style={{ marginTop: 50 }}>Program 03</CustomButton1>
+                                </Animated.View>
                             </View>
                         </View>
 
 
-                        <View style={{ flex: 1, height: 500 }}>
-
-
-                        </View>
+                       
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
 

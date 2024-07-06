@@ -137,8 +137,8 @@ const Screen = () => {
             {user ? (
               <>
                 {/* <Stack.Screen name="Home" component={Home} /> */}
-                <Stack.Screen name="Welcome" component={Welcome} />
-                <Stack.Screen name="Register" component={Register} />
+                {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
+                {/* <Stack.Screen name="Register" component={Register} /> */}
                 <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
                 <Stack.Screen name="LogOut" component={LogOut} />
                 <Stack.Screen name="Notification" component={Notification} />

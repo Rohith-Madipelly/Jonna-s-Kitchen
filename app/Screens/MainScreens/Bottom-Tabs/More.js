@@ -6,8 +6,9 @@ import AboutUs from './MoreRelated/AboutUs';
 import Healthylifestyleprograms from './MoreRelated/Healthylifestyleprograms';
 import Testimonials from './MoreRelated/Testimonials';
 import FAQ from './MoreRelated/FAQ';
-import Articles from './MoreRelated/Articles';
+import Article from './MoreRelated/Article';
 import Job from './MoreRelated/Job';
+import ArticlesList from './MoreRelated/ArticlesList';
 
 const More = () => {
 
@@ -42,7 +43,8 @@ const More = () => {
       <Stack.Screen name="Healthylifestyleprograms" component={Healthylifestyleprograms} />
       <Stack.Screen name="Testimonials" component={Testimonials} />
       <Stack.Screen name="FAQ" component={FAQ} />
-      <Stack.Screen name="Articles" component={Articles} />
+      <Stack.Screen name="ArticlesList" component={ArticlesList} />
+      <Stack.Screen name="Article" component={Article} />
       <Stack.Screen name="Job" component={Job} />
 
     </Stack.Navigator>

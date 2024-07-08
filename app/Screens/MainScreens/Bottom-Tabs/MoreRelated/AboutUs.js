@@ -35,7 +35,7 @@ const AboutUS = ({ navigation }) => {
         style={{ flex: 1 }}
       >
         <View style={{ flex: 1 }}>
-          <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} />
+          <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} textDecorationLine={'underline'} />
 
           <FlatList
             data={AboutData}

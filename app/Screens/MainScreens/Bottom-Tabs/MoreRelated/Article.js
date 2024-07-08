@@ -10,7 +10,7 @@ import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 
-const Articles = ({ navigation }) => {
+const Article = ({ navigation }) => {
 
   return (
     <>
@@ -56,7 +56,7 @@ const Articles = ({ navigation }) => {
   )
 }
 
-export default Articles
+export default Article
 
 const styles = StyleSheet.create({
   container: {

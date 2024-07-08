@@ -17,7 +17,7 @@ const MorePage = () => {
         { title: 'Healthy life style programs', logo: require("../../../../assets/Images/MoreIcons/Healthy life style programs.png"), onPress: () => navigation.navigate('Healthylifestyleprograms') },
         { title: 'Testimonials', logo: require("../../../../assets/Images/MoreIcons/Testimonials.png"), onPress: () => navigation.navigate('Testimonials') },
         { title: 'FAQ', logo: require("../../../../assets/Images/MoreIcons/FAQ.png"), onPress: () => navigation.navigate('FAQ') },
-        { title: 'Articles', logo: require("../../../../assets/Images/MoreIcons/Articles.png"), onPress: () => navigation.navigate('Articles') },
+        { title: 'Articles', logo: require("../../../../assets/Images/MoreIcons/Articles.png"), onPress: () => navigation.navigate('ArticlesList') },
         { title: 'Job', logo: require("../../../../assets/Images/MoreIcons/Job.png"), onPress: () => navigation.navigate('Job') },
     ]
 

@@ -13,29 +13,23 @@ const Home = ({ navigation }) => {
 
   const DATA12 = [
     {
-      "key": "3571572",
-      "title": "Multi-lateral intermediate moratorium",
-      "description": "I'll back up the multi-byte XSS matrix, that should feed the SCSI application!",
-      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
+      onPress: () => { console.log("sd") }
     },
     {
-      "key": "3571747",
-      "title": "Automated radical data-warehouse",
-      "description": "Use the optical SAS system, then you can navigate the auxiliary alarm!",
-      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
+      onPress: () => { console.log("sd") }
     },
     {
-      "key": "3571680",
-      "title": "Inverse attitude-oriented system engine",
-      "description": "The ADP array is down, compress the online sensor so we can input the HTTP panel!",
-      "image": require('../../../assets/Images/Home/HomeBanner1.png')
+      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
+      onPress: () => { console.log("sd") }
     },
     {
-      "key": "3571603",
-      "title": "Monitored global data-warehouse",
-      "description": "We need to program the open-source IB interface!",
-      "image": require('../../../assets/Images/Home/HomeBanner1.png')
-    }
+      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
+      onPress: () => { console.log("sd") }
+    },
+    
+
   ];
 
 
@@ -50,11 +44,12 @@ const Home = ({ navigation }) => {
           <ScrollView style={{ flex: 1 }}>
             <ImageBackground
               source={require('../../../assets/Images/Background2.png')} // Replace with the actual path to your image
-              style={[styles.container, { 
+              style={[styles.container, {
                 // paddingHorizontal: 18, 
-                paddingTop: 20, resizeMode: 'contain' }]}
+                paddingTop: 20, resizeMode: 'contain'
+              }]}
             >
-              <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',marginHorizontal: 18, }, styles.containerCard]}>
+              <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 18, }, styles.containerCard]}>
                 <View style={{ flex: 0.5 }}>
                   <Text style={{ color: '#0A3118', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 16 }}>Hello</Text>
                   <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 20 }}>Pardhu</Text>
@@ -77,8 +72,8 @@ const Home = ({ navigation }) => {
 
 
               <View style={{ flex: 0.7, marginTop: 20 }}>
+                <CarouselsBasic DATA={DATA12} autoScroll={true} />
 
-                <CarouselsBasic DATA={DATA12} />
                 <SelectedFullCourse />
 
 

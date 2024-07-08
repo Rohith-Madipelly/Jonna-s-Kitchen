@@ -14,7 +14,7 @@ const FAQ = ({ navigation }) => {
         style={{ flex: 1 }}
       >
         <View style={{ flex: 1 }}>
-          <CustomToolKitHeader componentName={"FAQ"} />
+          <CustomToolKitHeader componentName={"FAQ"} textDecorationLine={'underline'} />
 
           <ScrollView>
             {Data.map((value, index) => {

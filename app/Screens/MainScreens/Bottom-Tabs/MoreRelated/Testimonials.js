@@ -31,7 +31,7 @@ const Testimonials = ({ navigation }) => {
           <View style={{ flex: 1 }}>
 
             <View style={{ flex: 0.08 }}>
-              <CustomToolKitHeader componentName={"Testimonials"} />
+              <CustomToolKitHeader componentName={"Testimonials"} textDecorationLine={'underline'} />
             </View>
 
 

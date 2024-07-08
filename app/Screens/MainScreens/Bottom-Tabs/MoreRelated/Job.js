@@ -24,7 +24,7 @@ const MorePage = ({ navigation }) => {
           <View style={{ flex: 1 }}>
 
             <View style={{ flex: 0.08 }}>
-              <CustomToolKitHeader componentName={"Job Postings"} />
+              <CustomToolKitHeader componentName={"Job Postings"} textDecorationLine={'underline'}  />
             </View>
 
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { FlatList, StyleSheet, View, Dimensions, Animated, Button, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, View, Dimensions, Animated, TouchableOpacity } from 'react-native';
 import CarouselsBasicItem from './CarouselsBasicItem';
+import PropTypes from 'prop-types';
 
 const { width } = Dimensions.get('screen');
 
-const CarouselsBasic = ({ DATA, autoScroll }) => {
+const CarouselsBasic = ({ DATA, autoScroll, showIndicators,scrollTime,ContainerWidth,containerHeight }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
   const totalItems = DATA.length;
@@ -44,7 +45,6 @@ const CarouselsBasic = ({ DATA, autoScroll }) => {
     }
   };
 
-
   const scrollToIndex = (index) => {
     flatListRef.current?.scrollToOffset({
       offset: index * itemWidth,
@@ -54,7 +54,8 @@ const CarouselsBasic = ({ DATA, autoScroll }) => {
 
   useEffect(() => {
     if (autoScroll) {
-      const intervalId = setInterval(scrollToNext, 3000); // Auto-scroll every 3 seconds
+      let autoScrollTime=scrollTime?scrollTime:3000
+      const intervalId = setInterval(scrollToNext, autoScrollTime); // Auto-scroll every 3 seconds
       return () => clearInterval(intervalId);
     }
   }, [autoScroll, totalItems]);
@@ -82,7 +83,6 @@ const CarouselsBasic = ({ DATA, autoScroll }) => {
         return (
           <TouchableOpacity key={i} onPress={() => scrollToIndex(i)} activeOpacity={1}>
             <Animated.View
-              key={i}
               style={[
                 styles.indicator,
                 { backgroundColor: bgColor, opacity, transform: [{ scale }] },
@@ -95,11 +95,11 @@ const CarouselsBasic = ({ DATA, autoScroll }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <Animated.FlatList
         data={DATA}
         keyExtractor={item => item.key}
-        renderItem={({ item }) => <CarouselsBasicItem item={item} />}
+        renderItem={({ item,index }) => <CarouselsBasicItem item={item} key={index} containerHeight={containerHeight}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
@@ -110,28 +110,30 @@ const CarouselsBasic = ({ DATA, autoScroll }) => {
           { useNativeDriver: false }
         )}
       />
-      {/* <View style={styles.buttonContainer}> */}
-      {/* <Button title="Prev" onPress={scrollToPrevious} /> */}
-      {/* <Button title="Next" onPress={scrollToNext} /> */}
-      {/* </View> */}
-      <Indicator />
+      {showIndicators && <Indicator />}
     </View>
   );
+};
+
+CarouselsBasic.propTypes = {
+  DATA: PropTypes.arrayOf(PropTypes.object).isRequired,
+  autoScroll: PropTypes.bool,
+  showIndicators: PropTypes.bool,
+};
+
+CarouselsBasic.defaultProps = {
+  autoScroll: false,
+  showIndicators: true,
 };
 
 export default CarouselsBasic;
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '60%',
-    marginVertical: 10,
   },
   indicatorContainer: {
     flexDirection: 'row',

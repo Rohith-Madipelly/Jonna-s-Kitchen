@@ -5,7 +5,8 @@ import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
-import AutoScrollCarousels from '../../../../Components/UI/Carousels/AutoScrollCarousels';
+import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
+import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBasic';
 
 const { width } = Dimensions.get('screen');
 
@@ -42,32 +43,33 @@ const AboutUS = ({ navigation }) => {
             keyExtractor={(item) => item.id}
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
-                <Image
-                  style={{ width: '70%', height: 240, }}
-                  source={require("../../../../assets/Images/Food/Food1.png")}
+
+                <LoadingImage
+                  source={require('../../../../assets/Images/Food/Food1.png')}
+                  style={{ width: '100%', height: 240, }}
+                  loaderColor="#ff0000" // Optional: change loader color
                   resizeMode="contain"
                 />
               </View>
             }
             renderItem={({ item }) => (
+              <View style={{marginHorizontal: 18}}>
+
               <View style={[{ backgroundColor: '#E8F4EC', width: '100%', marginVertical: 10 }, styles.container]}>
                 <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', fontFamily: 'BalooTamma2-Bold', lineHeight: 18 }}>
                   {item.content}
                 </Text>
               </View>
+              </View>
             )}
             ListFooterComponent={
 
-                           <View>
-                <AutoScrollCarousels CarouselsData={AboutImageData}
-                  CarouselsStyling={{
-                    height: 200, width: width, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
-                  }}
-                  transitionDelay={2000} imageStyling={{ width: "90%", height: 163, borderRadius: 15,}} />
+              <View>
+                <CarouselsBasic DATA={AboutImageData} autoScroll={true} showIndicators={false}/>
               </View>
             }
 
-            contentContainerStyle={{ paddingHorizontal: 18 }}
+            // contentContainerStyle={{ paddingHorizontal: 18 }}
           />
         </View>
       </ImageBackground>

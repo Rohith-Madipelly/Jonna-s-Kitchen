@@ -31,7 +31,7 @@ const SelectedFullCourse = () => {
                     <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>Program 01</Text>
 
                     {ProgramDetails.map((item, index) => (
-                        <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }}>
+                        <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
                             <View style={{ flex: 0.1 }}>
                                 <Image style={{ width: 24, height: 24, marginTop: -1 }}
                                     source={require('../assets/Images/CheckMark.png')}

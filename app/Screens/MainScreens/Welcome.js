@@ -11,14 +11,15 @@ import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
 import { scrollToBottom, scrollToTop } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
-import AutoScrollCarousels from "../../Components/UI/Carousels/AutoScrollCarousels";
+
+import CarouselsBasic from "../../Components/UI/CarouselsBasic/CarouselsBasic";
 
 
 // import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
 
 
 const { width } = Dimensions.get('screen');
- 
+
 const Welcome = () => {
     const navigation = useNavigation();
 
@@ -95,12 +96,12 @@ const Welcome = () => {
                         keyboardVerticalOffset={5000}
                         style={{ width: '100%', flex: 1 }}
                     >
-                        <View style={{ marginHorizontal: 20, flex: 1 }}>
+                        <View style={{ flex: 1 }}>
 
                             <View style={{ marginTop: 10, flex: 0.9 }}>
 
 
-                                <View style={{}}>
+                                <View style={{ marginHorizontal: 20, }}>
                                     <Text style={{
                                         fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,
                                         color: '#FE7B07',
@@ -135,20 +136,8 @@ const Welcome = () => {
                                         marginBottom: 3,
                                     }, styles.TextFamilyA2,]}>Transformation</Text>
 
-                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-                                        {/* <Image
-                                            style={{ width: "90%", height: 191, borderRadius: 15 }}
-                                            animation={"bounceIn"}
-                                            source={require("../../assets/Images/Carousels/Transformation1.png")}
-
-                                            transition={1000}
-                                            alt=''
-                                        /> */}
-                                        <AutoScrollCarousels CarouselsData={TransformationData}
-                                            CarouselsStyling={{
-                                                height: 200, width: width * 0.9, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
-                                            }}
-                                            transitionDelay={2000} imageStyling={{ width: "96%", height: 191, borderRadius: 15, marginLeft: 4 }} />
+                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                        <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
                                     </View>
 
 
@@ -162,27 +151,21 @@ const Welcome = () => {
                                         marginBottom: 3
                                     }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
 
-                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                                        <AutoScrollCarousels CarouselsData={PregnancyStoriesData}
-                                            CarouselsStyling={{
-                                                height: 180, width: width * 0.9, justifyContent: 'center', alignItems: 'center', marginBottom: 10,
-                                            }}
-                                            transitionDelay={2000} imageStyling={{ width: "96%", height: 159, borderRadius: 15, marginLeft: 4 }} />
+                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                        <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
                                     </View>
-
-
                                 </View>
 
                             </View>
 
-                            <View style={{ flex: 0.1, alignItems: 'center' }}>
+                            <View style={{ flex: 0.1, alignItems: 'center', marginHorizontal: 20, }}>
                                 <CustomButton1
                                     boxWidth={'92%'}
                                     // onPress={item.onPress}
                                     textStyling={{ marginBottom: -5 }}
 
                                     // onPress={() => { navigation.navigate("Register") }}
-                                    onPress={() => { expanded?scrollToTop(scrollViewRef):scrollToBottom(scrollViewRef); toggleExpand(); }}
+                                    onPress={() => { expanded ? scrollToTop(scrollViewRef) : scrollToBottom(scrollViewRef); toggleExpand(); }}
 
                                     btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
                                     leftIcon={<Entypo
@@ -276,11 +259,15 @@ const Welcome = () => {
                                         bgColor={"#FE7B07"}
                                         style={{ marginTop: 50 }}>Program 03</CustomButton1>
                                 </Animated.View>
+
+                                <View style={{ height: 250 }}>
+
+                                </View>
                             </View>
                         </View>
 
 
-                       
+
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
 

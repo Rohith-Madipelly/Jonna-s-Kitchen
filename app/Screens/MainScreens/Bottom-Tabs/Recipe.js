@@ -11,32 +11,32 @@ const Recipe = () => {
   return (
     <Stack.Navigator
 
-    // screenOptions={{
-    //   // headerShown: false,
-    //   gestureEnabled: true,
-    //   // gestureDirection: 'horizontal',
-    //   // headerMode:"float"
-    // }}
+      // screenOptions={{
+      //   // headerShown: false,
+      //   gestureEnabled: true,
+      //   // gestureDirection: 'horizontal',
+      //   // headerMode:"float"
+      // }}
 
-    // We see in andriod a new header is added to all the screens 
-    // But i ios only content changes for that same experience in Android we can pass in a prop here
+      // We see in andriod a new header is added to all the screens 
+      // But i ios only content changes for that same experience in Android we can pass in a prop here
 
 
-    id="rootStack"
-    // initialRouteName="Login"
-    screenOptions={{
-      headerShown: false,
-      headerStyle: { backgroundColor: 'lightblue' },
-      // headerTintColor: 'white',
-      // headerTitleStyle: { fontWeight: 'bold' },
-    }}
-    detachInactiveScreens={false} // Disable optimization for demonstration purposes
-  >
+      id="rootStack"
+      // initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+        headerStyle: { backgroundColor: 'lightblue' },
+        // headerTintColor: 'white',
+        // headerTitleStyle: { fontWeight: 'bold' },
+      }}
+      detachInactiveScreens={false} // Disable optimization for demonstration purposes
+    >
 
-        <Stack.Screen name="RecipeList" component={RecipeList} />
-        <Stack.Screen name="VideoViewPage" component={VideoViewPage} />
-       
-  </Stack.Navigator>
+      <Stack.Screen name="RecipeList" component={RecipeList} />
+      <Stack.Screen name="VideoViewPage" component={VideoViewPage} />
+
+    </Stack.Navigator>
   )
 }
 

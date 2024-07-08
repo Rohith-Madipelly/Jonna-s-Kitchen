@@ -1,5 +1,5 @@
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -10,14 +10,27 @@ import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBasic';
+import SkeletonLoader from '../../../../Components/UI/Skeletons/SkeletonLoader';
 
 const RecipeList = ({ navigation }) => {
 
     const [SearchData, setSearchData] = useState("")
-
+    const [isLoading, setIsLoading] = useState(true);
     const handleApiCall = () => {
 
     }
+
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            // setData(['Item 1', 'Item 2', 'Item 3']);
+            setIsLoading(false);
+        }, 3000000); // Simulate a 3-second loading time
+    }, []);
+
+
+
     const DATA12 = [
         {
             "image": require('../../../../assets/Images/Home/HomeBanner1.png'),
@@ -102,40 +115,72 @@ const RecipeList = ({ navigation }) => {
 
 
                             <View style={{ flex: 0.2 }}>
-                                <Text style={{ color: '#003E20', fontSize: 24, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginHorizontal: 18 }}>Categories</Text>
+
+                                {!isLoading ? (
+                                    <Text style={{ color: '#003E20', fontSize: 24, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginHorizontal: 18 }}>Categories</Text>
+                                ) : (
+                                    <View style={{ marginHorizontal: 18, marginTop: 10 }}>
+
+                                        <SkeletonLoader width={300} height={24} borderRadius={5} />
+                                    </View>
+                                )}
                             </View>
 
                             <View style={{ flex: 0.8 }}>
                                 <View>
                                     <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>Breakfast Recipe Videos</Text>
-                                    <CarouselsBasic
-                                        DATA={DATA12}
-                                        // autoScroll={true} 
-                                        showIndicators={false}
-                                        ContainerWidth={250}
-                                    // scrollTime={25000} 
-                                    />
+
+
+
+                                    {!isLoading ? (
+                                        <CarouselsBasic
+                                            DATA={DATA12}
+                                            // autoScroll={true} 
+                                            showIndicators={false}
+                                            ContainerWidth={250}
+                                        // scrollTime={25000} 
+                                        />
+                                    ) : (
+                                        <View style={{ marginHorizontal: 18, marginTop: 10 }}>
+
+                                            <SkeletonLoader width={250} height={160} borderRadius={5} />
+                                        </View>
+                                    )}
                                 </View>
 
                                 <View>
                                     <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>Lunch Recipe Videos</Text>
-                                    <CarouselsBasic
-                                        DATA={DATA12}
-                                        // autoScroll={true} 
-                                        showIndicators={false}
-                                        ContainerWidth={250}
-                                    // scrollTime={25000} 
-                                    />
+                                    {!isLoading ? (
+                                        <CarouselsBasic
+                                            DATA={DATA12}
+                                            // autoScroll={true} 
+                                            showIndicators={false}
+                                            ContainerWidth={250}
+                                        // scrollTime={25000} 
+                                        />
+                                    ) : (
+                                        <View style={{ marginHorizontal: 18, marginTop: 10 }}>
+
+                                            <SkeletonLoader width={250} height={160} borderRadius={5} />
+                                        </View>
+                                    )}
                                 </View>
                                 <View>
                                     <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>Dinner Recipe Videos</Text>
-                                    <CarouselsBasic
-                                        DATA={DATA12}
-                                        // autoScroll={true} 
-                                        showIndicators={false}
-                                        ContainerWidth={250}
-                                    // scrollTime={25000} 
-                                    />
+                                    {!isLoading ? (
+                                        <CarouselsBasic
+                                            DATA={DATA12}
+                                            // autoScroll={true} 
+                                            showIndicators={false}
+                                            ContainerWidth={250}
+                                        // scrollTime={25000} 
+                                        />
+                                    ) : (
+                                        <View style={{ marginHorizontal: 18, marginTop: 10 }}>
+
+                                            <SkeletonLoader width={250} height={160} borderRadius={5} />
+                                        </View>
+                                    )}
                                 </View>
                                 {/* <View style={{height:250}}>
 

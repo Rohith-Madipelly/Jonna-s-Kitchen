@@ -34,7 +34,7 @@ const SkeletonLoader = ({ width, height, borderRadius }) => {
   };
 
   return (
-    <View style={[styles.container, { width, height, borderRadius }]}>
+    <View style={[styles.container, {  height, borderRadius }]}>
       <Animated.View style={[styles.shimmer, shimmerStyle]} />
     </View>
   );

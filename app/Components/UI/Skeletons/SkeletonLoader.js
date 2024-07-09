@@ -1,11 +1,11 @@
 // SkeletonLoader.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 
 const SkeletonLoader = ({ width, height, borderRadius }) => {
   const shimmerAnim = React.useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(shimmerAnim, {
@@ -30,6 +30,7 @@ const SkeletonLoader = ({ width, height, borderRadius }) => {
           outputRange: [-width, width],
         }),
       },
+      
     ],
   };
 
@@ -47,9 +48,10 @@ const styles = StyleSheet.create({
   },
   shimmer: {
     position: 'absolute',
-    width: '100%',
+    width: '10%',
     height: '100%',
     backgroundColor: '#f0f0f0',
+    // backgroundColor: 'red',
     opacity: 0.5,
   },
 });

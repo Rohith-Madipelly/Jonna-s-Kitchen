@@ -38,7 +38,7 @@ const CustomTextInput3 = ({
     const containerBorder = outlined ? styles.outlined : styles.outlined;
 
     return (
-        <View style={[{ padding: 0, width: boxWidth }, style, styles.boxHeight]}>
+        <View style={[{ padding: 0, width: boxWidth}, style, styles.boxHeight]}>
             <View style={{flexDirection:'row' ,justifyContent:'space-between'}}>
                 <View>
                     {label ? <Text style={[styles.label, labelStyle]}>{label} {asterisksymbol ? <Text style={{ color: 'red' }}>*</Text> : ""}</Text> : ""}
@@ -77,7 +77,8 @@ const CustomTextInput3 = ({
 
                 </View>
             </View>
-            <Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>
+            <Text style={{ color: errorColor, fontSize:12,marginLeft: 15 }}>{errorMessage}</Text>
+            {/* {errorMessage?<Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>:<View style={{height:10}}></View>} */}
         </View>
     )
 }
@@ -159,6 +160,14 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         paddingHorizontal: 20,
 
+        ...Platform.select({
+            ios: {
+                height: 55
+            },
+            android: {
+                // height:80
+            },
+        }),
 
         ...Platform.select({
             ios: {
@@ -175,9 +184,11 @@ const styles = StyleSheet.create({
 
     },
     boxHeight: {
+        // marginTop:5,
         ...Platform.select({
             ios: {
-                height: 100
+                // height:80,
+                marginVertical:5,
             },
             android: {
                 // height:80

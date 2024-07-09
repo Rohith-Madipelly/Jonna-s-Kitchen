@@ -1,4 +1,4 @@
-import { Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Button, Image, FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import CustomButton1 from "../../../../Components/UI/Buttons/CustomButton1";
 import BackTable from "../../../BackTable";
+import Programs from "./reuse/Programs";
+import Programs2 from "./reuse/Programs2";
+
 
 
 const Healthylifestyleprograms = () => {
@@ -20,6 +23,20 @@ const Healthylifestyleprograms = () => {
 
 
 
+  const HealthyProgramsData = [
+    {
+      title: "Program 01",
+      image: require("../../../../assets/Images/Home/BannerBack01.png")
+    },
+    {
+      title: "Program 02",
+      image: require("../../../../assets/Images/Home/BannerBack02.png")
+    },
+    {
+      title: "Program 03",
+      image: require("../../../../assets/Images/Home/BannerBack01.png")
+    }
+  ]
 
 
 
@@ -39,52 +56,56 @@ const Healthylifestyleprograms = () => {
         showsHorizontalScrollIndicator={false}
         ref={scrollViewRef}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            // behavior={Platform.OS === "ios" ? 100:0}
-            keyboardVerticalOffset={5000}
-            style={{ width: '100%', flex: 1 }}
-          >
-            <View style={{ marginHorizontal: 20, flex: 1 }}>
 
-              <View style={{ marginTop: 10, flex: 0.9 }}>
+        <View style={{ marginHorizontal: 20, flex: 1 }}>
+
+          <View style={{ marginTop: 10, flex: 0.9 }}>
 
 
-                <View style={{}}>
-                  <Text style={{
-                    fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,
-                    color: '#FE7B07',
-                    marginBottom: -10
-                  }}>Jonnas Kitchen</Text>
+            <Text style={{
+              fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,
+              color: '#FE7B07',
+              marginBottom: -10
+            }}>Jonnas Kitchen</Text>
 
-                  <Text style={{
-                    fontWeight: '400',
-                    fontFamily: 'BalooTamma2-Bold', fontSize: 24,
-                    color: '#177137'
-                  }}>Healthy lifestyle programs</Text>
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.TextFamilyA1, { fontWeight: '400', fontSize: 14 },]}>
-                      Our plans are purely based on home cooking.
-                    </Text>
+            <Text style={{
+              fontWeight: '400',
+              fontFamily: 'BalooTamma2-Bold', fontSize: 24,
+              color: '#177137'
+            }}>Healthy lifestyle programs</Text>
 
-                    <Text style={[styles.TextFamilyA1, { fontWeight: '400', fontSize: 14, marginTop: -1 },]}>
-                      I believe the Mantra <Text style={[{ fontWeight: '700', fontSize: 14 }, styles.TextFamilyA2]}>
-                        “LET FOOD BE YOUR MEDICINE” </Text>
-                      and <Text style={[{ fontWeight: '700', fontSize: 14 }, styles.TextFamilyA2]}> “KITCHEN BE YOUR HOSPITAL”.
-                      </Text>
-                    </Text>
+            <View style={{}}>
+              <Text style={[styles.TextFamilyA1, { fontWeight: '400', fontSize: 14 },]}>
+                Our plans are purely based on home cooking.
+              </Text>
 
-                  </View>
-                </View>
-                <BackTable />
-
-              </View>
+              <Text style={[styles.TextFamilyA1, { fontWeight: '400', fontSize: 14, marginTop: -1 },]}>
+                I believe the Mantra <Text style={[{ fontWeight: '700', fontSize: 14 }, styles.TextFamilyA2]}>
+                  “LET FOOD BE YOUR MEDICINE” </Text>
+                and <Text style={[{ fontWeight: '700', fontSize: 14 }, styles.TextFamilyA2]}> “KITCHEN BE YOUR HOSPITAL”.
+                </Text>
+              </Text>
 
             </View>
 
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+
+            {HealthyProgramsData.map((item, index) => (
+              <View key={index}>
+                {index % 2 === 0 ? (
+                  <Programs ProgramsName={item.title} ProgramImage={item.image} />
+                ) : (
+                  <Programs2 ProgramsName={item.title}  ProgramImage={item.image}/>
+                )}
+              </View>
+            ))}
+
+            {/* <Programs /> */}
+
+
+
+          </View>
+
+        </View>
 
       </ScrollView>
     </ImageBackground>

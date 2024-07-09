@@ -1,11 +1,11 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-const CarouselsBasicItem = ({ item, CarouselWidth,containerHeight }) => {
+const CarouselsBasicItem = ({ item, CarouselWidth, containerHeight, keymm }) => {
   const { width } = Dimensions.get('screen'); // Get the screen width
-let containerH=containerHeight||159
+  let containerH = containerHeight || 159
   return (
-    <TouchableOpacity style={[{ width: width, paddingHorizontal: 20, height: containerH, alignItems: 'center', justifyContent: 'center' }]} activeOpacity={1} onPress={item.onPress}>
+    <TouchableOpacity style={[{ width: width, paddingHorizontal: 20, height: containerH, alignItems: 'center', justifyContent: 'center' }]} key={keymm} activeOpacity={1} onPress={item.onPress}>
       <Image
         source={item.image}
         style={{

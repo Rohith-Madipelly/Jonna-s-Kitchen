@@ -99,7 +99,7 @@ const CarouselsBasic = ({ DATA, autoScroll, showIndicators,scrollTime,ContainerW
       <Animated.FlatList
         data={DATA}
         keyExtractor={item => item.key}
-        renderItem={({ item,index }) => <CarouselsBasicItem item={item} key={index} containerHeight={containerHeight}/>}
+        renderItem={({ item,index }) => <CarouselsBasicItem item={item} keymm={index} containerHeight={containerHeight}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled

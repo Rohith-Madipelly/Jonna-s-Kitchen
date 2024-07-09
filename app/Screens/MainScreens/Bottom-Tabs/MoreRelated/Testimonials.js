@@ -9,14 +9,19 @@ import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
+import CarouselWithButton from '../../../../Components/UI/CarouselsWithPackage/CarouselWithButton';
 
 
 const Testimonials = ({ navigation }) => {
 
 
 
-  const BannerData2 = [
-    {}
+  const AboutImageData = [
+    { id: 1, label: '1', image: require("../../../../assets/Images/Carousels/Transformations/Testimonials1.png") },
+    { id: 2, label: '2', image: require("../../../../assets/Images/Carousels/Transformations/Testimonials2.png") },
+    { id: 3, label: '3', image: require("../../../../assets/Images/Carousels/Transformations/Testimonials3.png") },
+    // { id: 4, label: '1', image: require("../../../../assets/Images/Carousels/Transformations/Testimonials1.png") },
+    // { id: 2, label: '1', image: require("../../../../assets/Images/Carousels/WelcomeTransformation1.png") },
   ]
 
   return (
@@ -36,33 +41,19 @@ const Testimonials = ({ navigation }) => {
 
 
             <ScrollView style={{ flex: 0.95, marginTop: 20 }}>
+              <View style={[{ flex: 1, height: 316 }, styles.containerCard]}>
 
-
-              <View style={[{
-                flex: 1,
-                
-                //  justifyContent: 'center', alignItems: 'center' 
-              }, styles.containerCard]}>
-                <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row',marginHorizontal:18,marginTop:10 }}>
+                <View style={{ flex: 0.1, justifyContent: 'space-between', flexDirection: 'row', marginHorizontal: 18, marginTop: 10 }}>
                   <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 600, fontSize: 16 }}>Testimonials</Text>
                   <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14, textDecorationLine: 'underline' }}>View all</Text>
+                </View> 
 
+                <View style={{ flex: 0.9,marginBottom:25, }}>
+                  <CarouselWithButton DATA={AboutImageData} autoPlay={false} scrollAnimationDuration={1000} />
                 </View>
-                <View style={{ marginTop: 5, display: 'flex', flexDirection: 'row',justifyContent:'space-between'}}>
 
+                <View>
 
-                  <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <MaterialCommunityIcons name="arrow-left-drop-circle" size={20} color="#785600" />
-                  </TouchableOpacity>
-
-
-
-                  <Image style={{ width: '85%', height: 300 }} source={require("../../../../assets/Images/Transformation01.png")} resizeMode="contain" />
-
-
-                  <TouchableOpacity style={{ justifyContent: 'center'}}>
-                    <MaterialCommunityIcons name="arrow-right-drop-circle" size={20} color="#785600" />
-                  </TouchableOpacity>
                 </View>
               </View>
             </ScrollView>
@@ -88,8 +79,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: 'white',
     borderRadius: 20,
-    paddingHorizontal: 10,
-    marginHorizontal:10,
+    // paddingHorizontal: 10,
+    marginHorizontal: 10,
 
 
     ...Platform.select({
@@ -119,6 +110,6 @@ const styles = StyleSheet.create({
 
 
     paddingTop: 36,
-    paddingHorizontal: 17
+    // paddingHorizontal: 17
   }
 })

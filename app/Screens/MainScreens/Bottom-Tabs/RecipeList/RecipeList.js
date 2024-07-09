@@ -26,7 +26,7 @@ const RecipeList = ({ navigation }) => {
         setTimeout(() => {
             // setData(['Item 1', 'Item 2', 'Item 3']);
             setIsLoading(false);
-        }, 3000000); // Simulate a 3-second loading time
+        }, 5000); // Simulate a 3-second loading time
     }, []);
 
 

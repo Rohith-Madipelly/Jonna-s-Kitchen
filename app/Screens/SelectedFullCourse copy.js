@@ -1,7 +1,6 @@
 import { FlatList, Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import CustomButton1 from '../Components/UI/Buttons/CustomButton1'
-import BackTable2 from './BackTable2'
 
 const SelectedFullCourse = () => {
     const ProgramDetails = [
@@ -21,25 +20,14 @@ const SelectedFullCourse = () => {
     ]
     return (
         <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20, marginHorizontal: 18 }}>
-            <View style={styles.container}>
-                <View style={[styles.overlayContainer, styles.pinkBackground]}>
-                    <View style={styles.bottomLeftImage}>
-                        <Image
-                            style={styles.image2}
-                            source={require("../assets/Images/Vector 1.png")}
-                            resizeMode='stretch'
-                        />
-                    </View>
-                </View>
-                <View style={{ flex: 1 }}>
+            <ImageBackground
+                source={require('../assets/Images/Home/HomeProgram04.png')} // Replace with the actual path to your image
+                style={[styles.container, { width: '100%', height: 1054, borderRadius: 20, overflow: 'hidden' }]}
+            >
+                <View style={{ flex: 0.213 }}>
 
-                    <View style={[styles.topCenterImage]}>
-                        <Image
-                            style={styles.image}
-                            source={require("../assets/Images/Home/BannerBack01.png")}
-                        // resizeMode="contain"
-                        />
-                    </View>
+                </View>
+                <View style={{ flex: 0.5 }}>
                     <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>Program 01</Text>
 
                     {ProgramDetails.map((item, index) => (
@@ -54,11 +42,18 @@ const SelectedFullCourse = () => {
                             </View>
                         </View>))}
 
-                    <View style={{ height: 20 }}>
 
-                    </View>
                 </View>
+                <View style={{ flex: 0.213 }}>
+
+                </View>
+            </ImageBackground>
+
+
+            <View style={{ height: 20 }}>
+
             </View>
+
         </View>
     )
 }
@@ -66,6 +61,7 @@ const SelectedFullCourse = () => {
 export default SelectedFullCourse
 
 const styles = StyleSheet.create({
+
     TextBold: {
         color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 600, fontSize: 16, lineHeight: 22,
         marginVertical: 1
@@ -74,47 +70,27 @@ const styles = StyleSheet.create({
         color: '#000000', fontFamily: 'BalooTamma2', fontWeight: 400, fontSize: 16, lineHeight: 22
     },
 
-    container: {
-        // backgroundColor: 'white',
-
-        width: '100%',
-        borderRadius: 20,
-        borderRadius: 1,
-        elevation: 1,
-
-        overflow: 'hidden',
-    },
     overlayContainer: {
-        // backgroundColor: '#1C00ff00',
-        backgroundColor: '#FFFFFF80',
-
         width: '100%',
-        height: '100%',
+        height: '50%',
         position: 'relative', // Needed for absolute positioning of child elements
-        overflow: 'hidden'
-
-    },
-    pinkBackground: {
-        ...StyleSheet.absoluteFillObject,
-        // backgroundColor: 'yellow',
     },
     topCenterImage: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        marginTop: 0,
+        top: -7.5, // Adjust this value to move the image up or down
+        // left: '50%',
+        // transform: [{ translateX: -75 }], // Center the image horizontally
         alignItems: 'center',
     },
-    image: {
-        width: '80%',
-        height: 200,
-    },
-    image2: {
-        width: '100%',
-        height: '100%'
-    },
-    // Uncomment and adjust as needed
     bottomLeftImage: {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        bottom: -200
-        // Adjust this value to move the image left or right
+        backgroundColor: 'red',
+        bottom: 20, // Adjust this value to move the image up or down
+        left: 20, // Adjust this value to move the image left or right
     },
-});
+})

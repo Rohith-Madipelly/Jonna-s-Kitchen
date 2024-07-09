@@ -13,6 +13,7 @@ import { scrollToBottom, scrollToTop } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 
 import CarouselsBasic from "../../Components/UI/CarouselsBasic/CarouselsBasic";
+import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 
 
 // import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
@@ -137,6 +138,7 @@ const Welcome = () => {
                                     }, styles.TextFamilyA2,]}>Transformation</Text>
 
                                     <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                    {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
                                         <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
                                     </View>
 

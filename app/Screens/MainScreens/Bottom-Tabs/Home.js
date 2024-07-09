@@ -1,5 +1,5 @@
 import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 import CustomToolKitHeader from '../../../Components/UI/CustomToolKitHeader';
@@ -7,9 +7,12 @@ import onShare from '../../../Utils/ShareBtn';
 import { APP_LINK } from '../../../Enviornment';
 import SelectedFullCourse from '../../SelectedFullCourse';
 import CarouselsBasic from '../../../Components/UI/CarouselsBasic/CarouselsBasic';
+import SkeletonLoader from '../../../Components/UI/Skeletons/SkeletonLoader';
 
 
 const Home = ({ navigation }) => {
+
+  const [loadingComponent, setLoadingComponent] = useState(true)
 
   const DATA12 = [
     {
@@ -28,10 +31,17 @@ const Home = ({ navigation }) => {
       "image": require('../../../assets/Images/Home/HomeBanner1.png'),
       onPress: () => { console.log("sd") }
     },
-    
+
 
   ];
 
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingComponent(false)
+    }, 2000);
+  }, [])
 
   return (
     <>
@@ -71,13 +81,20 @@ const Home = ({ navigation }) => {
               </View>
 
 
+
               <View style={{ flex: 0.7, marginTop: 20 }}>
-                <CarouselsBasic DATA={DATA12} autoScroll={true} />
+                {loadingComponent ? <View style={{ height: 200, marginHorizontal: 18, marginTop: 20, }}>
+                  <SkeletonLoader width={200} height={159} borderRadius={5} />
+                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} />}
 
-                <SelectedFullCourse />
 
+                {loadingComponent ? <View style={{ height: 900, marginHorizontal: 18, marginTop: 20, borderRadius: 40, overflow: 'hidden' }}>
+                  <SkeletonLoader width={200} height={900} borderRadius={5} />
+                </View> : <SelectedFullCourse />}
 
-                {/* <Image style={{ width: '100%', resizeMode: 'contain' }} source={require("../../../assets/Images/Home/HomeProgram.png")} resizeMode="contain" /> */}
+                <View style={{ height: 20 }}>
+
+                </View>
               </View>
 
             </ImageBackground>

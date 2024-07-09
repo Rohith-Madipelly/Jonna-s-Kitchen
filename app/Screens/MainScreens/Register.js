@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { RegisterYupSchema } from "../../FormikYupSchema/RegisterYupSchema";
 import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
+import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 
 
 // import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
@@ -73,7 +74,7 @@ const Register = () => {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                     <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        // behavior={Platform.OS === "ios" ? 100:0}
+                        // behavior={Platform.OS === "ios" ? 1000:0}
                         keyboardVerticalOffset={5000}
                         style={{ width: '100%', flex: 1 }}
                     >
@@ -94,7 +95,6 @@ const Register = () => {
                                 }}>Jonnas Kitchen
                                     <Text style={{ color: '#000000', fontWeight: '600', fontSize: 14 }}> For Healthy Human!</Text>
                                 </Text>
-
 
                                 <CustomTextInput3
                                     boxWidth={'95%'}
@@ -155,7 +155,6 @@ const Register = () => {
                                 // errorColor='magenta'
                                 />
 
-
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Enter email address'}
@@ -186,7 +185,7 @@ const Register = () => {
                                 />
 
                                 {/* Age */}
-                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '95%',}}>
                                     <View style={{ flex: 0.3, justifyContent: 'center', marginBottom: 10 }}>
                                         {/* <View style={{flex:1}}> */}
                                         <Text style={{
@@ -202,7 +201,7 @@ const Register = () => {
 
                                     </View>
 
-                                    <View style={{ flex: 0.7 }}>
+                                    <View style={{ flex: 0.7,justifyContent:'center',}}>
                                         <CustomTextInput3
                                             boxWidth={'100%'}
                                             placeholder={'Enter your age'}
@@ -839,9 +838,9 @@ const Register = () => {
                                     // bgColor={"rgba(220, 142, 128, 0.9)"}
                                     style={{ marginTop: 50, }}>Register Now</CustomButton1>
 
-                                    <View style={{height:50}}>
+                                <View style={{ height: 50 }}>
 
-                                    </View>
+                                </View>
                             </View>
                         </View>
                     </KeyboardAvoidingView>

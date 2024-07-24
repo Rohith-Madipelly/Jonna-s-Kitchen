@@ -51,6 +51,7 @@ const Testimonials = ({ navigation }) => {
                 <View style={{ flex: 0.9,marginBottom:25, }}>
                   <CarouselWithButton DATA={AboutImageData} autoPlay={false} scrollAnimationDuration={1000} />
                 </View>
+                
 
                 <View>
 

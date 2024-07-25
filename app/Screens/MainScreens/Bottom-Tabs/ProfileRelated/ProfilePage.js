@@ -4,6 +4,7 @@ import { Entypo, FontAwesome, SimpleLineIcons, Feather } from "@expo/vector-icon
 import { useNavigation } from '@react-navigation/native';
 import { logoutValidation } from '../../../../Utils/LogOut';
 import { OpenDialer } from '../../../../Utils/OpenDialer';
+import { useDispatch } from 'react-redux';
 
 
 const ListItem = ({ leftIcon, ItemName, routeTo }) => {
@@ -32,7 +33,7 @@ const ListItem = ({ leftIcon, ItemName, routeTo }) => {
 const ProfilePage = () => {
 
   const navigation = useNavigation();
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
 
   const menuItems = [
@@ -51,7 +52,7 @@ const ProfilePage = () => {
       subItems: [
         { title: 'Privacy policy', logo: require("../../../../assets/Images/ProfileIcons/Privacypolicy.png"), onPress: () => navigation.navigate('BankdetailsProfile') },
         { title: 'Terms and Conditions', logo: require("../../../../assets/Images/ProfileIcons/TermsandConditions.png"), onPress: () => console.log('Custom remainder pressed') },
-        { title: 'Logout', logo: require("../../../../assets/Images/ProfileIcons/Logout.png"), onPress: () => logoutValidation()},
+        { title: 'Logout', logo: require("../../../../assets/Images/ProfileIcons/Logout.png"), onPress: () => logoutValidation(dispatch)},
     ],
     },
 

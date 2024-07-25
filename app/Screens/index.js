@@ -23,26 +23,31 @@ import Register from './MainScreens/Register.js';
 import Welcome from './MainScreens/Welcome.js';
 import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 import Notification from './MainScreens/Bottom-Tabs/Notification.js';
+import UserRegister from './AuthScreens/UserRegister.js';
+import CreatePassword from './AuthScreens/CreatePassword.js';
+import SuccessScreen from './ShareScreens/SuccessScreen.js';
 
 
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
-  const Stack = createNativeStackNavigator();
-  const [user, setUser] = useState(null);
-  const [appIsReady, setAppIsReady] = useState(false);
-  const dispatch = useDispatch();
+  const [appIsReady, setAppIsReady] = useState(false)
+  const [user, setUser] = useState()
 
+  const Stack = createNativeStackNavigator();
+  const dispatch = useDispatch();
+  const loginSelector = useSelector((state) => state.login.isLogin);
 
 
   const [fontsLoaded] = useFonts({
     'BalooTamma2-Bold': require('../../app/assets/Fonts/BalooTamma2-Bold.ttf'),
     'BalooTamma2': require('../../app/assets/Fonts/BalooTamma2-VariableFont_wght.ttf'),
+    'Poppins-SemiBold': require('../../app/assets/Fonts/Poppins-SemiBold.ttf'),
   });
-  const loginSelector = useSelector((state) => state.login.isLogin);
-  console.log("isUser", loginSelector)
+
+
+  console.log("user login Status", loginSelector)
 
   const verifyToken = async () => {
-
     ASO.getTokenJWT('Token', (error, token) => {
       if (error) {
         console.error('Error getting token:', error);
@@ -53,14 +58,13 @@ const Screen = () => {
       }
       setAppIsReady(true);
     });
-
-
   }
 
 
   useEffect(() => {
     setUser(loginSelector)
   }, [loginSelector])
+
 
 
 
@@ -83,7 +87,6 @@ const Screen = () => {
 
     prepare();
   }, []);
-
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady && fontsLoaded) {
@@ -110,18 +113,6 @@ const Screen = () => {
         <ErrorBoundary FallbackComponent={CustomFallbackUI}>
 
           <Stack.Navigator
-
-            // screenOptions={{
-            //   // headerShown: false,
-            //   gestureEnabled: true,
-            //   // gestureDirection: 'horizontal',
-            //   // headerMode:"float"
-            // }}
-
-            // We see in andriod a new header is added to all the screens 
-            // But i ios only content changes for that same experience in Android we can pass in a prop here
-
-
             id="rootStack"
             // initialRouteName="Login"
             screenOptions={{
@@ -134,12 +125,12 @@ const Screen = () => {
           >
 
             {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
-            {user ? (
-              <>
-                {/* <Stack.Screen name="Home" component={Home} /> */}
-                {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
-                {/* <Stack.Screen name="Register" component={Register} /> */}
-                <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
+            {/* {user ? (
+              <> */}
+            {/* <Stack.Screen name="Home" component={Home} /> */}
+            {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
+            {/* <Stack.Screen name="Register" component={Register} /> */}
+            {/* <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
                 <Stack.Screen name="LogOut" component={LogOut} />
                 <Stack.Screen name="Notification" component={Notification} />
 
@@ -149,7 +140,12 @@ const Screen = () => {
                 <Stack.Screen name="Loading" component={Loading} />
                 <Stack.Screen name="SuccessfulVerify" component={SuccessfulVerify} />
 
-              </>)}
+              </>)} */}
+            {/* <Stack.Screen name="UserRegister" component={UserRegister} /> */}
+
+            {/* <Stack.Screen name="CreatePassword" component={CreatePassword} />
+            <Stack.Screen name="OtpScreen" component={OtpScreen} /> */}
+            <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
           </Stack.Navigator>
         </ErrorBoundary>
       </NavigationContainer>

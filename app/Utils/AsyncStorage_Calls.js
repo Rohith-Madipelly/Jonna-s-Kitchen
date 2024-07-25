@@ -1,12 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { APP_NAME } from '../Enviornment';
 
 
 var ASO = function () { };
 
 ASO.prototype.setTokenJWT = function (key, value, callBack) {
 
-    AsyncStorage.setItem(APP_NAME + key, JSON.stringify(value), (err) => {
+    AsyncStorage.setItem('BuyKeys$:' + key, JSON.stringify(value), (err) => {
         if (err) {
             callBack('Error setting token', false);
         }
@@ -20,7 +19,7 @@ ASO.prototype.setTokenJWT = function (key, value, callBack) {
 
 
 ASO.prototype.getTokenJWT = function (key, callBack) {
-    AsyncStorage.getItem(APP_NAME + key, (err, result) => {
+    AsyncStorage.getItem('BuyKeys$:' + key, (err, result) => {
         if (err) {
             callBack('Error getting token', null);
         } else {
@@ -34,7 +33,7 @@ ASO.prototype.getTokenJWT = function (key, callBack) {
 
 ASO.prototype.RemoveTokenJWT = function (key, callBack) {
     console.log("Loging", key)
-    AsyncStorage.removeItem(APP_NAME + key, (err, resp) => {
+    AsyncStorage.removeItem('BuyKeys$:' + key, (err, resp) => {
         if (err)
             callBack('Error fetching token', false);
         else {

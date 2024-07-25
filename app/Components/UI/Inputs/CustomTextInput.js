@@ -32,11 +32,11 @@ const CustomTextInput = ({
     const containerBorder = outlined ? styles.outlined : styles.standard;
     return (
         <View style={[{ padding: 0,width:boxWidth },]}>
-            <Text style={[styles.label,labelStyle]}>{label} {asterisksymbol?<Text style={{color:'red'}}>*</Text>:""}</Text>
+            {label?<Text style={[styles.label,labelStyle]}>{label} {asterisksymbol?<Text style={{color:'red'}}>*</Text>:""}</Text>:""}
 
             
             <View style={[styles.container, containerBorder,containerStyle, { borderColor: borderColor }, { backgroundColor: backgroundColor }]}>
-                <View style={{ paddingRight: 3 }}>
+                <View style={{ paddingRight: 7 }}>
                     {leftIcon}
 
                 </View>
@@ -62,7 +62,6 @@ const CustomTextInput = ({
                 />
                 <View style={{ paddingLeft: 5 }}>
                     {rightIcon}
-
                 </View>
             </View>
             <Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
 
 
         ...Platform.select({

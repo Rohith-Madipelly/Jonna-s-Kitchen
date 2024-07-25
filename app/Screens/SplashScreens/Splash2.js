@@ -50,9 +50,9 @@ const Splash2 = () => {
             const timer = setTimeout(() => {
                 // console.log("fcsdv", loginSelector)
                 if (loginSelector) {
-                        console.log("cs AccountSetupComponent", loginSelector)
-                        navigation.navigate("BottomTabScreen");
-                    }
+                    console.log("cs AccountSetupComponent", loginSelector)
+                    navigation.navigate("BottomTabScreen");
+                }
                 else if (loginSelector == false) {
                     console.log("cs", typeof (loginSelector))
                     navigation.navigate("Login");
@@ -66,7 +66,7 @@ const Splash2 = () => {
 
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
             <Image
                 source={gifAsset.localUri || gifAsset.uri}

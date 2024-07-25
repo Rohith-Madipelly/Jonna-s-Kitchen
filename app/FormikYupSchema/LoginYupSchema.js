@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 
 const LoginYupSchema = Yup.object().shape({
-  email: Yup.string().email("Email must be a valid email").test(
+  userEmail: Yup.string().email("Email must be a valid email").test(
     "is-valid",
     "Email must be a valid email",
     (value) =>

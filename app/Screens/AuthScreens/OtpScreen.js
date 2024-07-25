@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
+import { Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
 import React, { useState } from 'react'
 // import Title from '../../Components/UI/TextUI/Title'
 // import CustomButton1 from '../../Components/UI/Buttons/CustomButton1'
@@ -18,8 +18,17 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { useDispatch } from 'react-redux'
 import CustomButton1 from '../../Components/UI/Buttons/CustomButton1.js';
 import CustomTextInput from '../../Components/UI/Inputs/CustomTextInput.js';
+import { otpValidationSchema } from '../../FormikYupSchema/OtpValidationSchema.js';
+import CustomOtpInput4 from '../../Components/Functionality/OTP/CustomOtpInput4.js';
+import { verifyOTPAPI } from '../../Utils/ApiCalls.js';
 
-const OtpScreen = () => {
+const OtpScreen = ({ route }) => {
+    const { params } = route;
+    const userEmail = params?.email || 'madipellirohith.123@gmail.com';
+    console.log("userEmail >", userEmail)
+
+
+
     const [errorFormAPI, seterrorFormAPI] = useState("")
     const [show, setShow] = useState()
     const [spinnerBool, setSpinnerbool] = useState(false)
@@ -38,13 +47,14 @@ const OtpScreen = () => {
         setValues,
         resetForm,
     } = useFormik({
-        initialValues: { email: "thanooj12@gmail.com", password: "Chinnu#143." },
-
+        // initialValues: { otp:["","","","",] },
+        initialValues: { otp: "" },
         onSubmit: values => {
             { submitHandler(values) }
         },
 
-        validationSchema: LoginYupSchema,
+        validationSchema: otpValidationSchema,
+
 
         validate: values => {
             const errors = {};
@@ -55,99 +65,82 @@ const OtpScreen = () => {
 
 
 
-    const submitHandler = (values) => {
-        console.log("submitHandler", values)
-        // navigation.navigate("EmailVerification")
-    }
-
-    // const submitHandler = async (values) => {
-
-    //   seterrorFormAPI() //Clear's All API errors
-    //   try {
-    //     const { email, password } = values;
-
-    //     setSpinnerbool(true)
-    //     const res = await UserLoginApi(values)
-    //     if (res) {
-    //       // console.log(res.data)
-    //       const Message = res.data.message
-    //       const token = res.data.token
-    //       const kycStatus=res.data.kycStatus
-
-
-
-    //       ASO.setTokenJWT("Token", JSON.stringify(res.data.token), function (res, status) {
-    //         if (status) {
-    //           // ToasterMessage("success", `Success`, `${Message}`)
-    //           dispatch(setToken(token));
-    //         }
-    //       })
-
-
-    //       // const PageSeter = (pageNumber) => {
-    //       ASO.setTokenJWT("pageNumber", JSON.stringify(res.data.kycStatus), function (res, status) {
-    //         if (status) {
-    //           // console.warn(status, " status>>>>>.")
-    //           // ToasterMessage("success", `Success`, `${Message}`)
-    //           // ToasterSender({ Message: `${Message}` })
-    //           dispatch(setAccountPage(kycStatus));
-    //         }
-    //       })
-    //       // }
-
-    //       setTimeout(() => {
-    //         setSpinnerbool(false)
-    //       }, 50);
-
-
-    //     }
-
-    //   } catch (error) {
-    //     console.log("error console", error)
-    //     if (error.response) {
-    //       if (error.response.status === 400) {
-    //         console.log("Error With 400.")
-    //       }
-    //       else if (error.response.status === 401) {
-    //         seterrorFormAPI({ PasswordForm: `${error.response.data.message}` })
-    //       }
-    //       else if (error.response.status === 404) {
-    //         seterrorFormAPI({ emailForm: `${error.response.data.message}` })
-    //       }
-    //       else if (error.response.status === 500) {
-    //         console.log("Internal Server Error", error.message)
-    //       }
-    //       else {
-    //         console.log("An error occurred response.>>")
-    //         ErrorResPrinter(`${error.message}`)
-    //       }
-    //     }
-    //     else if (error.request) {
-    //       console.log("No Response Received From the Server.")
-    //       if (error.request.status === 0) {
-    //         // console.log("error in request ",error.request.status)
-    //         Alert.alert("No Network Found", "Please Check your Internet Connection")
-    //       }
-    //     }
-    //     else {
-    //       console.log("Error in Setting up the Request.")
-    //     }
-
-    //     setSpinnerbool(false)
-
-    //     if (error) {
-
-    //       // message = error.message;
-    //       // seterrorFormAPI(message)
-    //       // "Email or Password does not match !"
-    //     }
-    //   }
-    //   finally {
-    //     setSpinnerbool(false)
-    //   }
+    // const submitHandler = (values) => {
+    //     console.log("submitHandler", values)
+    //     // navigation.navigate("EmailVerification")
     // }
 
 
+    const submitHandler = async (values) => {
+
+        seterrorFormAPI() //Clear's All API errors
+        try {
+          setSpinnerbool(true)
+          const res = await verifyOTPAPI(userEmail,values)
+          if (res) {
+            console.log(res.data)
+            const Message = res.data
+            // // const token = res.data.jwtTocken
+            // console.log(Message)
+            CustomToaster(Message)
+            setTimeout(() => {
+              navigation.navigate("OtpScreen",{email:userEmail})
+            }, 500);
+          }
+    
+        } catch (error) {
+            console.log("error>",error)
+          if (error.response) {
+            if (error.response.status === 400) {
+              // console.log("Error With 400.", error.response.data)
+              CustomToaster(error.response.data.message)
+            }
+            else if (error.response.status === 401) {
+              seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+            }
+            else if (error.response.status === 403) {
+              console.log("error.response.status login >>>", error.response)
+            }
+            else if (error.response.status === 404) {
+              seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+            }
+            else if (error.response.status === 500) {
+              console.log("Internal Server Error", error.message)
+            }
+            else {
+              console.log("An error occurred response.>>")
+              ErrorResPrinter(`${error.message}`)
+            }
+          }
+          else if (error.code === 'ECONNABORTED') {
+            console.log('Request timed out. Please try again later.');
+          }
+          else if (error.request) {
+            console.log("No Response Received From the Server.")
+            if (error.request.status === 0) {
+              // console.log("error in request ",error.request.status)
+              Alert.alert("No Network Found", "Please Check your Internet Connection")
+            }
+          }
+    
+          else {
+            console.log("Error in Setting up the Request.")
+          }
+    
+          setSpinnerbool(false)
+    
+          if (error) {
+    
+            // message = error.message;
+            // seterrorFormAPI(message)
+            // "userEmail or Password does not match !"
+          }
+        }
+        finally {
+          setSpinnerbool(false)
+        }
+      }
+    
     return (
         <>
 
@@ -186,13 +179,37 @@ const OtpScreen = () => {
 
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
 
-                                        <View style={{ flex: 1, alignItems: 'space-between', flexDirection: 'row', width: '100%' }}>
+                                        {/* <View style={{ flex: 1, alignItems: 'space-between', flexDirection: 'row', width: '100%' }}>
 
 
                                             <View style={{ flex: 0.6 }}>
+
+                                            <Text style={[styles.label]}>
+                                            Type a code
+                                            </Text>
+
+            
+                                                <CustomOtpInput
+                                                    value={values.otp}
+                                                    length={6}
+                                                    keyboardType="numeric"
+                                                    onOtpSubmit={(otp) => {
+                                                        // console.log("otp vachinda", otp);
+                                                        seterrorFormAPI() //Clear's All API errors
+                                                        handleChange("otp")(otp)
+                                                    }}
+                                                    onChangeText={(index, value) => {
+                                                        // console.log("index", index, ">value", value)
+                                                    }}
+                                                    // errorMessage={errorFormAPI.otp}
+                                                    errorMessage={`${(errors.otp && touched.otp) ? `${errors.otp}` : (errorFormAPI && errorFormAPI.otp) ? `${errorFormAPI.otp}` : ``}`}
+
+                                                    errorBoxid={errorFormAPI ? [0, 1, 2, 3, 4, 5] : ""}
+                                                    onClear={true}
+                                                />
                                                 <CustomTextInput
                                                     boxWidth={'100%'}
-                                                    placeholder={'Enter otp'}
+                                                    placeholder={'Enter otp dsf'}
                                                     label={'Type a code'}
                                                     keyboardType='number-pad'
                                                     labelStyle={{ fontWeight: '700', marginBottom: 10 }}
@@ -227,23 +244,52 @@ const OtpScreen = () => {
                                             </View>
 
 
-                                        </View>
-
-                                        <View style={{ height: 50 , width: '70%'}}>
-                                            <Text style={{ color: '#898989', textAlign: 'center',fontFamily:'BalooTamma2-Bold',fontWeight:'500',fontSize:14 }}>
-                                                We have sent a verification code to your <Text style={{color:'#5655B9'}}> 
-                                                    (Email ID: jonnaxxxx)</Text>
+                                        </View> */}
+                                        <View style={{ width: '70%' }}>
+                                            <Text style={{ color: '#898989', textAlign: 'center', fontFamily: 'BalooTamma2-Bold', fontWeight: '500', fontSize: 14 }}>
+                                                We have sent a verification code to your <Text style={{ color: '#5655B9' }}>
+                                                    (Email ID: {userEmail} )</Text>
                                             </Text>
                                         </View>
 
+                                        <View style={{ flex: 1, width: '100%' }}>
+
+
+
+
+                                            <Text style={[styles.label]}>Type a code </Text>
+                                            <CustomOtpInput4
+                                                value={values.otp}
+                                                length={4}
+                                                keyboardType="numeric"
+                                                onOtpSubmit={(otp) => {
+                                                    // console.log("otp vachinda", otp);
+                                                    seterrorFormAPI() //Clear's All API errors
+                                                    handleChange("otp")(otp)
+                                                }}
+                                                onChangeText={(index, value) => {
+                                                    // console.log("index", index, ">value", value)
+                                                }}
+                                                // errorMessage={errorFormAPI.otp}
+                                                errorMessage={`${(errors.otp && touched.otp) ? `${errors.otp}` : (errorFormAPI && errorFormAPI.otp) ? `${errorFormAPI.otp}` : ``}`}
+
+                                                errorBoxid={errorFormAPI ? [0, 1, 2, 3,] : ""}
+                                                onClear={true}
+                                            />
+
+                                            <View style={{ alignItems: 'flex-end' }}>
+                                                <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 16, color: '#31A84B' }}>Resend </Text>
+                                            </View>
+
+
+                                        </View>
+
+
                                         <CustomButton1
                                             boxWidth={'100%'}
-                                            onPress={()=>{navigation.navigate("Loading")}}
-                                            // onPress={handleSubmit}
+                                            // onPress={() => { navigation.navigate("Loading") }}
+                                            onPress={handleSubmit}
                                             textStyling={{ marginBottom: -5 }}
-                                            // leftIcon={<Entypo
-                                            //   // style={styles.icon}
-                                            //   name={'login'} size={18} color={'white'} />}
                                             bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                             // bgColor={"rgba(220, 142, 128, 0.9)"}
                                             style={{ marginTop: 50 }}>Verify OTP</CustomButton1>
@@ -283,6 +329,14 @@ const styles = StyleSheet.create({
     },
     UpperBox: {
         flex: 0.6
+    },
+
+    label: {
+        fontWeight: '400',
+        marginBottom: 4,
+        textTransform: 'none',
+        fontFamily: 'BalooTamma2-Bold',
+        fontSize: 14
     },
     ContentBox: {
         flex: 0.4,

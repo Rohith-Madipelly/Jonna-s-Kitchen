@@ -17,7 +17,7 @@ import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 
 
 
-const Register = () => {
+const ProgramForm = () => {
     const navigation = useNavigation();
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
@@ -851,7 +851,7 @@ const Register = () => {
     )
 }
 
-export default Register
+export default ProgramForm
 
 const styles = StyleSheet.create({
     container: {

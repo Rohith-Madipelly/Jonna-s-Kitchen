@@ -32,12 +32,13 @@ export const verifyOTPAPI = async (email, values) => {
   }
 
   console.log(">>",ReqData)
-  return await axios.post(`${GUEST_URL}/verifyotp`, ReqData)
+  return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
 
 }
 
 // CREATE PASSWORD
 export const createPasswordAPI = async (userEmail,values) => {
+
   // console.log(">> <",userEmail,values)
 
 const appReqData={
@@ -45,170 +46,16 @@ const appReqData={
   password:values.confirmPassword
 }
 
-  return await axios.post(`${GUEST_URL}api/updatePassword`, appReqData)
+  return await axios.post(`${GUEST_URL}/api/setPassword`, appReqData)
 }
 
 
 
 
-// Account Verfification API 
+//  Get All Programs
 
-
-
-// 1 ADD PERSONAL DETAILS 
-export const AddPersonalDetailsAPI = async (data, token) => {
-  const formData = new FormData();
-
-
-
-  formData.append("address", data.address);
-  formData.append("area", data.area);
-  formData.append("dateOfBirth", data.dateOfBirth);
-  formData.append("district", data.district);
-  formData.append("firstName", data.firstName);
-  formData.append("lastName", data.lastName);
-  formData.append("phoneNumber", data.phoneNumber);
-  formData.append("pinCode", data.pinCode);
-  formData.append("street", data.street);
-
-
-  // const file = new File(
-  //   [/* binary data here */],
-  //   data.passPortPicture.name,
-  //   { type: data.passPortPicture.mimeType }
-  // );
-
-
-
-
-  // formData.append("passPortPicture", file);
-
-
-
-  // for (const [key, value] of Object.entries(data)) {
-  //   if (key === 'passPortPicture') {
-  //     // Assuming value contains binary data, name, and mimeType
-  //     const file = new File(
-  //       [value.binaryData],
-  //       value.name,
-  //       { type: value.mimeType }
-  //     );
-  //     console.log("passPortPicture", file);
-  //     formData.append(key, file);
-  //   } else {
-  //     formData.append(key, value);
-  //   }
-  // }
-
-
-  // console.log("sc",formData._parts[0].[passPortPicture])
-
-  // Simple Process
-  formData.append('passPortPicture', {
-    uri: data.passPortPicture.uri,
-    name: data.passPortPicture.name,
-    type: data.passPortPicture.mimeType || 'application/octet-stream'
-  });
- 
-
-  return await axios.post(`${GUEST_URL}/user/addpersonaldetails`, formData, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-}
-
-// 2 send otp 
-export const SendAadharOtpAPI = async (APIData, token) => {
-  return await axios.post(`${GUEST_URL}/user/sendaadharotp`, APIData, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-
-// 2.2 verify otp VERIFY AADHAAR OTP
-export const VerifyAadhaarOtpAPI = async (APIData, token) => {
-  return await axios.post(`${GUEST_URL}/user/verifyaadharotp`, APIData, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-// 3 PAN VERIFICATION
-export const PanVerificationAPI = async (APIData, token) => {
-  console.log(APIData)
-  return await axios.post(`${GUEST_URL}/user/verifypan`, APIData, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-
-// 4 ELECTRICITY BILL VERIFICATION
-export const ElectricityBillVerificationAPI = async (APIData, token) => {
-  console.log(APIData)
-  return await axios.post(`${GUEST_URL}/user/verifyelectricity`, APIData, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-// 5 ADD EMPLOYMENT TYPE 
-export const AddEmploymentTypeAPI = async (APIData, token) => {
-  // console.log(APIData)employmentType
-  const DataAPI = {
-    employmentType: "Salaried"
-  }
-  return await axios.post(`${GUEST_URL}/user/addemployment`, DataAPI, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-
-
-// 6 ADDEXECUTIVEAPI
-export const ADDEXECUTIVEAPI = async (data, token) => {
-  return await axios.post(`${GUEST_URL}/user/executive`, data, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-
-
-
-// 7 ADD SALARY SLIP
-export const AddSalarySlipAPI = async (result, token) => {
-  const formData = new FormData();
-
-
-  formData.append('salarySlip', {
-    uri: result.uri,
-    name: result.name,
-    type: result.mimeType || 'application/octet-stream'
-  })
-
-  return await axios.post(`${GUEST_URL}/user/salaryslip`, formData, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-}
-
-
-
-// 8 BANK VERIFICATION
-export const BankVerificationAPI = async (data, token) => {
-  return await axios.post(`${GUEST_URL}/user/verifybank`, data, {
+export const GetAllProgramsAPI = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getAllPrograms`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -218,31 +65,12 @@ export const BankVerificationAPI = async (data, token) => {
 
 
 
-// SHOW AGREEMENT
-export const showAgreementAPI = async (token) => {
-  return await axios.get(`${GUEST_URL}/user/showagreement`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
+//  Get singleProgram
 
-// AGREEMENT ACCEPT
-export const agreementAcceptAPI = async (token) => {
-  return await axios.get(`${GUEST_URL}/user/agreement`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
+export const getSingleProgramAPI = async (programId,token) => {
+  console.log("API Caller>",programId,token)
 
-
-
-
-
-// Home Page
-export const HomeAPI= async (token) => {
-  return await axios.get(`${GUEST_URL}/user/home`, {
+  return await axios.get(`${GUEST_URL}api/getProgramById?programId=66a77dee0f906700a0547525`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

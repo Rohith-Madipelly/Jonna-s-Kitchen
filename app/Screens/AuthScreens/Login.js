@@ -73,33 +73,33 @@ const Login = () => {
       setSpinnerbool(true)
       const res = await UserLoginApi(values)
       if (res) {
-        console.log(res.data)
+        // console.log(res.data)
         const Message = res.data.message
         const token = res.data.jwtTocken
 
         CustomToaster(Message)
 
-        // ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-        //   if (status) {
-        //     // ToasterMessage("success", `Success`, `${Message}`)
-        //     dispatch(setToken(token));
-        //   }
-        // })
+        ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
+          if (status) {
+            // ToasterMessage("success", `Success`, `${Message}`)
+            dispatch(setToken(token));
+          }
+        })
       }
 
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
           console.log("Error With 400.", error.response.data)
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 500) {
           console.log("Internal Server Error", error.message)
@@ -166,120 +166,138 @@ const Login = () => {
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
             style={styles.container}
           >
-            <View style={{ flex: 0.6, justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-                style={{ width: '100%', height: '100%' }}
-                animation={"bounceIn"}
-                source={require("../../assets/Images/Login.png")}
-                contentFit="cover"
-                transition={1000}
-                alt=''
-              />
-            </View>
-            <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
-              <View style={{ width: '100%', height: '100%', backgroundColor: '#E8F4EC', borderRadius: 20, elevation: 5, }}>
-                <View style={{ marginTop: 20, marginHorizontal: 15 }}>
+            <View style={{ flex: 0.95 }}>
 
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                      <KeyboardAvoidingView
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        // behavior={Platform.OS === "ios" ? 100:0}
-                        // keyboardVerticalOffset={5000}
-                        style={{ width: '100%', alignItems: 'center' }}
-                      >
-                        <CustomTextInput
-                          boxWidth={'100%'}
-                          placeholder={'Enter userEmail id'}
-                          // label={'Enter your userEmail id'}
-                          labelStyle={{ fontWeight: '700', marginBottom: 10 }}
-                          name='userEmail'
-                          value={values.userEmail}
-                          containerStyle={{ elevation: 10 }}
-                          // bgColor='#e1f3f8'
-                          // bgColor="#B1B1B0"
-                          onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("userEmail")(eToLowerCaseText); seterrorFormAPI(); }}
-                          onBlur={handleBlur("userEmail")}
-                          // validate={() => {
-                          //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                          //     else { setError({ ...error, first: null }) }
-                          // }}
+              <View style={{ flex: 0.75, justifyContent: 'center', alignItems: 'center' }}>
+                <Image
+                  style={{ width: '100%', height: '100%' }}
+                  animation={"bounceIn"}
+                  source={require("../../assets/Images/Login.png")}
+                  contentFit="cover"
+                  transition={1000}
+                  alt=''
+                />
+              </View>
+              <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
+                <View style={{ width: '100%', height: '100%', backgroundColor: '#E8F4EC', borderRadius: 20, elevation: 5, }}>
+                  <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
-                          leftIcon={<Image source={require('../../assets/Images/Icons/Gmail Logo.png')} style={{ width: 24, height: 24 }} />}
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <KeyboardAvoidingView
+                          behavior={Platform.OS === "ios" ? "padding" : "height"}
+                          // behavior={Platform.OS === "ios" ? 100:0}
+                          // keyboardVerticalOffset={5000}
+                          style={{ width: '100%', alignItems: 'center' }}
+                        >
+                          <CustomTextInput
+                            boxWidth={'100%'}
+                            placeholder={'Enter userEmail id'}
+                            // label={'Enter your userEmail id'}
+                            labelStyle={{ fontWeight: '700', marginBottom: 10 }}
+                            name='userEmail'
+                            value={values.userEmail}
+                            containerStyle={{ elevation: 10 }}
+                            // bgColor='#e1f3f8'
+                            // bgColor="#B1B1B0"
+                            onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("userEmail")(eToLowerCaseText); seterrorFormAPI(); }}
+                            onBlur={handleBlur("userEmail")}
+                            // validate={() => {
+                            //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
+                            //     else { setError({ ...error, first: null }) }
+                            // }}
 
-                          validate={handleBlur("userEmail")}
-                          outlined
-                          borderColor={`${(errors.userEmail && touched.userEmail) || (errorFormAPI && errorFormAPI.userEmailForm) ? "red" : "#ccc"}`}
-                          errorMessage={`${(errors.userEmail && touched.userEmail) ? `${errors.userEmail}` : (errorFormAPI && errorFormAPI.userEmailForm) ? `${errorFormAPI.userEmailForm}` : ``}`}
-                        // errorColor='magenta'
-                        />
+                            leftIcon={<Image source={require('../../assets/Images/Icons/Gmail Logo.png')} style={{ width: 24, height: 24 }} />}
+
+                            validate={handleBlur("userEmail")}
+                            outlined
+                            borderColor={`${(errors.userEmail && touched.userEmail) || (errorFormAPI && errorFormAPI.userEmailForm) ? "red" : "#ccc"}`}
+                            errorMessage={`${(errors.userEmail && touched.userEmail) ? `${errors.userEmail}` : (errorFormAPI && errorFormAPI.userEmailForm) ? `${errorFormAPI.userEmailForm}` : ``}`}
+                          // errorColor='magenta'
+                          />
 
 
-                        <CustomTextInput
-                          boxWidth={'100%'}
-                          placeholder={'Enter userEmail id'}
-                          // label={'Enter your userEmail id'}
-                          labelStyle={{ fontWeight: '700', }}
-                          name='userEmail'
-                          value={values.password}
-                          containerStyle={{ elevation: 10 }}
-                          // bgColor='#e1f3f8'
-                          // bgColor="#B1B1B0"
-                          onChangeText={(e) => {
-                            handleChange("password")(e); seterrorFormAPI();
-                            // setShow({ ...setShow, password: false });
-                          }}
-                          // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("password")(eToLowerCaseText); seterrorFormAPI(); }}
-                          onBlur={handleBlur("password")}
-                          rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
-                            {!show?.password ? (
-                              <Entypo name="eye-with-line" size={20} color="black" />) : (
-                              <Entypo name="eye" size={20} color="black" />)
+                          <CustomTextInput
+                            boxWidth={'100%'}
+                            placeholder={'Enter userEmail id'}
+                            // label={'Enter your userEmail id'}
+                            labelStyle={{ fontWeight: '700', }}
+                            name='userEmail'
+                            value={values.password}
+                            containerStyle={{ elevation: 10 }}
+                            // bgColor='#e1f3f8'
+                            // bgColor="#B1B1B0"
+                            onChangeText={(e) => {
+                              handleChange("password")(e); seterrorFormAPI();
+                              // setShow({ ...setShow, password: false });
+                            }}
+                            // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("password")(eToLowerCaseText); seterrorFormAPI(); }}
+                            onBlur={handleBlur("password")}
+                            rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
+                              {!show?.password ? (
+                                <Entypo name="eye-with-line" size={20} color="black" />) : (
+                                <Entypo name="eye" size={20} color="black" />)
+                              }
+                            </Pressable>
                             }
-                          </Pressable>
-                          }
-                          leftIcon={<Image source={require('../../assets/Images/Icons/lock.png')} style={{ width: 24, height: 24 }} />}
-                          secure={!show?.password}
-                          validate={handleBlur("password")}
-                          outlined
-                          borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
-                          // errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                          errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                        // errorColor='magenta'
-                        />
-                        {/* <Text>{errorFormAPI.passwordForm ? "sd" : "swd"}sc</Text> */}
+                            leftIcon={<Image source={require('../../assets/Images/Icons/lock.png')} style={{ width: 24, height: 24 }} />}
+                            secure={!show?.password}
+                            validate={handleBlur("password")}
+                            outlined
+                            borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
+                            // errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                            errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                          // errorColor='magenta'
+                          />
+
+                          <View style={{justifyContent: 'flex-end',width:'100%',marginVertical:16 }}>
+                          <TouchableOpacity onPress={() => { navigation.navigate("UserRegister") }} style={{}}>
+                            <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B',textAlign:'right' }}>Forgot your password ? </Text>
+                            </TouchableOpacity>
+                          </View>
+
+                          <CustomButton1
+                            boxWidth={'100%'}
+                            // onPress={() => { navigation.navigate("OtpScreen") }}
+                            onPress={handleSubmit}
+                            textStyling={{ marginBottom: -5 }}
+                            // leftIcon={<Entypo
+                            //   // style={styles.icon}
+                            //   name={'login'} size={18} color={'white'} />}
+                            bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
+                            // bgColor={"rgba(220, 142, 128, 0.9)"}
+                            style={{ marginTop: 50 }}>Send OTP</CustomButton1>
 
 
 
-                        <CustomButton1
-                          boxWidth={'100%'}
-                          onPress={() => { navigation.navigate("OtpScreen") }}
-                          // onPress={handleSubmit}
-                          textStyling={{ marginBottom: -5 }}
-                          // leftIcon={<Entypo
-                          //   // style={styles.icon}
-                          //   name={'login'} size={18} color={'white'} />}
-                          bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
-                          // bgColor={"rgba(220, 142, 128, 0.9)"}
-                          style={{ marginTop: 50 }}>Send OTP</CustomButton1>
-                      </KeyboardAvoidingView>
+                        </KeyboardAvoidingView>
 
-                    </TouchableWithoutFeedback>
+                      </TouchableWithoutFeedback>
 
+                    </View>
                   </View>
+
+
+
+
+
+
+
+
+
+
                 </View>
-
-
-
-
-
-
-
-
-
 
               </View>
 
+            </View>
+
+            <View style={{ flex: 0.05, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ marginTop: 20, flex: 1, flexDirection: 'row' }}>
+                <Text style={[{ color: 'black', fontWeight: '400', fontSize: 12, }]}>Don't have an account? </Text>
+                <TouchableOpacity onPress={() => { navigation.navigate("UserRegister") }} style={{}}>
+                  <Text style={[styles.paragraphy, { fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B' }]}> Create an account</Text></TouchableOpacity>
+              </View>
             </View>
 
 
@@ -298,7 +316,8 @@ export default Login
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    // justifyContent:'space-between'
   },
   UpperBox: {
     flex: 0.6

@@ -67,10 +67,10 @@ const UserRegister = () => {
       const res = await UserRegisterOTPApi(values)
       if (res) {
         console.log(res.data)
-        const Message = res.data
+        const Message = res.data.message
         // // const token = res.data.jwtTocken
         // console.log(Message)
-        CustomToaster(Message)
+      CustomToaster(Message)
         setTimeout(() => {
           navigation.navigate("OtpScreen",{email:values.userEmail})
         }, 500);
@@ -91,12 +91,15 @@ const UserRegister = () => {
         else if (error.response.status === 404) {
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
+        else if (error.response.status === 409) {
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+        }
         else if (error.response.status === 500) {
           console.log("Internal Server Error", error.message)
         }
         else {
           console.log("An error occurred response.>>")
-          ErrorResPrinter(`${error.message}`)
+          // ErrorResPrinter(`${error.message}`)
         }
       }
       else if (error.code === 'ECONNABORTED') {

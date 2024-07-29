@@ -20,12 +20,13 @@ import Splash2 from './SplashScreens/Splash2.js';
 import { setToken } from '../redux/actions/loginAction.jsx';
 import LogOut from './MainScreens/LogOut.js';
 import ProgramForm from './MainScreens/ProgramForm.js';
-import Welcome from './MainScreens/Welcome.js';
+// import Welcome from './MainScreens/Welcome.js';
 import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 import Notification from './MainScreens/Bottom-Tabs/Notification.js';
 import UserRegister from './AuthScreens/UserRegister.js';
 import CreatePassword from './AuthScreens/CreatePassword.js';
 import SuccessScreen from './ShareScreens/SuccessScreen.js';
+import WelcomeCopy from './MainScreens/WelcomeCopy.js';
 
 
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
@@ -124,25 +125,29 @@ const Screen = () => {
             detachInactiveScreens={false} // Disable optimization for demonstration purposes
           >
 
-            <Stack.Screen name="ProgramsForm" component={ProgramForm} />
+            {/* <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
             {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
             {user ? (
               <>
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="Welcome" component={Welcome} />
+               
+                <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+                {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
                 <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
                 <Stack.Screen name="LogOut" component={LogOut} />
                 <Stack.Screen name="Notification" component={Notification} />
               </>) : (<>
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="UserRegister" component={UserRegister} />
-                <Stack.Screen name="CreatePassword" component={CreatePassword} />
                 <Stack.Screen name="OtpScreen" component={OtpScreen} />
+                <Stack.Screen name="CreatePassword" component={CreatePassword} />
                 <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
                 <Stack.Screen name="Loading" component={Loading} />
                 <Stack.Screen name="SuccessfulVerify" component={SuccessfulVerify} />
               </>)}
 
+
+
+ {/* <Stack.Screen name="Home" component={Home} /> */}
           </Stack.Navigator>
         </ErrorBoundary>
       </NavigationContainer>

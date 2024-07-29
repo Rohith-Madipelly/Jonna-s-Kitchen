@@ -26,9 +26,9 @@ import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
 
 
 const CreatePassword = ({ route }) => {
-    const { params } = route;
-    const userEmail = params?.email || 'madipellirohith.123@gmail.com';
-    console.log("userEmail > createPassword", userEmail)
+  const { params } = route;
+  const userEmail = params?.email || 'madipellirohith.123@gmail.com';
+  console.log("userEmail > createPassword", userEmail)
 
   const [errorFormAPI, seterrorFormAPI] = useState("")
   const [show, setShow] = useState()
@@ -41,12 +41,104 @@ const CreatePassword = ({ route }) => {
 
 
 
-  const handleSubmit = () => {
-    // console.log("submitHandler", values)
-    navigation.navigate("userEmailVerification")
+  const { handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+    isValid,
+    setValues,
+    resetForm,
+  } = useFormik({
+    initialValues: { password: "", confirmPassword: "" },
+
+    onSubmit: values => {
+      { submitHandler(values) }
+    },
+
+    validationSchema: PasswordYupSchema,
+
+    validate: values => {
+      const errors = {};
+      return errors;
+    },
+
+  });
+
+
+
+  // const submitHandler = () => {
+  //   console.log("submitHandler", values)
+  //   // navigation.navigate("Loading")
+  // }
+
+  const submitHandler = async (values) => {
+
+    seterrorFormAPI() //Clear's All API errors
+    try {
+      setSpinnerbool(true)
+      const res = await createPasswordAPI(userEmail, values)
+      if (res) {
+        console.log(res.data)
+        const Message = res.data.message
+        // const token = res.data.jwtTocken
+
+        CustomToaster(Message)
+
+      }
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+        }
+        else if (error.response.status === 401) {
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+        }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+        }
+        else if (error.response.status === 500) {
+          console.log("Internal Server Error", error.message)
+        }
+        else {
+          console.log("An error occurred response.>>")
+          ErrorResPrinter(`${error.message}`)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          // console.log("error in request ",error.request.status)
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+      setSpinnerbool(false)
+
+      if (error) {
+
+        // message = error.message;
+        // seterrorFormAPI(message)
+        // "userEmail or Password does not match !"
+      }
+    }
+    finally {
+      setSpinnerbool(false)
+    }
   }
-
-
 
 
   return (
@@ -103,7 +195,7 @@ const CreatePassword = ({ route }) => {
                           boxWidth={'100%'}
                           placeholder={'Password'}
                           label={'Type your new password'}
-                          labelStyle={{ fontWeight: '700',marginTop:20 }}
+                          labelStyle={{ fontWeight: '700', marginTop: 20, color: '#002E59' }}
                           name='userPassword'
                           value={values.password}
                           containerStyle={{ elevation: 10 }}
@@ -127,8 +219,8 @@ const CreatePassword = ({ route }) => {
                           validate={handleBlur("password")}
                           outlined
                           borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
-                          // errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                          errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                          errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                        // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                         // errorColor='magenta'
                         />
 
@@ -137,7 +229,7 @@ const CreatePassword = ({ route }) => {
                           boxWidth={'100%'}
                           placeholder={'confirmPassword'}
                           label={'Confirm password'}
-                          labelStyle={{ fontWeight: '700', }}
+                          labelStyle={{ fontWeight: '700', color: '#002E59' }}
                           name='userconfirmPassword'
                           value={values.confirmPassword}
                           containerStyle={{ elevation: 10 }}
@@ -161,11 +253,11 @@ const CreatePassword = ({ route }) => {
                           validate={handleBlur("confirmPassword")}
                           outlined
                           borderColor={`${(errors.confirmPassword && touched.confirmPassword) || (errorFormAPI && errorFormAPI.confirmPassword) ? "red" : "#ccc"}`}
-                          // errorMessage={`${(errors.confirmPassword && touched.confirmPassword) ? `${errors.confirmPassword}` : (errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
-                          errorMessage={`${(errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
+                          errorMessage={`${(errors.confirmPassword && touched.confirmPassword) ? `${errors.confirmPassword}` : (errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
+                        // errorMessage={`${(errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
                         // errorColor='magenta'
                         />
-                  
+
                         <CustomButton1
                           boxWidth={'100%'}
                           // onPress={() => { navigation.navigate("OtpScreen") }}

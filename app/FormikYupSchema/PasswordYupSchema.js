@@ -11,7 +11,7 @@ const PasswordYupSchema = Yup.object().shape({
 
   )
   .max(15, 'Password should not be more than 15 characters')
-  .required('Old password is required'),
+  .required('New password is required'),
 
   confirmPassword: Yup.string()
   .oneOf([Yup.ref('password'), null], 'Passwords must match')

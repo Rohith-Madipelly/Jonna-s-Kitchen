@@ -70,7 +70,10 @@ export const GetAllProgramsAPI = async (token) => {
 export const getSingleProgramAPI = async (programId,token) => {
   console.log("API Caller>",programId,token)
 
-  return await axios.get(`${GUEST_URL}api/getProgramById?programId=66a77dee0f906700a0547525`, {
+  return await axios.get(`${GUEST_URL}api/getProgramById`, {
+    params:{
+      'programId':programId
+    },
     headers: {
       'Authorization': `Bearer ${token}`
     }

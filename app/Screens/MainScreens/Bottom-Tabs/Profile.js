@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProgramStatus from './ProfileRelated/ProgramStatus';
 import MyPrograms from './ProfileRelated/MyPrograms';
 import Feedback from './ProfileRelated/Feedback';
+import PrivacyPolicy from './ProfileRelated/PrivacyPolicy';
+import TermsandConditions from './ProfileRelated/TermsandConditions';
 
 const Profile = () => {
 
@@ -36,8 +38,11 @@ const Profile = () => {
 
         <Stack.Screen name="ProfilePage" component={ProfilePage} />
         <Stack.Screen name="ProgramStatus" component={ProgramStatus} />
+
         <Stack.Screen name="MyPrograms" component={MyPrograms} />
         <Stack.Screen name="Feedback" component={Feedback} />
+        <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        <Stack.Screen name="TermsandConditions" component={TermsandConditions} />
 
   </Stack.Navigator>
   )

@@ -27,7 +27,7 @@ const Testimonials = ({ navigation }) => {
   return (
     <>
 
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,paddingTop:20 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
           style={styles.container}

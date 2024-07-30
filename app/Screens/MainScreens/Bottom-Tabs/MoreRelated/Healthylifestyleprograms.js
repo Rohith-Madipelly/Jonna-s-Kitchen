@@ -47,6 +47,7 @@ const Healthylifestyleprograms = () => {
       source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
       style={{
         flex: 1,
+        paddingTop:20,
         // backgroundColor:'pink'
       }}>
 

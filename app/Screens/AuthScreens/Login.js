@@ -44,7 +44,7 @@ const Login = () => {
     setValues,
     resetForm,
   } = useFormik({
-    initialValues: { userEmail: "madipellyrohith@gmail.com", password: "Rohith@7" },
+    initialValues: { userEmail: "", password: "" },
 
     onSubmit: values => {
       { submitHandler(values) }
@@ -61,82 +61,89 @@ const Login = () => {
 
 
 
-  // const submitHandler = (values) => {
-  //   console.log("submitHandler", values)
-  //   // navigation.navigate("userEmailVerification")
-  // }
-
-  const submitHandler = async (values) => {
-
-    seterrorFormAPI() //Clear's All API errors
-    try {
-      setSpinnerbool(true)
-      const res = await UserLoginApi(values)
-      if (res) {
-        // console.log(res.data)
-        const Message = res.data.message
-        const token = res.data.jwtTocken
-
-        CustomToaster(Message)
-
-        ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-          if (status) {
-            // ToasterMessage("success", `Success`, `${Message}`)
-            dispatch(setToken(token));
-          }
-        })
-      }
-
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400) {
-          console.log("Error With 400.", error.response.data)
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-        }
-        else if (error.response.status === 401) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-        }
-        else if (error.response.status === 403) {
-          console.log("error.response.status login", error.response.data.message)
-        }
-        else if (error.response.status === 404) {
-        }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
-        }
-        else {
-          console.log("An error occurred response.>>")
-          ErrorResPrinter(`${error.message}`)
-        }
-      }
-      else if (error.code === 'ECONNABORTED') {
-        console.log('Request timed out. Please try again later.');
-      }
-      else if (error.request) {
-        console.log("No Response Received From the Server.")
-        if (error.request.status === 0) {
-          // console.log("error in request ",error.request.status)
-          Alert.alert("No Network Found", "Please Check your Internet Connection")
-        }
-      }
-
-      else {
-        console.log("Error in Setting up the Request.")
-      }
-
-      setSpinnerbool(false)
-
-      if (error) {
-
-        // message = error.message;
-        // seterrorFormAPI(message)
-        // "userEmail or Password does not match !"
-      }
-    }
-    finally {
-      setSpinnerbool(false)
-    }
+  const submitHandler = (values) => {
+    console.log("submitHandler", values)
+    const token="s"
+    ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
+              if (status) {
+                // ToasterMessage("success", `Success`, `${Message}`)
+                dispatch(setToken(token));
+              }
+            })
+    // navigation.navigate("userEmailVerification")
   }
+
+  // const submitHandler = async (values) => {
+
+  //   seterrorFormAPI() //Clear's All API errors
+  //   try {
+  //     setSpinnerbool(true)
+  //     const res = await UserLoginApi(values)
+  //     if (res) {
+  //       // console.log(res.data)
+  //       const Message = res.data.message
+  //       const token = res.data.jwtTocken
+
+  //       CustomToaster(Message)
+
+  //       ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
+  //         if (status) {
+  //           // ToasterMessage("success", `Success`, `${Message}`)
+  //           dispatch(setToken(token));
+  //         }
+  //       })
+  //     }
+
+  //   } catch (error) {
+  //     if (error.response) {
+  //       if (error.response.status === 400) {
+  //         console.log("Error With 400.", error.response.data)
+  //         seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+  //       }
+  //       else if (error.response.status === 401) {
+  //         seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+  //       }
+  //       else if (error.response.status === 403) {
+  //         console.log("error.response.status login", error.response.data.message)
+  //       }
+  //       else if (error.response.status === 404) {
+  //       }
+  //       else if (error.response.status === 500) {
+  //         console.log("Internal Server Error", error.message)
+  //       }
+  //       else {
+  //         console.log("An error occurred response.>>")
+  //         ErrorResPrinter(`${error.message}`)
+  //       }
+  //     }
+  //     else if (error.code === 'ECONNABORTED') {
+  //       console.log('Request timed out. Please try again later.');
+  //     }
+  //     else if (error.request) {
+  //       console.log("No Response Received From the Server.")
+  //       if (error.request.status === 0) {
+  //         // console.log("error in request ",error.request.status)
+  //         Alert.alert("No Network Found", "Please Check your Internet Connection")
+  //       }
+  //     }
+
+  //     else {
+  //       console.log("Error in Setting up the Request.")
+  //     }
+
+  //     setSpinnerbool(false)
+
+  //     if (error) {
+
+  //       // message = error.message;
+  //       // seterrorFormAPI(message)
+  //       // "userEmail or Password does not match !"
+  //     }
+  //   }
+  //   finally {
+  //     setSpinnerbool(false)
+  //   }
+  // }
 
 
 
@@ -192,7 +199,7 @@ const Login = () => {
                         >
                           <CustomTextInput
                             boxWidth={'100%'}
-                            placeholder={'Enter userEmail id'}
+                            placeholder={'Enter Email'}
                             // label={'Enter your userEmail id'}
                             labelStyle={{ fontWeight: '700', marginBottom: 10 }}
                             name='userEmail'
@@ -219,12 +226,12 @@ const Login = () => {
 
                           <CustomTextInput
                             boxWidth={'100%'}
-                            placeholder={'Enter userEmail id'}
+                            placeholder={'Enter password'}
                             // label={'Enter your userEmail id'}
-                            labelStyle={{ fontWeight: '700', }}
-                            name='userEmail'
+                            labelStyle={{ fontWeight: '700'}}
+                            name='password'
                             value={values.password}
-                            containerStyle={{ elevation: 10 }}
+                            containerStyle={{ elevation: 10,marginTop:5 }}
                             // bgColor='#e1f3f8'
                             // bgColor="#B1B1B0"
                             onChangeText={(e) => {
@@ -245,8 +252,8 @@ const Login = () => {
                             validate={handleBlur("password")}
                             outlined
                             borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
-                            // errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                            errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                            errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                            // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                           // errorColor='magenta'
                           />
 
@@ -266,7 +273,7 @@ const Login = () => {
                             //   name={'login'} size={18} color={'white'} />}
                             bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                             // bgColor={"rgba(220, 142, 128, 0.9)"}
-                            style={{ marginTop: 50 }}>Send OTP</CustomButton1>
+                            style={{ marginTop: 50 }}>Login</CustomButton1>
 
 
 

@@ -11,6 +11,7 @@ import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBasic';
 import SkeletonLoader from '../../../../Components/UI/Skeletons/SkeletonLoader';
+import { StatusBar } from 'expo-status-bar';
 
 const RecipeList = ({ navigation }) => {
 
@@ -47,8 +48,13 @@ const RecipeList = ({ navigation }) => {
 
     return (
         <>
+        <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
 
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1,paddingTop:20 }}>
                 <ImageBackground
                     source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
                     style={styles.container}

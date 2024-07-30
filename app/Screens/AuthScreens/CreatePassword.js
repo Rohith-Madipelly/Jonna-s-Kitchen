@@ -69,80 +69,85 @@ const CreatePassword = ({ route }) => {
 
 
 
-  // const submitHandler = () => {
-  //   console.log("submitHandler", values)
-  //   // navigation.navigate("Loading")
-  // }
-
-  const submitHandler = async (values) => {
-
-    seterrorFormAPI() //Clear's All API errors
-    try {
-      setSpinnerbool(true)
-      const res = await createPasswordAPI(userEmail, values)
-      if (res) {
-        console.log(res.data)
-        const Message = res.data.message
-        // const token = res.data.jwtTocken
-
-        CustomToaster(Message)
-
-      }
-
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400) {
-          console.log("Error With 400.", error.response.data)
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-        }
-        else if (error.response.status === 401) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-        }
-        else if (error.response.status === 403) {
-          console.log("error.response.status login", error.response.data.message)
-        }
-        else if (error.response.status === 404) {
-        }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
-        }
-        else {
-          console.log("An error occurred response.>>")
-          ErrorResPrinter(`${error.message}`)
-        }
-      }
-      else if (error.code === 'ECONNABORTED') {
-        console.log('Request timed out. Please try again later.');
-      }
-      else if (error.request) {
-        console.log("No Response Received From the Server.")
-        if (error.request.status === 0) {
-          // console.log("error in request ",error.request.status)
-          Alert.alert("No Network Found", "Please Check your Internet Connection")
-        }
-      }
-
-      else {
-        console.log("Error in Setting up the Request.")
-      }
-
-      setSpinnerbool(false)
-
-      if (error) {
-
-        // message = error.message;
-        // seterrorFormAPI(message)
-        // "userEmail or Password does not match !"
-      }
-    }
-    finally {
-      setSpinnerbool(false)
-    }
+  const submitHandler = () => {
+    console.log("submitHandler", values)
+    navigation.navigate("Loading")
   }
+
+  // const submitHandler = async (values) => {
+
+  //   seterrorFormAPI() //Clear's All API errors
+  //   try {
+  //     setSpinnerbool(true)
+  //     const res = await createPasswordAPI(userEmail, values)
+  //     if (res) {
+  //       console.log(res.data)
+  //       const Message = res.data.message
+  //       // const token = res.data.jwtTocken
+
+  //       CustomToaster(Message)
+
+  //     }
+
+  //   } catch (error) {
+  //     if (error.response) {
+  //       if (error.response.status === 400) {
+  //         console.log("Error With 400.", error.response.data)
+  //         seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+  //       }
+  //       else if (error.response.status === 401) {
+  //         seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+  //       }
+  //       else if (error.response.status === 403) {
+  //         console.log("error.response.status login", error.response.data.message)
+  //       }
+  //       else if (error.response.status === 404) {
+  //       }
+  //       else if (error.response.status === 500) {
+  //         console.log("Internal Server Error", error.message)
+  //       }
+  //       else {
+  //         console.log("An error occurred response.>>")
+  //         ErrorResPrinter(`${error.message}`)
+  //       }
+  //     }
+  //     else if (error.code === 'ECONNABORTED') {
+  //       console.log('Request timed out. Please try again later.');
+  //     }
+  //     else if (error.request) {
+  //       console.log("No Response Received From the Server.")
+  //       if (error.request.status === 0) {
+  //         // console.log("error in request ",error.request.status)
+  //         Alert.alert("No Network Found", "Please Check your Internet Connection")
+  //       }
+  //     }
+
+  //     else {
+  //       console.log("Error in Setting up the Request.")
+  //     }
+
+  //     setSpinnerbool(false)
+
+  //     if (error) {
+
+  //       // message = error.message;
+  //       // seterrorFormAPI(message)
+  //       // "userEmail or Password does not match !"
+  //     }
+  //   }
+  //   finally {
+  //     setSpinnerbool(false)
+  //   }
+  // }
 
 
   return (
     <>
+    <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
       <Loader1
         visible={spinnerBool}
       />

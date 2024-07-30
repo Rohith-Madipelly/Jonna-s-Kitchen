@@ -130,7 +130,7 @@ const Screen = () => {
             {user ? (
               <>
                
-                <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+                {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} /> */}
                 {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
                 <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
                 <Stack.Screen name="LogOut" component={LogOut} />

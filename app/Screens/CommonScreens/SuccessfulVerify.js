@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import ASO from '../../Utils/AsyncStorage_Calls'
 import { setToken } from '../../redux/actions/loginAction';
 import { useDispatch } from 'react-redux';
+import { StatusBar } from 'expo-status-bar';
 
 const gifAsset = Asset.fromModule(require('../../assets/Images/gif/success.gif'));
 const SuccessfulVerify = () => {
@@ -40,6 +41,11 @@ const SuccessfulVerify = () => {
   
   return (
     <View style={{ flex: 1,}}>
+      <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={{flex:0.6}}>
         <Image

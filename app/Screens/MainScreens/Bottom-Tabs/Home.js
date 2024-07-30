@@ -8,6 +8,7 @@ import { APP_LINK } from '../../../Enviornment';
 import SelectedFullCourse from '../../SelectedFullCourse';
 import CarouselsBasic from '../../../Components/UI/CarouselsBasic/CarouselsBasic';
 import SkeletonLoader from '../../../Components/UI/Skeletons/SkeletonLoader';
+import { StatusBar } from 'expo-status-bar';
 
 
 const Home = ({ navigation }) => {
@@ -45,8 +46,12 @@ const Home = ({ navigation }) => {
 
   return (
     <>
-
-      <View style={{ flex: 1 }}>
+      <StatusBar
+        animated={true}
+        // backgroundColor="white"
+        barStyle={'dark-content'}
+      />
+      <View style={{ flex: 1,paddingTop:20 }}>
 
 
         <View style={{ flex: 1 }}>
@@ -82,10 +87,10 @@ const Home = ({ navigation }) => {
 
 
 
-               <View style={{ flex: 0.7, marginTop: 20 }}>
+              <View style={{ flex: 0.7, marginTop: 20 }}>
                 {loadingComponent ? <View style={{ height: 200, marginHorizontal: 18, marginTop: 20, }}>
                   <SkeletonLoader width={200} height={159} borderRadius={5} />
-                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} />} 
+                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} />}
 
 
                 {loadingComponent ? <View style={{ height: 900, marginHorizontal: 18, marginTop: 20, borderRadius: 40, overflow: 'hidden' }}>

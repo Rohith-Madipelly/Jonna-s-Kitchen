@@ -3,7 +3,7 @@ import React from 'react'
 
 const VideoViewPage = () => {
   return (
-    <View>
+    <View style={{flex:1,paddingTop:20}}>
       <Text>VideoViewPage</Text>
     </View>
   )

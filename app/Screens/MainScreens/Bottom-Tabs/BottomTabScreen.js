@@ -236,9 +236,6 @@ const BottomTabScreen = ({ route }) => {
       }} />
 
     </Tab.Navigator>
-
-
-
   );
 };
 

@@ -50,8 +50,8 @@ const ProfilePage = () => {
     {
       title: 'Other',
       subItems: [
-        { title: 'Privacy policy', logo: require("../../../../assets/Images/ProfileIcons/Privacypolicy.png"), onPress: () => navigation.navigate('BankdetailsProfile') },
-        { title: 'Terms and Conditions', logo: require("../../../../assets/Images/ProfileIcons/TermsandConditions.png"), onPress: () => console.log('Custom remainder pressed') },
+        { title: 'Privacy policy', logo: require("../../../../assets/Images/ProfileIcons/Privacypolicy.png"), onPress: () => navigation.navigate('PrivacyPolicy') },
+        { title: 'Terms and Conditions', logo: require("../../../../assets/Images/ProfileIcons/TermsandConditions.png"), onPress: () => navigation.navigate('TermsandConditions') },
         { title: 'Logout', logo: require("../../../../assets/Images/ProfileIcons/Logout.png"), onPress: () => logoutValidation(dispatch)},
     ],
     },
@@ -60,7 +60,7 @@ const ProfilePage = () => {
 
   // console.log(menuItems[0].subItems)
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,paddingTop:20 }}>
       <View style={{ flex: 0.15 }}>
         <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 32, justifyContent: 'space-between' }}>
           <View style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>

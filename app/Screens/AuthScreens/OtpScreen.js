@@ -22,6 +22,7 @@ import { otpValidationSchema } from '../../FormikYupSchema/OtpValidationSchema.j
 import CustomOtpInput4 from '../../Components/Functionality/OTP/CustomOtpInput4.js';
 import { verifyOTPAPI } from '../../Utils/ApiCalls.js';
 import CustomToaster from '../../Utils/CustomToaster.js';
+import { StatusBar } from 'expo-status-bar';
 
 const OtpScreen = ({ route }) => {
     const { params } = route;
@@ -66,93 +67,97 @@ const OtpScreen = ({ route }) => {
 
 
 
-    // const submitHandler = (values) => {
-    //     console.log("submitHandler", values)
-    //     // navigation.navigate("EmailVerification")
-    // }
-
-
-    const submitHandler = async (values) => {
-
-        seterrorFormAPI() //Clear's All API errors
-        try {
-            setSpinnerbool(true)
-            const res = await verifyOTPAPI(userEmail, values)
-            if (res) {
-                console.log(res.data)
-                const Message = res.data.message
-                // // const token = res.data.jwtTocken
-                console.log(Message)
-                CustomToaster(Message)
-                setTimeout(() => {
-                  navigation.navigate("CreatePassword",{email:userEmail})
-                }, 500);
-            }
-
-        } catch (error) {
-            console.log("error>", error)
-            if (error.response) {
-                if (error.response.status === 400) {
-                    // console.log("Error With 400.", error.response.data)
-                    seterrorFormAPI({ otp: `${error.response.data.message}` })
-
-                    CustomToaster(error.response.data.message)
-                }
-                else if (error.response.status === 401) {
-                    seterrorFormAPI({ otp: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 409) {
-                    seterrorFormAPI({ otp: `${error.response.data.message}` })
-                    // setTimeout(() => {
-                      navigation.navigate("CreatePassword",{email:userEmail})
-                    // }, 500);
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login >>>", error.response)
-                }
-                else if (error.response.status === 404) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
-                }
-                else {
-                    console.log("An error occurred response.>>")
-                    //   ErrorResPrinter(`${error.message}`)
-                }
-            }
-            else if (error.code === 'ECONNABORTED') {
-                console.log('Request timed out. Please try again later.');
-            }
-            else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
-                }
-            }
-
-            else {
-                console.log("Error in Setting up the Request.")
-            }
-
-            setSpinnerbool(false)
-
-            if (error) {
-
-                // message = error.message;
-                // seterrorFormAPI(message)
-                // "userEmail or Password does not match !"
-            }
-        }
-        finally {
-            setSpinnerbool(false)
-        }
+    const submitHandler = (values) => {
+        // console.log("submitHandler", values)
+        navigation.navigate("CreatePassword")
     }
+
+
+    // const submitHandler = async (values) => {
+
+    //     seterrorFormAPI() //Clear's All API errors
+    //     try {
+    //         setSpinnerbool(true)
+    //         const res = await verifyOTPAPI(userEmail, values)
+    //         if (res) {
+    //             console.log(res.data)
+    //             const Message = res.data.message
+    //             // // const token = res.data.jwtTocken
+    //             console.log(Message)
+    //             CustomToaster(Message)
+    //             setTimeout(() => {
+    //               navigation.navigate("CreatePassword",{email:userEmail})
+    //             }, 500);
+    //         }
+
+    //     } catch (error) {
+    //         console.log("error>", error)
+    //         if (error.response) {
+    //             if (error.response.status === 400) {
+    //                 // console.log("Error With 400.", error.response.data)
+    //                 seterrorFormAPI({ otp: `${error.response.data.message}` })
+
+    //                 CustomToaster(error.response.data.message)
+    //             }
+    //             else if (error.response.status === 401) {
+    //                 seterrorFormAPI({ otp: `${error.response.data.message}` })
+    //             }
+    //             else if (error.response.status === 409) {
+    //                 seterrorFormAPI({ otp: `${error.response.data.message}` })
+    //                 // setTimeout(() => {
+    //                   navigation.navigate("CreatePassword",{email:userEmail})
+    //                 // }, 500);
+    //             }
+    //             else if (error.response.status === 403) {
+    //                 console.log("error.response.status login >>>", error.response)
+    //             }
+    //             else if (error.response.status === 404) {
+    //                 seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+    //             }
+    //             else if (error.response.status === 500) {
+    //                 console.log("Internal Server Error", error.message)
+    //             }
+    //             else {
+    //                 console.log("An error occurred response.>>")
+    //                 //   ErrorResPrinter(`${error.message}`)
+    //             }
+    //         }
+    //         else if (error.code === 'ECONNABORTED') {
+    //             console.log('Request timed out. Please try again later.');
+    //         }
+    //         else if (error.request) {
+    //             console.log("No Response Received From the Server.")
+    //             if (error.request.status === 0) {
+    //                 // console.log("error in request ",error.request.status)
+    //                 Alert.alert("No Network Found", "Please Check your Internet Connection")
+    //             }
+    //         }
+
+    //         else {
+    //             console.log("Error in Setting up the Request.")
+    //         }
+
+    //         setSpinnerbool(false)
+
+    //         if (error) {
+
+    //             // message = error.message;
+    //             // seterrorFormAPI(message)
+    //             // "userEmail or Password does not match !"
+    //         }
+    //     }
+    //     finally {
+    //         setSpinnerbool(false)
+    //     }
+    // }
 
     return (
         <>
-
+            <StatusBar
+                animated={true}
+                // backgroundColor="#F7F7F7"
+                barStyle={'dark-content'}
+            />
             <Spinner
                 visible={spinnerBool}
                 color={"#4A3AFF"}

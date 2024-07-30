@@ -143,6 +143,11 @@ const SuccessScreen = ({ route }) => {
 
     return (
         <>
+        <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
             <Loader1
                 visible={spinnerBool}
             />

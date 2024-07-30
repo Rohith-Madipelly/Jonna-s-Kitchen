@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Image } from 'expo-image';
 import { Asset } from 'expo-asset';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 
 const gifAsset = Asset.fromModule(require('../../assets/Images/gif/Loading1.gif'));
@@ -21,6 +22,11 @@ const Loading = () => {
   
   return (
     <View style={{ flex: 1,}}>
+      <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         
         <Image

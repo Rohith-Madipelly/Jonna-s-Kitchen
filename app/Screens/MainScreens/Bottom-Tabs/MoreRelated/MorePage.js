@@ -8,6 +8,7 @@ import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const MorePage = () => {
 
@@ -28,8 +29,14 @@ const MorePage = () => {
 
     return (
         <>
+        <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
             <View style={{
                 flex: 1,
+                paddingTop:20,
                 // backgroundColor:'pink'
             }}>
 

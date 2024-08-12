@@ -4,7 +4,6 @@ import { useFormik } from 'formik'
 import ASO from '../../Utils/AsyncStorage_Calls.js'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { LoginYupSchema } from '../../FormikYupSchema/LoginYupSchema.js'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useDispatch } from 'react-redux'
 import CustomButton1 from '../../Components/UI/Buttons/CustomButton1.js';
@@ -15,7 +14,7 @@ import CustomTextInput from '../../Components/UI/Inputs/CustomTextInput.js';
 
 import { setToken } from '../../redux/actions/loginAction.jsx'
 
-import { UserRegisterOTPApi } from '../../Utils/ApiCalls.js'
+import { createPasswordAPI } from '../../Utils/ApiCalls.js'
 
 import ToasterMessage from '../../Utils/ToasterMessage.js'
 
@@ -23,16 +22,25 @@ import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx'
 import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
-import { UserRegisterYupSchema } from '../../FormikYupSchema/UserRegisterYupSchema.js';
+import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
+import CustomToolKitHeader from '../../Components/UI/CustomToolKitHeader.js';
 
 
-const UserRegister = () => {
+const ResetPassword = ({ route }) => {
+  const { params } = route;
+  const userEmail = params?.email || '';
+  console.log("userEmail > createPassword", userEmail)
+
   const [errorFormAPI, seterrorFormAPI] = useState("")
   const [show, setShow] = useState()
   const [spinnerBool, setSpinnerbool] = useState(false)
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
+
+
+
 
   const { handleChange,
     handleBlur,
@@ -45,56 +53,68 @@ const UserRegister = () => {
     setValues,
     resetForm,
   } = useFormik({
-    initialValues: { userEmail: "", },
+    initialValues: { password: "", confirmPassword: "" },
+
     onSubmit: values => {
       { submitHandler(values) }
     },
-    validationSchema: UserRegisterYupSchema,
+
+    validationSchema: PasswordYupSchema,
+
     validate: values => {
       const errors = {};
       return errors;
     },
+
   });
 
+
+
+  // const submitHandler = () => {
+  //   console.log("submitHandler", values)
+  //   navigation.navigate("Loading")
+  // }
+
   const submitHandler = async (values) => {
+
     seterrorFormAPI() //Clear's All API errors
     try {
       setSpinnerbool(true)
-      const res = await UserRegisterOTPApi(values)
+      const res = await createPasswordAPI(userEmail, values)
       if (res) {
-        console.log(res.data)
+        console.log("hbhsa",res.data)
         const Message = res.data.message
-        // // const token = res.data.jwtTocken
-        // console.log(Message)
+        // const token = res.data.jwtTocken
+
         CustomToaster(Message)
+
         setTimeout(() => {
-          navigation.navigate("OtpScreen", { email: values.userEmail })
+          navigation.navigate("SuccessScreen",{email:userEmail})
         }, 500);
+
       }
 
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
-          // console.log("Error With 400.", error.response.data)
-          CustomToaster(error.response.data.message)
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-        }
-        else if (error.response.status === 409) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 500) {
           console.log("Internal Server Error", error.message)
         }
+        else if (error.response.status === 409) {
+          console.log("jbsfdjh",error.response)
+        }
         else {
-          console.log("An error occurred response.>>")
+          console.log("An error occurred response.>>",error)
           // ErrorResPrinter(`${error.message}`)
         }
       }
@@ -127,23 +147,14 @@ const UserRegister = () => {
     }
   }
 
-  // const submitHandler = async (values) => {
-  //   console.log("Nagive")
-  //   setTimeout(() => {
-  //     navigation.navigate("OtpScreen", { email: values.userEmail })
-  //   }, 500);
-  // }
-
 
   return (
     <>
-
-      <StatusBar
-        animated={true}
-        // backgroundColor="#F7F7F7"
-        barStyle={'dark-content'}
-      />
-
+    <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
       <Loader1
         visible={spinnerBool}
       />
@@ -167,15 +178,17 @@ const UserRegister = () => {
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
             style={styles.container}
           >
-            <View style={{ flex: 0.6, justifyContent: 'center', alignItems: 'center' }}>
-              <Image
+            <View style={{ flex: 0.45, justifyContent: 'flex-start', alignItems: 'center' }}>
+              {/* <Image
                 style={{ width: '100%', height: '100%' }}
                 animation={"bounceIn"}
                 source={require("../../assets/Images/Login.png")}
                 contentFit="cover"
                 transition={1000}
                 alt=''
-              />
+              /> */}
+             <CustomToolKitHeader componentName={'Change password'}  />
+
             </View>
             <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
               <View style={{ width: '100%', height: '100%', backgroundColor: '#E8F4EC', borderRadius: 20, elevation: 5, }}>
@@ -189,38 +202,79 @@ const UserRegister = () => {
                         // keyboardVerticalOffset={5000}
                         style={{ width: '100%', alignItems: 'center' }}
                       >
+
+
+
                         <CustomTextInput
                           boxWidth={'100%'}
-                          placeholder={'Enter email id'}
-                          label={'Enter your email id'}
-                          labelStyle={{ fontWeight: '700', marginBottom: 10 }}
-                          name='userEmail'
-                          value={values.userEmail}
+                          placeholder={'Password'}
+                          label={'Type your new password'}
+                          labelStyle={{ fontWeight: '700', marginTop: 20, color: '#002E59' }}
+                          name='userPassword'
+                          value={values.password}
                           containerStyle={{ elevation: 10 }}
                           // bgColor='#e1f3f8'
                           // bgColor="#B1B1B0"
-                          onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("userEmail")(eToLowerCaseText); seterrorFormAPI(); }}
-                          onBlur={handleBlur("userEmail")}
-                          // validate={() => {
-                          //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                          //     else { setError({ ...error, first: null }) }
-                          // }}
-
-                          leftIcon={<Image source={require('../../assets/Images/Icons/Gmail Logo.png')} style={{ width: 24, height: 24 }} />}
-
-                          validate={handleBlur("userEmail")}
+                          onChangeText={(e) => {
+                            handleChange("password")(e); seterrorFormAPI();
+                            // setShow({ ...setShow, password: false });
+                          }}
+                          // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("password")(eToLowerCaseText); seterrorFormAPI(); }}
+                          onBlur={handleBlur("password")}
+                          rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
+                            {!show?.password ? (
+                              <Entypo name="eye-with-line" size={20} color="black" />) : (
+                              <Entypo name="eye" size={20} color="black" />)
+                            }
+                          </Pressable>
+                          }
+                          leftIcon={<Image source={require('../../assets/Images/Icons/lock.png')} style={{ width: 24, height: 24 }} />}
+                          secure={!show?.password}
+                          validate={handleBlur("password")}
                           outlined
-                          borderColor={`${(errors.userEmail && touched.userEmail) || (errorFormAPI && errorFormAPI.userEmailForm) ? "red" : "#ccc"}`}
-                          errorMessage={`${(errors.userEmail && touched.userEmail) ? `${errors.userEmail}` : (errorFormAPI && errorFormAPI.userEmailForm) ? `${errorFormAPI.userEmailForm}` : ``}`}
+                          borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
+                          errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                        // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                         // errorColor='magenta'
                         />
 
 
-
-
+                        <CustomTextInput
+                          boxWidth={'100%'}
+                          placeholder={'confirmPassword'}
+                          label={'Confirm password'}
+                          labelStyle={{ fontWeight: '700', color: '#002E59' }}
+                          name='userconfirmPassword'
+                          value={values.confirmPassword}
+                          containerStyle={{ elevation: 10 }}
+                          // bgColor='#e1f3f8'
+                          // bgColor="#B1B1B0"
+                          onChangeText={(e) => {
+                            handleChange("confirmPassword")(e); seterrorFormAPI();
+                            // setShow({ ...setShow, confirmPassword: false });
+                          }}
+                          // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("confirmPassword")(eToLowerCaseText); seterrorFormAPI(); }}
+                          onBlur={handleBlur("confirmPassword")}
+                          rightIcon={<Pressable onPress={() => setShow({ ...setShow, confirmPassword: !show?.confirmPassword })}>
+                            {!show?.confirmPassword ? (
+                              <Entypo name="eye-with-line" size={20} color="black" />) : (
+                              <Entypo name="eye" size={20} color="black" />)
+                            }
+                          </Pressable>
+                          }
+                          leftIcon={<Image source={require('../../assets/Images/Icons/lock.png')} style={{ width: 24, height: 24 }} />}
+                          secure={!show?.confirmPassword}
+                          validate={handleBlur("confirmPassword")}
+                          outlined
+                          borderColor={`${(errors.confirmPassword && touched.confirmPassword) || (errorFormAPI && errorFormAPI.confirmPassword) ? "red" : "#ccc"}`}
+                          errorMessage={`${(errors.confirmPassword && touched.confirmPassword) ? `${errors.confirmPassword}` : (errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
+                        // errorMessage={`${(errorFormAPI && errorFormAPI.confirmPasswordForm) ? `${errorFormAPI.confirmPasswordForm}` : ``}`}
+                        // errorColor='magenta'
+                        />
 
                         <CustomButton1
                           boxWidth={'100%'}
+                          // onPress={() => { navigation.navigate("OtpScreen") }}
                           onPress={handleSubmit}
                           textStyling={{ marginBottom: -5 }}
                           // leftIcon={<Entypo
@@ -228,7 +282,7 @@ const UserRegister = () => {
                           //   name={'login'} size={18} color={'white'} />}
                           bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                           // bgColor={"rgba(220, 142, 128, 0.9)"}
-                          style={{ marginTop: 50 }}>Send OTP</CustomButton1>
+                          style={{ marginTop: 50 }}>Change Password</CustomButton1>
                       </KeyboardAvoidingView>
 
                     </TouchableWithoutFeedback>
@@ -261,7 +315,7 @@ const UserRegister = () => {
   )
 }
 
-export default UserRegister
+export default ResetPassword
 
 const styles = StyleSheet.create({
   container: {

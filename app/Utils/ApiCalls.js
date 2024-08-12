@@ -17,8 +17,32 @@ export const UserLoginApi = async (loginFormReq) => {
 }
 
 
+
+// UserForgotPassword API
+export const UserForgotPassword = async (FormReq) => {
+  console.log("to APi UserForgotPassword",FormReq)
+
+  return await axios.post(`${GUEST_URL}/api/`, registerFormReq)
+}
+
+
+// Verify verifyOTPScreenForgotAPI
+export const verifyOTPScreenForgotAPI = async (email, values) => {
+  const ReqData = {
+    userEmail: email,
+    sentOtp: values.otp,
+  }
+
+  console.log(">>>>>",ReqData)
+  return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
+
+}
+
+
+
 // Register API
 export const UserRegisterOTPApi = async (registerFormReq) => {
+  console.log("to APi ",registerFormReq)
 
   return await axios.post(`${GUEST_URL}/api/register`, registerFormReq)
 }
@@ -30,22 +54,16 @@ export const verifyOTPAPI = async (email, values) => {
     userEmail: email,
     sentOtp: values.otp,
   }
-
-  console.log(">>",ReqData)
   return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
 
 }
 
 // CREATE PASSWORD
 export const createPasswordAPI = async (userEmail,values) => {
-
-  // console.log(">> <",userEmail,values)
-
 const appReqData={
   userEmail:userEmail,
   password:values.confirmPassword
 }
-
   return await axios.post(`${GUEST_URL}/api/setPassword`, appReqData)
 }
 

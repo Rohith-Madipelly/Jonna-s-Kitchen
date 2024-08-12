@@ -4,7 +4,7 @@ import * as Yup from "yup";
 const PasswordYupSchema = Yup.object().shape({
 
   password: Yup.string()
-  .min(6, 'Password must be at least 6 characters')
+  .min(8, 'Password must be at least 8 characters')
   .matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).+$/,
     "Password must meet the following criteria:\n- At least 1 uppercase letter\n- At least 1 lowercase letter\n- At least 1 digit\n- At least 1 special character",
@@ -15,7 +15,7 @@ const PasswordYupSchema = Yup.object().shape({
 
   confirmPassword: Yup.string()
   .oneOf([Yup.ref('password'), null], 'Passwords must match')
-  .min(6, 'confirm password must be at least 6 characters')
+  .min(8, 'confirm password must be at least 8 characters')
   .matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])(?=.*[^\w\d\s]).+$/,
   "confirm password must meet the following criteria:\n- At least 1 uppercase letter\n- At least 1 lowercase letter\n- At least 1 digit\n- At least 1 special character",

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 // import CustomButton1 from '../../Components/UI/Buttons/CustomButton1'
 // import CustomTextInput2 from '../../Components/UI/Inputs/CustomTextInput2'
 import { useFormik } from 'formik'
-import ASO from '../../Utils/AsyncStorage_Calls'
+import ASO from '../../Utils/AsyncStorage_Calls.js'
 import { useNavigation } from '@react-navigation/native';
 
 import { Entypo, FontAwesome } from "@expo/vector-icons";
@@ -20,14 +20,14 @@ import CustomButton1 from '../../Components/UI/Buttons/CustomButton1.js';
 import CustomTextInput from '../../Components/UI/Inputs/CustomTextInput.js';
 import { otpValidationSchema } from '../../FormikYupSchema/OtpValidationSchema.js';
 import CustomOtpInput4 from '../../Components/Functionality/OTP/CustomOtpInput4.js';
-import { UserRegisterOTPApi, verifyOTPAPI } from '../../Utils/ApiCalls.js';
+import { UserRegisterOTPApi, verifyOTPAPI,verifyOTPScreenForgotAPI } from '../../Utils/ApiCalls.js';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import { StatusBar } from 'expo-status-bar';
 
-const OtpScreen = ({ route }) => {
+const OtpScreenForgot = ({ route }) => {
     const { params } = route;
     const userEmail = params?.email || 'nan';
-    console.log("userEmail >", userEmail)
+    console.log("userEmail OtpScreenForgot >", userEmail)
 
 
 
@@ -78,7 +78,7 @@ const OtpScreen = ({ route }) => {
         seterrorFormAPI() //Clear's All API errors
         try {
             setSpinnerbool(true)
-            const res = await verifyOTPAPI(userEmail, values)
+            const res = await verifyOTPScreenForgotAPI(userEmail, values)
             if (res) {
                 console.log(res.data)
                 const Message = res.data.message
@@ -86,7 +86,7 @@ const OtpScreen = ({ route }) => {
                 console.log(Message)
                 CustomToaster(Message)
                 setTimeout(() => {
-                    navigation.navigate("CreatePassword", { email: userEmail })
+                    navigation.navigate("ResetPassword", { email: userEmail })
                 }, 500);
             }
 
@@ -410,7 +410,7 @@ const OtpScreen = ({ route }) => {
     )
 }
 
-export default OtpScreen
+export default OtpScreenForgot
 
 const styles = StyleSheet.create({
     container: {

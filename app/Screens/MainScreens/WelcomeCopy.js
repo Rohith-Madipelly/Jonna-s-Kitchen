@@ -80,17 +80,7 @@ const WelcomeCopy = () => {
         { id: 2, label: '1', image: require("../../assets/Images/Carousels/Successful Pregnancy Stories.png") },
     ]
 
-    // const ProgramsAPICaller = async () => {
-    //     try {
-    //         // const res=await GetAllProgramsAPI(tokenn)
-    //         if(res)
-    //         {
-    //             console.log("Hello")
-    //         }
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+
 
 
     let tokenn = useSelector((state) => state.login.token);
@@ -110,19 +100,14 @@ const WelcomeCopy = () => {
 
 
     const ProgramsAPICaller = async () => {
-        console.log(tokenn)
+    
 
         seterrorFormAPI() //Clear's All API errors
         try {
             setSpinnerbool(true)
             const res = await GetAllProgramsAPI(tokenn)
             if (res) {
-                console.log(res.data)
-
                 setApiCallData(res.data)
-                // CustomToaster(Message)
-
-
             }
 
         } catch (error) {
@@ -190,8 +175,15 @@ const WelcomeCopy = () => {
     const [visibleIndex, setVisibleIndex] = useState(null);
 
     const handleButtonClick = (index) => {
+        getSpecifice(index)
         setVisibleIndex(visibleIndex === index ? null : index);
     };
+
+
+
+    const getSpecifice=(index)=>{
+        console.log("Hello",index)
+    }
 
 
 
@@ -261,34 +253,7 @@ const WelcomeCopy = () => {
                                             </View>
                                         </View>
 
-                                        {/* Transformation */}
-                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
-                                            <Text style={[{
-                                                fontWeight: '600', fontSize: 18,
-                                                color: '#FE7B07',
-                                                marginBottom: 3,
-                                            }, styles.TextFamilyA2,]}>Transformation</Text>
 
-                                            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
-                                                {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
-                                                <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
-                                            </View>
-
-
-                                        </View>
-
-                                        {/* Successful Pregnancy Stories */}
-                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
-                                            <Text style={[{
-                                                fontWeight: '600', fontSize: 18,
-                                                color: '#FE7B07',
-                                                marginBottom: 3
-                                            }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
-
-                                            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
-                                                <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
-                                            </View>
-                                        </View>
 
                                     </View>
 
@@ -335,7 +300,11 @@ const WelcomeCopy = () => {
                                                     // onPress={item.onPress}
                                                     textStyling={{ marginBottom: -5 }}
                                                     //    onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
-                                                    onPress={() => handleButtonClick(index)}
+                                                    onPress={() => {
+                                                        // console.log("sdn")
+                                                        handleButtonClick(index)
+
+                                                    }}
                                                     btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
 
                                                     leftIcon={<Image style={{ width: 20, height: 20, }}
@@ -360,7 +329,7 @@ const WelcomeCopy = () => {
 
 
                                                 {visibleIndex === index && <View>
-                                                    <ProgramDeatils programId={data.id}/>
+                                                    <ProgramDeatils programId={data.id} />
                                                 </View>}
                                             </Animated.View>
                                         ))}

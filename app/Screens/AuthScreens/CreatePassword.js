@@ -23,11 +23,12 @@ import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
+import CustomToolKitHeader from '../../Components/UI/CustomToolKitHeader.js';
 
 
 const CreatePassword = ({ route }) => {
   const { params } = route;
-  const userEmail = params?.email || 'madipellirohith.123@gmail.com';
+  const userEmail = params?.email || 'madipellyrohith@gmail.com>>';
   console.log("userEmail > createPassword", userEmail)
 
   const [errorFormAPI, seterrorFormAPI] = useState("")
@@ -69,76 +70,83 @@ const CreatePassword = ({ route }) => {
 
 
 
-  const submitHandler = () => {
-    console.log("submitHandler", values)
-    navigation.navigate("Loading")
-  }
-
-  // const submitHandler = async (values) => {
-
-  //   seterrorFormAPI() //Clear's All API errors
-  //   try {
-  //     setSpinnerbool(true)
-  //     const res = await createPasswordAPI(userEmail, values)
-  //     if (res) {
-  //       console.log(res.data)
-  //       const Message = res.data.message
-  //       // const token = res.data.jwtTocken
-
-  //       CustomToaster(Message)
-
-  //     }
-
-  //   } catch (error) {
-  //     if (error.response) {
-  //       if (error.response.status === 400) {
-  //         console.log("Error With 400.", error.response.data)
-  //         seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-  //       }
-  //       else if (error.response.status === 401) {
-  //         seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-  //       }
-  //       else if (error.response.status === 403) {
-  //         console.log("error.response.status login", error.response.data.message)
-  //       }
-  //       else if (error.response.status === 404) {
-  //       }
-  //       else if (error.response.status === 500) {
-  //         console.log("Internal Server Error", error.message)
-  //       }
-  //       else {
-  //         console.log("An error occurred response.>>")
-  //         ErrorResPrinter(`${error.message}`)
-  //       }
-  //     }
-  //     else if (error.code === 'ECONNABORTED') {
-  //       console.log('Request timed out. Please try again later.');
-  //     }
-  //     else if (error.request) {
-  //       console.log("No Response Received From the Server.")
-  //       if (error.request.status === 0) {
-  //         // console.log("error in request ",error.request.status)
-  //         Alert.alert("No Network Found", "Please Check your Internet Connection")
-  //       }
-  //     }
-
-  //     else {
-  //       console.log("Error in Setting up the Request.")
-  //     }
-
-  //     setSpinnerbool(false)
-
-  //     if (error) {
-
-  //       // message = error.message;
-  //       // seterrorFormAPI(message)
-  //       // "userEmail or Password does not match !"
-  //     }
-  //   }
-  //   finally {
-  //     setSpinnerbool(false)
-  //   }
+  // const submitHandler = () => {
+  //   console.log("submitHandler", values)
+  //   navigation.navigate("Loading")
   // }
+
+  const submitHandler = async (values) => {
+
+    seterrorFormAPI() //Clear's All API errors
+    try {
+      setSpinnerbool(true)
+      const res = await createPasswordAPI(userEmail, values)
+      if (res) {
+        console.log("hbhsa",res.data)
+        const Message = res.data.message
+        // const token = res.data.jwtTocken
+
+        CustomToaster(Message)
+
+        setTimeout(() => {
+          navigation.navigate("SuccessScreen",{Status:Message})
+        }, 500);
+
+      }
+
+    } catch (error) {
+      console.log(error.response.data)
+      if (error.response) {
+        if (error.response.status === 400) {
+          seterrorFormAPI({ passwordForm: `${error.response.data.password}` })
+        }
+        else if (error.response.status === 401) {
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+        }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+        }
+        else if (error.response.status === 500) {
+          console.log("Internal Server Error", error.message)
+        }
+        else if (error.response.status === 409) {
+          console.log("jbsfdjh",error.response)
+        }
+        else {
+          console.log("An error occurred response.>>",error)
+          // ErrorResPrinter(`${error.message}`)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          // console.log("error in request ",error.request.status)
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+      setSpinnerbool(false)
+
+      if (error) {
+
+        // message = error.message;
+        // seterrorFormAPI(message)
+        // "userEmail or Password does not match !"
+      }
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
 
 
   return (
@@ -171,7 +179,7 @@ const CreatePassword = ({ route }) => {
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
             style={styles.container}
           >
-            <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 0.45, justifyContent: 'flex-start', alignItems: 'center' }}>
               {/* <Image
                 style={{ width: '100%', height: '100%' }}
                 animation={"bounceIn"}
@@ -180,6 +188,8 @@ const CreatePassword = ({ route }) => {
                 transition={1000}
                 alt=''
               /> */}
+              <CustomToolKitHeader componentName={'Create Password'} />
+
             </View>
             <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
               <View style={{ width: '100%', height: '100%', backgroundColor: '#E8F4EC', borderRadius: 20, elevation: 5, }}>
@@ -223,7 +233,7 @@ const CreatePassword = ({ route }) => {
                           secure={!show?.password}
                           validate={handleBlur("password")}
                           outlined
-                          borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
+                          borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.passwordForm) ? "red" : "#ccc"}`}
                           errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                         // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                         // errorColor='magenta'

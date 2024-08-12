@@ -61,89 +61,87 @@ const Login = () => {
 
 
 
-  const submitHandler = (values) => {
-    console.log("submitHandler", values)
-    const token="s"
-    ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-              if (status) {
-                // ToasterMessage("success", `Success`, `${Message}`)
-                dispatch(setToken(token));
-              }
-            })
-    // navigation.navigate("userEmailVerification")
-  }
-
-  // const submitHandler = async (values) => {
-
-  //   seterrorFormAPI() //Clear's All API errors
-  //   try {
-  //     setSpinnerbool(true)
-  //     const res = await UserLoginApi(values)
-  //     if (res) {
-  //       // console.log(res.data)
-  //       const Message = res.data.message
-  //       const token = res.data.jwtTocken
-
-  //       CustomToaster(Message)
-
-  //       ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-  //         if (status) {
-  //           // ToasterMessage("success", `Success`, `${Message}`)
-  //           dispatch(setToken(token));
-  //         }
-  //       })
-  //     }
-
-  //   } catch (error) {
-  //     if (error.response) {
-  //       if (error.response.status === 400) {
-  //         console.log("Error With 400.", error.response.data)
-  //         seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-  //       }
-  //       else if (error.response.status === 401) {
-  //         seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-  //       }
-  //       else if (error.response.status === 403) {
-  //         console.log("error.response.status login", error.response.data.message)
-  //       }
-  //       else if (error.response.status === 404) {
-  //       }
-  //       else if (error.response.status === 500) {
-  //         console.log("Internal Server Error", error.message)
-  //       }
-  //       else {
-  //         console.log("An error occurred response.>>")
-  //         ErrorResPrinter(`${error.message}`)
-  //       }
-  //     }
-  //     else if (error.code === 'ECONNABORTED') {
-  //       console.log('Request timed out. Please try again later.');
-  //     }
-  //     else if (error.request) {
-  //       console.log("No Response Received From the Server.")
-  //       if (error.request.status === 0) {
-  //         // console.log("error in request ",error.request.status)
-  //         Alert.alert("No Network Found", "Please Check your Internet Connection")
-  //       }
-  //     }
-
-  //     else {
-  //       console.log("Error in Setting up the Request.")
-  //     }
-
-  //     setSpinnerbool(false)
-
-  //     if (error) {
-
-  //       // message = error.message;
-  //       // seterrorFormAPI(message)
-  //       // "userEmail or Password does not match !"
-  //     }
-  //   }
-  //   finally {
-  //     setSpinnerbool(false)
-  //   }
+  // const submitHandler = (values) => {
+  //   console.log("submitHandler", values)
+  //   const token="s"
+  //   ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
+  //             if (status) {
+  //               // ToasterMessage("success", `Success`, `${Message}`)
+  //               dispatch(setToken(token));
+  //             }
+  //           })
+  //   // navigation.navigate("userEmailVerification")
   // }
+
+  const submitHandler = async (values) => {
+
+    seterrorFormAPI() //Clear's All API errors
+    try {
+      setSpinnerbool(true)
+      const res = await UserLoginApi(values)
+      if (res) {
+        const Message = res.data.message
+        const token = res.data.jwtTocken
+        CustomToaster(Message)
+        ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
+          if (status) {
+            // ToasterMessage("success", `Success`, `${Message}`)
+            dispatch(setToken(token));
+          }
+        })
+      }
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+        }
+        else if (error.response.status === 401) {
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+        }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("dh")
+        }
+        else if (error.response.status === 500) {
+          console.log("Internal Server Error", error.message)
+        }
+        else {
+          console.log("An error occurred response.>>")
+          ErrorResPrinter(`${error.message}`)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          // console.log("error in request ",error.request.status)
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+      setSpinnerbool(false)
+
+      if (error) {
+
+        // message = error.message;
+        // seterrorFormAPI(message)
+        // "userEmail or Password does not match !"
+      }
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
 
 
 
@@ -251,14 +249,14 @@ const Login = () => {
                             secure={!show?.password}
                             validate={handleBlur("password")}
                             outlined
-                            borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.password) ? "red" : "#ccc"}`}
+                            borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.passwordForm) ? "red" : "#ccc"}`}
                             errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                             // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                           // errorColor='magenta'
                           />
 
                           <View style={{justifyContent: 'flex-end',width:'100%',marginVertical:16 }}>
-                          <TouchableOpacity onPress={() => { navigation.navigate("UserRegister") }} style={{}}>
+                          <TouchableOpacity onPress={() => { navigation.navigate("ForgetPassword") }} style={{}}>
                             <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B',textAlign:'right' }}>Forgot your password ? </Text>
                             </TouchableOpacity>
                           </View>

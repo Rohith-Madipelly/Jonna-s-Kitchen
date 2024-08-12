@@ -33,7 +33,7 @@ const ProgramDeatils = ({ programId }) => {
 
 
     const getSingleProgramAPICaller = async () => {
-        console.log("Hello2")
+       
 
         seterrorFormAPI() //Clear's All API errors
         try {
@@ -81,7 +81,7 @@ const ProgramDeatils = ({ programId }) => {
                 console.log("No Response Received From the Server.")
                 if (error.request.status === 0) {
                     // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                    Alert.alert("No Network Found", "Please Check your Internet Connection 1123")
                 }
             }
 

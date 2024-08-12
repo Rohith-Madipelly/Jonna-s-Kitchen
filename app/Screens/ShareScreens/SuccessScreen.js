@@ -1,5 +1,5 @@
 import { Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import ASO from '../../Utils/AsyncStorage_Calls.js'
 import { useNavigation } from '@react-navigation/native';
@@ -27,8 +27,8 @@ import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
 
 const SuccessScreen = ({ route }) => {
     const { params } = route;
-    const userEmail = params?.email || 'madipellirohith.123@gmail.com';
-    console.log("userEmail > createPassword", userEmail)
+    const Status = params?.Status || 'Password Change Successfully';
+    console.log("userEmail > createPassword", Status)
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
     const [show, setShow] = useState()
@@ -37,117 +37,32 @@ const SuccessScreen = ({ route }) => {
 
     const dispatch = useDispatch();
 
-    const { handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        values,
-        touched,
-        errors,
-        isValid,
-        setValues,
-        resetForm,
-    } = useFormik({
-        initialValues: { password: "Rohith@7", confirmPassword: "Rohith@7" },
-
-        onSubmit: values => {
-            { submitHandler(values) }
-        },
-
-        validationSchema: PasswordYupSchema,
-
-        validate: values => {
-            const errors = {};
-            return errors;
-        },
-
-    });
 
 
-
-    // const submitHandler = (values) => {
-    //   console.log("submitHandler", values)
-    //   // navigation.navigate("userEmailVerification")
-    // }
-
-    const submitHandler = async (values) => {
-
-        seterrorFormAPI() //Clear's All API errors
-        try {
-            setSpinnerbool(true)
-            const res = await createPasswordAPI(userEmail, values)
-            if (res) {
-                console.log(res.data)
-
-                // ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-                //   if (status) {
-                //     // ToasterMessage("success", `Success`, `${Message}`)
-                //     dispatch(setToken(token));
-                //   }
-                // })
-            }
-
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                }
-                else if (error.response.status === 401) {
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                }
-                else if (error.response.status === 404) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
-                }
-                else {
-                    console.log("An error occurred response.>>")
-                    ErrorResPrinter(`${error.message}`)
-                }
-            }
-            else if (error.code === 'ECONNABORTED') {
-                console.log('Request timed out. Please try again later.');
-            }
-            else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
-                }
-            }
-
-            else {
-                console.log("Error in Setting up the Request.")
-            }
-
-            setSpinnerbool(false)
-
-            if (error) {
-
-                // message = error.message;
-                // seterrorFormAPI(message)
-                // "userEmail or Password does not match !"
-            }
-        }
-        finally {
-            setSpinnerbool(false)
-        }
+    const submitHandler = (values) => {
+      console.log("submitHandler", values)
+      navigation.navigate("Login")
     }
 
+
+
+    useEffect(() => {
+        console.log("Hde")
+
+        setTimeout(() => {
+            
+        }, 5000);
+    }, [])
 
 
 
     return (
         <>
-        <StatusBar
-          animated={true}
-          // backgroundColor="#F7F7F7"
-          barStyle={'dark-content'}
-        />
+            <StatusBar
+                animated={true}
+                // backgroundColor="#F7F7F7"
+                barStyle={'dark-content'}
+            />
             <Loader1
                 visible={spinnerBool}
             />
@@ -194,11 +109,17 @@ const SuccessScreen = ({ route }) => {
                                                 style={{ width: '100%', alignItems: 'center' }}
                                             >
 
-                                                <View style={{alignItems:'center',width:'95%' }}>
+                                                <View style={{ alignItems: 'center', width: '95%' }}>
 
-                                                    <Text style={{ color: '#000000', textAlign: 'center', fontFamily: 'Poppins-SemiBold', fontWeight: '600', fontSize: 18, lineHeight: 24, marginBottom: 20,width:"75%"}}>Password Change Successfully!</Text>
+                                                    <Text
+                                                        style={{
+                                                            color: '#000000',
+                                                            textAlign: 'center', fontFamily: 'Poppins-SemiBold',
+                                                            fontWeight: '600', fontSize: 18, lineHeight: 24,
+                                                            marginBottom: 20, width: "75%"
+                                                        }}>
+                                                        {Status} !</Text>
                                                     <Text style={{ color: '#000000', textAlign: 'center', fontFamily: 'Poppins-SemiBold', fontWeight: '500', fontSize: 14, lineHeight: 21 }}>
-                                                        You have successfully change password.
                                                         Please use the new password when Sign in.
                                                     </Text>
                                                 </View>
@@ -207,12 +128,12 @@ const SuccessScreen = ({ route }) => {
                                                 <CustomButton1
                                                     boxWidth={'100%'}
                                                     // onPress={() => { navigation.navigate("OtpScreen") }}
-                                                    onPress={handleSubmit}
+                                                    onPress={submitHandler}
                                                     textStyling={{ marginBottom: -5 }}
                                                     // leftIcon={<Entypo
                                                     //   // style={styles.icon}
                                                     //   name={'login'} size={18} color={'white'} />}
-                                                    bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
+                                                    // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                                     // bgColor={"rgba(220, 142, 128, 0.9)"}
                                                     style={{ marginTop: 50 }}>Done</CustomButton1>
                                             </KeyboardAvoidingView>

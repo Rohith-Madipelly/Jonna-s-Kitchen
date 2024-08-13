@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../Contants/Colors'
 // import { Colors } from '../../../Contants/Colors'
 
-const CustomButton1 = ({ onPress, leftIcon,RightIcon, children, bgColor, styleData, boxWidth, isSubmitting, textStyling,btnContainerprops }) => {
+const CustomButton1 = ({ onPress, leftIcon,RightIcon, children, bgColor, stylebtn, boxWidth, isSubmitting, textStyling,btnContainerprops }) => {
 
   return (
     <Pressable disabled={isSubmitting} style={({ pressed }) => [styles.button,
@@ -13,7 +13,9 @@ const CustomButton1 = ({ onPress, leftIcon,RightIcon, children, bgColor, styleDa
 
       // { backgroundColor: bgColor? bgColor: "" },
 
-      styleData, { width: boxWidth }, pressed && styles.pressed]} onPress={onPress}>
+      stylebtn, { width: boxWidth },
+ 
+      pressed && styles.pressed]} onPress={onPress}>
       {/* <Ionicons style={styles.icon} name={icon} size={18} color={Colors.white} /> */}
       <View style={{ marginRight: 10 }}>{leftIcon}</View>
       <Text style={[styles.text, textStyling]}>{children}</Text>

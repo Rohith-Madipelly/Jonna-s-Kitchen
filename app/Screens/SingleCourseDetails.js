@@ -1,8 +1,9 @@
 import { FlatList, Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import CustomButton1 from '../Components/UI/Buttons/CustomButton1'
+import BackTable2 from './BackTable2'
 
-const SelectedFullCourse = () => {
+const SingleCourseDetails = () => {
     const ProgramDetails = [
         { data: "In this program, you will get 6 weeks Consultation support." },
         { data: "Daily Diet Monitoring and progress check- we will ask to share meal plates through WhatsApp." },
@@ -17,51 +18,33 @@ const SelectedFullCourse = () => {
         { data: "You have chosen our Program voluntarily and completely understand our Protocol." },
         { data: "Duration:- For example If your program starts on Jan 1st then your program will end on Feb 12th." },
 
+
+
+
     ]
     return (
         <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20, marginHorizontal: 18 }}>
-            <ImageBackground
-                source={require('../assets/Images/Home/HomeProgram04.png')} // Replace with the actual path to your image
-                style={[styles.container, { width: '100%', height: 1054, borderRadius: 20, overflow: 'hidden' }]}
-            >
-                <View style={{ flex: 0.213 }}>
-
+            <View style={styles.container}>
+                <View style={[styles.overlayContainer, styles.pinkBackground]}>
+                    <View style={styles.bottomLeftImage}>
+                        <Image
+                            style={styles.image2}
+                            source={require("../assets/Images/Vector 1.png")}
+                            resizeMode='stretch'
+                        />
+                    </View>
                 </View>
-                <View style={{ flex: 0.5 }}>
-                    <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>Program 01</Text>
-
-                    {ProgramDetails.map((item, index) => (
-                        <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
-                            <View style={{ flex: 0.1 }}>
-                                <Image style={{ width: 24, height: 24, marginTop: -1 }}
-                                    source={require('../assets/Images/CheckMark.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-                            <View style={{ flex: 0.9, marginTop: 2 }}>
-                                <Text style={[styles.TextTine, { marginVertical: 1 }]}>{item.data}</Text>
-                            </View>
-                        </View>))}
-
-
+                <View style={{ flex: 1 }}>
+                    <Text>kbjbjk</Text>
                 </View>
-                <View style={{ flex: 0.213 }}>
-
-                </View>
-            </ImageBackground>
-
-
-            <View style={{ height: 20 }}>
-
             </View>
-
         </View>
     )
 }
 
-export default SelectedFullCourse
+export default SingleCourseDetails
 
 const styles = StyleSheet.create({
-
     TextBold: {
         color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 600, fontSize: 16, lineHeight: 22,
         marginVertical: 1
@@ -70,27 +53,46 @@ const styles = StyleSheet.create({
         color: '#000000', fontFamily: 'BalooTamma2', fontWeight: 400, fontSize: 16, lineHeight: 22
     },
 
-    overlayContainer: {
+    container: {
+        // backgroundColor: 'white',
+
         width: '100%',
-        height: '50%',
-        position: 'relative', // Needed for absolute positioning of child elements
+        borderRadius: 20,
+        borderRadius: 1,
+        elevation: 1,
+
+        overflow: 'hidden',
     },
-    topCenterImage: {
+    overlayContainer: {
+        // backgroundColor: '#1C00ff00',
+        backgroundColor: '#FFFFFF80',
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        marginTop: 0,
-        top: -7.5, // Adjust this value to move the image up or down
-        // left: '50%',
-        // transform: [{ translateX: -75 }], // Center the image horizontally
+        position: 'relative', // Needed for absolute positioning of child elements
+        overflow: 'hidden'
+
+    },
+    pinkBackground: {
+        // ...StyleSheet.absoluteFillObject,
+        // backgroundColor: 'yellow',
+    },
+    topCenterImage: {
         alignItems: 'center',
     },
+    image: {
+        width: '80%',
+        height: 200,
+    },
+    image2: {
+        width: '100%',
+        height: '100%'
+    },
+    // Uncomment and adjust as needed
     bottomLeftImage: {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        backgroundColor: 'red',
-        bottom: 20, // Adjust this value to move the image up or down
-        left: 20, // Adjust this value to move the image left or right
+        bottom: -200
+        // Adjust this value to move the image left or right
     },
-})
+});

@@ -15,7 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { UserRegisterYupSchema } from '../../FormikYupSchema/UserRegisterYupSchema.js';
-import CustomToolKitHeader from '../../Components/UI/CustomToolKitHeader.js';
+import CustomToolKitHeader2 from '../../Components/UI/CustomToolKitHeader2.js';
 
 
 const ForgetPassword = ({ route }) => {
@@ -178,7 +178,7 @@ const ForgetPassword = ({ route }) => {
 
 
 
-              <CustomToolKitHeader componentName={'Forgot password?'} tagLine={'Hello there, Login to your account'} />
+              <CustomToolKitHeader2 componentName={'Forgot password?'} tagLine={'Hello there, Login to your account'} />
             </View>
             <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
 

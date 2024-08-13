@@ -17,7 +17,11 @@ import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 
 
 
-const ProgramForm = () => {
+const ProgramForm = ({ route }) => {
+        const { params } = route;
+        const programId = params?.programId || 'nana';
+        const programFee = params?.programPrice || 'nana';
+        console.log("programId > program Form", programId,programFee)
     const navigation = useNavigation();
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
@@ -38,7 +42,7 @@ const ProgramForm = () => {
         setValues,
         resetForm,
     } = useFormik({
-        initialValues: { passPortPicture: "", fullName: "", lastName: "", dateOfBirth: "", phoneNumber: "", district: "", address: "", street: "", area: "", pinCode: "" },
+        initialValues: { userName: "", phoneNumber: "",email:"",age:"",gender:"",height:"",district: "", address: "", street: "", area: "", pinCode: "", dateOfBirth: "", },
         onSubmit: values => {
             { submitHandler(values) }
         },
@@ -101,29 +105,29 @@ const ProgramForm = () => {
                                     placeholder={'Enter full name'}
                                     label={'Full name'}
 
-                                    name='fullName'
-                                    value={values.fullName}
+                                    name='userName'
+                                    value={values.userName}
                                     // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                     // bgColor='#e1f3f8'
                                     // bgColor="#B1B1B0"
 
-                                    onChangeText={(e) => { handleChange("fullName")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("fullName")}
+                                    onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("userName")}
 
                                     // validate={() => {
                                     //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
                                     //     else { setError({ ...error, first: null }) }
                                     // }}
 
-                                    validate={handleBlur("fullName")}
+                                    validate={handleBlur("userName")}
 
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
 
 
-                                    borderColor={`${(errors.fullName && touched.fullName) || (errorFormAPI && errorFormAPI.fullNameForm) ? "red" : "#ccc"}`}
+                                    borderColor={`${(errors.userName && touched.userName) || (errorFormAPI && errorFormAPI.userNameForm) ? "red" : "#ccc"}`}
 
-                                    errorMessage={`${(errors.fullName && touched.fullName) ? `${errors.fullName}` : (errorFormAPI && errorFormAPI.fullNameForm) ? `${errorFormAPI.fullNameForm}` : ``}`}
+                                    errorMessage={`${(errors.userName && touched.userName) ? `${errors.userName}` : (errorFormAPI && errorFormAPI.userNameForm) ? `${errorFormAPI.userNameForm}` : ``}`}
 
                                 // errorColor='magenta'
                                 />

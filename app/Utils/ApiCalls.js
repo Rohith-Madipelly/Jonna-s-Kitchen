@@ -20,7 +20,7 @@ export const UserLoginApi = async (loginFormReq) => {
 
 // UserForgotPassword API
 export const UserForgotPassword = async (FormReq) => {
-  console.log("to APi UserForgotPassword",FormReq)
+  console.log("to APi UserForgotPassword", FormReq)
 
   return await axios.post(`${GUEST_URL}/api/`, registerFormReq)
 }
@@ -33,7 +33,7 @@ export const verifyOTPScreenForgotAPI = async (email, values) => {
     sentOtp: values.otp,
   }
 
-  console.log(">>>>>",ReqData)
+  console.log(">>>>>", ReqData)
   return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
 
 }
@@ -42,7 +42,7 @@ export const verifyOTPScreenForgotAPI = async (email, values) => {
 
 // Register API
 export const UserRegisterOTPApi = async (registerFormReq) => {
-  console.log("to APi ",registerFormReq)
+  console.log("to APi ", registerFormReq)
 
   return await axios.post(`${GUEST_URL}/api/register`, registerFormReq)
 }
@@ -59,11 +59,11 @@ export const verifyOTPAPI = async (email, values) => {
 }
 
 // CREATE PASSWORD
-export const createPasswordAPI = async (userEmail,values) => {
-const appReqData={
-  userEmail:userEmail,
-  password:values.confirmPassword
-}
+export const createPasswordAPI = async (userEmail, values) => {
+  const appReqData = {
+    userEmail: userEmail,
+    password: values.confirmPassword
+  }
   return await axios.post(`${GUEST_URL}/api/setPassword`, appReqData)
 }
 
@@ -85,13 +85,10 @@ export const GetAllProgramsAPI = async (token) => {
 
 //  Get singleProgram
 
-export const getSingleProgramAPI = async (programId,token) => {
-  console.log("API Caller>",programId,token)
+export const getSingleProgramAPI = async (programId, token) => {
+  console.log("API Caller>", programId, token)
 
-  return await axios.get(`${GUEST_URL}api/getProgramById`, {
-    params:{
-      'programId':programId
-    },
+  return await axios.get(`${GUEST_URL}/api/getProgramById/${programId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

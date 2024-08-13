@@ -20,9 +20,6 @@ import { StatusBar } from "expo-status-bar";
 import ProgramDeatils from "../ShareScreens/ProgramDeatils";
 
 
-// import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
-
-
 const { width } = Dimensions.get('screen');
 
 const WelcomeCopy = () => {
@@ -100,7 +97,7 @@ const WelcomeCopy = () => {
 
 
     const ProgramsAPICaller = async () => {
-    
+
 
         seterrorFormAPI() //Clear's All API errors
         try {
@@ -111,6 +108,7 @@ const WelcomeCopy = () => {
             }
 
         } catch (error) {
+            console.log(error)
 
             console.log(error.response.data.message)
             if (error.response) {
@@ -125,6 +123,7 @@ const WelcomeCopy = () => {
                     console.log("error.response.status login", error.response.data.message)
                 }
                 else if (error.response.status === 404) {
+                    console.log(error.response.data)
                 }
                 else if (error.response.status === 500) {
                     console.log("Internal Server Error", error.message)
@@ -181,8 +180,8 @@ const WelcomeCopy = () => {
 
 
 
-    const getSpecifice=(index)=>{
-        console.log("Hello",index)
+    const getSpecifice = (index) => {
+        console.log("Hello", index)
     }
 
 
@@ -254,8 +253,37 @@ const WelcomeCopy = () => {
                                         </View>
 
 
+ {/* Transformation */}
+ <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+                                    <Text style={[{
+                                        fontWeight: '600', fontSize: 18,
+                                        color: '#FE7B07',
+                                        marginBottom: 3,
+                                    }, styles.TextFamilyA2,]}>Transformation</Text>
+
+                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                    {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
+                                        <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
+                                    </View>
+
+
+                                </View>
+
+                                {/* Successful Pregnancy Stories */}
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+                                    <Text style={[{
+                                        fontWeight: '600', fontSize: 18,
+                                        color: '#FE7B07',
+                                        marginBottom: 3
+                                    }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
+
+                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                        <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
+                                    </View>
+                                </View>
 
                                     </View>
+
 
                                     <View style={{ flex: 0.1, alignItems: 'center', marginHorizontal: 20, }}>
                                         <CustomButton1
@@ -287,6 +315,8 @@ const WelcomeCopy = () => {
                                             style={{ marginTop: 50 }}>Healthy life style programs</CustomButton1>
 
 
+
+
                                         {APICallData.map((data, index) => (
 
                                             <Animated.View
@@ -294,7 +324,10 @@ const WelcomeCopy = () => {
                                                     { position: 'relative', top: 0 },
                                                     { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY1 }], }
                                                 ]}
+                                                key={index}
                                             >
+                              
+
                                                 <CustomButton1
                                                     boxWidth={'92%'}
                                                     // onPress={item.onPress}
@@ -329,7 +362,7 @@ const WelcomeCopy = () => {
 
 
                                                 {visibleIndex === index && <View>
-                                                    <ProgramDeatils programId={data.id} />
+                                                    <ProgramDeatils programId={data.id} data={data} />
                                                 </View>}
                                             </Animated.View>
                                         ))}

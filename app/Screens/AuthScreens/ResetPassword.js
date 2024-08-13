@@ -23,7 +23,7 @@ import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
-import CustomToolKitHeader from '../../Components/UI/CustomToolKitHeader.js';
+import CustomToolKitHeader2 from '../../Components/UI/CustomToolKitHeader2.js';
 
 
 const ResetPassword = ({ route }) => {
@@ -187,7 +187,7 @@ const ResetPassword = ({ route }) => {
                 transition={1000}
                 alt=''
               /> */}
-             <CustomToolKitHeader componentName={'Change password'}  />
+             <CustomToolKitHeader2 componentName={'Change password'}  />
 
             </View>
             <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>

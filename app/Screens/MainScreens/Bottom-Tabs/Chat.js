@@ -1,4 +1,4 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
@@ -15,7 +15,7 @@ const Chat = ({ navigation }) => {
     return (
         <>
 
-            <View style={{ flex: 1,paddingTop:20 }}>
+            <View style={{ flex: 1 }}>
                 <ImageBackground
                     source={require('../../../assets/Images/Background1.png')} // Replace with the actual path to your image
                     style={styles.container}

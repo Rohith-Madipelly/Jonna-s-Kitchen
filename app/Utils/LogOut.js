@@ -1,30 +1,33 @@
 import { Alert } from "react-native"
 import ASO from '../Utils/AsyncStorage_Calls'
 import { setToken } from "../redux/actions/loginAction"
-
+import AsyncStorage_Calls from "../Utils/AsyncStorage_Calls"
 
 export const logoutValidation = async (dispatch) => {
 
 
-    Alert.alert('Logout', 'Are you sure you want to logout ?',
-      [{ text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-      {
-        text: 'YES', onPress: () => {
-          // LogOutHandle()
-          // LogOutHandle123(dispatch)
-          const token=null
-    
-          ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-            if (status) {
-              // ToasterMessage("success", `Success`, `${Message}`)
-              dispatch(setToken(token));
+  Alert.alert('Logout', 'Are you sure you want to logout ?',
+    [{ text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+    {
+      text: 'YES', onPress: () => {
+        try {
+          AsyncStorage_Calls.RemoveTokenJWT('Token', (error, success) => {
+            if (error) {
+              console.error('Error removing token:', error);
+            } else {
+              console.log('Token removed successfully:', success);
+              dispatch(setToken(null));
+              // You can add additional logic here after the token has been successfully removed
             }
-          })
-          // navigation.navigate('Decide-navigator')
+          });
+        } catch (e) {
+          console.log("error", e);
         }
-      }]
-    )
-  }
+      }
+    }],
+    { cancelable: false }
+  )
+}
 
 
 //   import AsyncStorage from '@react-native-async-storage/async-storage';

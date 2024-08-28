@@ -60,7 +60,7 @@ const Healthylifestyleprograms = () => {
 
         <View style={{ marginHorizontal: 20, flex: 1 }}>
 
-          <View style={{ marginTop: 10, flex: 0.9 }}>
+          <View style={{flex: 0.9 }}>
 
 
             <Text style={{

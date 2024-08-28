@@ -51,7 +51,7 @@ const Home = ({ navigation }) => {
         // backgroundColor="white"
         barStyle={'dark-content'}
       />
-      <View style={{ flex: 1,paddingTop:20 }}>
+      <View style={{ flex: 1}}>
 
 
         <View style={{ flex: 1 }}>
@@ -90,7 +90,7 @@ const Home = ({ navigation }) => {
               <View style={{ flex: 0.7, marginTop: 20 }}>
                 {loadingComponent ? <View style={{ height: 200, marginHorizontal: 18, marginTop: 20, }}>
                   <SkeletonLoader width={200} height={159} borderRadius={5} />
-                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} />}
+                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} showIndicators={true} />}
 
 
                 {loadingComponent ? <View style={{ height: 900, marginHorizontal: 18, marginTop: 20, borderRadius: 40, overflow: 'hidden' }}>
@@ -101,15 +101,9 @@ const Home = ({ navigation }) => {
 
                 </View>
               </View>
-
             </ImageBackground>
           </ScrollView>
-
-
-
-
         </View>
-
       </View>
     </>
   )

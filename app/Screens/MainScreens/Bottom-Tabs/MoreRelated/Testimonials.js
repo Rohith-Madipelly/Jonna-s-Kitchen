@@ -1,5 +1,5 @@
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -10,10 +10,90 @@ import { Entypo, FontAwesome, SimpleLineIcons, MaterialCommunityIcons } from "@e
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import CarouselWithButton from '../../../../Components/UI/CarouselsWithPackage/CarouselWithButton';
+import { GET_ALL_TESTIMONIALS } from '../../../../Utils/ApiCalls';
+import { useSelector } from 'react-redux';
+import Loader1 from '../../../../Utils/Loader1';
 
 
 const Testimonials = ({ navigation }) => {
+  const [spinnerBool, setSpinnerbool] = useState(false)
+  const [Data, setData] = useState([])
 
+  let tokenn = useSelector((state) => state.login.token)
+
+
+  try {
+    if (tokenn != null) {
+      tokenn = tokenn.replaceAll('"', '');
+    }
+  }
+  catch (err) {
+    console.log("Error in token quotes", err)
+    if (err.response.status === 500) {
+      console.log("Internal Server Error", err.message)
+    }
+  }
+
+  useEffect(() => {
+    try {
+      TestimonialsFetch()
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
+
+  const TestimonialsFetch = async () => {
+    setSpinnerbool(true)
+    try {
+      const res = await GET_ALL_TESTIMONIALS(tokenn)
+      setData(res.data)
+    } catch (error) {
+      // console.log(error)
+      console.log("dme")
+      if (error.response) {
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+        }
+        else if (error.response.status === 401) {
+          console.log("Error With 401.", error.response.data)
+        }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 500) {
+          console.log("Internal Server Error", error.message)
+        }
+        else if (error.response.status === 503) {
+          console.log("Internal Server Error", error.message)
+          Alert.alert("Internal Server Error", error.message)
+        }
+        else {
+          console.log("An error occurred response.>>", error.message)
+          Alert.alert("An error occurred response", error.message)
+
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.", error)
+      }
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
 
 
   const AboutImageData = [
@@ -26,8 +106,10 @@ const Testimonials = ({ navigation }) => {
 
   return (
     <>
-
-      <View style={{ flex: 1,paddingTop:20 }}>
+      <Loader1
+        visible={spinnerBool}
+      />
+      <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
           style={styles.container}
@@ -46,12 +128,15 @@ const Testimonials = ({ navigation }) => {
                 <View style={{ flex: 0.1, justifyContent: 'space-between', flexDirection: 'row', marginHorizontal: 18, marginTop: 10 }}>
                   <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 600, fontSize: 16 }}>Testimonials</Text>
                   <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14, textDecorationLine: 'underline' }}>View all</Text>
-                </View> 
-
-                <View style={{ flex: 0.9,marginBottom:25, }}>
-                  <CarouselWithButton DATA={AboutImageData} autoPlay={false} scrollAnimationDuration={1000} />
                 </View>
-                
+
+                <View style={{ flex: 0.9, marginBottom: 25, }}>
+                  {Data.length !== 0 ? <CarouselWithButton DATA={Data} autoPlay={false} scrollAnimationDuration={1000} /> :
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text>Testimonials not found</Text>
+                    </View>}
+                </View>
+
 
                 <View>
 

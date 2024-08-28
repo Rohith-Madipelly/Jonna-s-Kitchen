@@ -82,29 +82,35 @@ const Login = () => {
       if (res) {
         const Message = res.data.message
         const token = res.data.jwtTocken
-        CustomToaster(Message)
+
         ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
           if (status) {
             // ToasterMessage("success", `Success`, `${Message}`)
+            CustomToaster(Message)
             dispatch(setToken(token));
           }
         })
       }
 
     } catch (error) {
+      
       if (error.response) {
+        console.log("df")
         if (error.response.status === 400) {
           console.log("Error With 400.", error.response.data)
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          // seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          // 
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
-          console.log("dh")
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          // console.log("dh")
         }
         else if (error.response.status === 500) {
           console.log("Internal Server Error", error.message)
@@ -124,15 +130,13 @@ const Login = () => {
           Alert.alert("No Network Found", "Please Check your Internet Connection")
         }
       }
-
       else {
-        console.log("Error in Setting up the Request.")
+        console.log("Error in Setting up the Request.",error)
       }
 
-      setSpinnerbool(false)
+    
 
       if (error) {
-
         // message = error.message;
         // seterrorFormAPI(message)
         // "userEmail or Password does not match !"
@@ -226,10 +230,10 @@ const Login = () => {
                             boxWidth={'100%'}
                             placeholder={'Enter password'}
                             // label={'Enter your userEmail id'}
-                            labelStyle={{ fontWeight: '700'}}
+                            labelStyle={{ fontWeight: '700' }}
                             name='password'
                             value={values.password}
-                            containerStyle={{ elevation: 10,marginTop:5 }}
+                            containerStyle={{ elevation: 10, marginTop: 5 }}
                             // bgColor='#e1f3f8'
                             // bgColor="#B1B1B0"
                             onChangeText={(e) => {
@@ -251,13 +255,13 @@ const Login = () => {
                             outlined
                             borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.passwordForm) ? "red" : "#ccc"}`}
                             errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                            // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
+                          // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
                           // errorColor='magenta'
                           />
 
-                          <View style={{justifyContent: 'flex-end',width:'100%',marginVertical:16 }}>
-                          <TouchableOpacity onPress={() => { navigation.navigate("ForgetPassword") }} style={{}}>
-                            <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B',textAlign:'right' }}>Forgot your password ? </Text>
+                          <View style={{ justifyContent: 'flex-end', width: '100%', marginVertical: 16 }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate("ForgetPassword") }} style={{}}>
+                              <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B', textAlign: 'right' }}>Forgot your password ? </Text>
                             </TouchableOpacity>
                           </View>
 

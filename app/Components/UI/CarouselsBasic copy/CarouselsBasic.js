@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, } from 'react';
-import { FlatList, StyleSheet, View, Dimensions, Animated, TouchableOpacity, Image, Text  } from 'react-native';
+import { FlatList, StyleSheet, View, Dimensions, Animated, TouchableOpacity, Image, Text } from 'react-native';
 // import CarouselsBasicItem from './CarouselsBasicItem';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
+import LoadingImage from '../ImageConatiners/LoadingImage';
 
 const { width } = Dimensions.get('screen');
 
-const CarouselsBasic = ({ DATA, autoScroll, showIndicators,scrollTime,ContainerWidth,containerHeight }) => {
+const CarouselsBasic = ({ DATA, autoScroll, showIndicators, scrollTime, ContainerWidth, containerHeight }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
   const totalItems = DATA.length;
+
+
 
   // Calculate item width including padding for precise scrolling
   const itemWidth = width;
@@ -54,7 +58,7 @@ const CarouselsBasic = ({ DATA, autoScroll, showIndicators,scrollTime,ContainerW
 
   useEffect(() => {
     if (autoScroll) {
-      let autoScrollTime=scrollTime?scrollTime:3000
+      let autoScrollTime = scrollTime ? scrollTime : 3000
       const intervalId = setInterval(scrollToNext, autoScrollTime); // Auto-scroll every 3 seconds
       return () => clearInterval(intervalId);
     }
@@ -96,13 +100,10 @@ const CarouselsBasic = ({ DATA, autoScroll, showIndicators,scrollTime,ContainerW
 
   return (
     <View style={[styles.container]}>
-      <Animated.FlatList 
+      <Animated.FlatList
         data={DATA}
-        // keyExtractor={item => item.key.toString()}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item,index }) => (<View key={index}>
-        <CarouselsBasicItem item={item} keymm={index} containerHeight={containerHeight}/>
-        </View>)}
+        keyExtractor={item => item.recipieId.toString()}
+        renderItem={({ item, index }) => <CarouselsBasicItem item={item} keymm={index} containerHeight={containerHeight} />}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
@@ -133,7 +134,7 @@ export default CarouselsBasic;
 
 const styles = StyleSheet.create({
   container: {
-    
+
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -152,18 +153,27 @@ const styles = StyleSheet.create({
 
 
 
-const CarouselsBasicItem = ({ item, CarouselWidth, containerHeight, keymm }) => {
+const CarouselsBasicItem = ({ item, CarouselWidth, containerHeight, keymm,imageName }) => {
+  // console.log("mhbsd", item)
   const { width } = Dimensions.get('screen'); // Get the screen width
   let containerH = containerHeight || 159
-
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity key={keymm} style={[{ width: width, paddingHorizontal: 20, height: containerH, alignItems: 'center', justifyContent: 'center' }]}  activeOpacity={1} onPress={item.onPress}>
-      <Image
-        source={item.image}
+    <TouchableOpacity style={[{ width: width*0.85, paddingHorizontal: 10, height: containerH, alignItems: 'center', justifyContent: 'center',marginVertical:10}]} key={keymm} activeOpacity={1} 
+    // onPress={item.onPress}
+    onPress={()=>{navigation.navigate("VideoViewPage",{recipieUrl:item.recipieUrl})}}
+    
+    >
+      <LoadingImage
+        // source={item.recipieImage}
+        source={{ uri: item.recipieImage }}
         style={{
           width: '100%', // Take up the full width of the parent
           height: '100%',
-          resizeMode: 'contain', // Maintain aspect ratio without stretching
+          backgroundColor:"pink",
+          borderRadius:15,
+          // resizeMode: 'contain', // Maintain aspect ratio without stretching
+          resizeMode: 'cover', // Maintain aspect ratio without stretching
         }}
       />
     </TouchableOpacity>

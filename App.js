@@ -3,6 +3,7 @@ import Screen from './app/Screens';
 import { Provider } from 'react-redux';
 import { store } from './app/redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       
       <Provider store={store}>
         <Screen />
+        <Toast />
       </Provider>
     </GestureHandlerRootView>
   );

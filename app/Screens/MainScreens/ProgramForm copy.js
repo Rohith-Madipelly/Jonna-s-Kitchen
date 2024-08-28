@@ -13,7 +13,6 @@ import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 import CustomTextInput from "../../Components/UI/Inputs/CustomTextInput";
 import { LoginYupSchema } from "../../FormikYupSchema/LoginYupSchema";
 import { Entypo } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 // import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
@@ -26,7 +25,7 @@ const ProgramForm = ({ route }) => {
     const programId = params?.programId || 'nana';
     const programPrice = params?.programPrice || 'nana';
     console.log("programId > program Form", programId, programPrice)
-    console.log(programPrice)
+    console.log( programPrice)
     const navigation = useNavigation();
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
@@ -34,6 +33,37 @@ const ProgramForm = ({ route }) => {
     const dispatch = useDispatch();
 
 
+
+    // const { handleChange,
+    //     handleBlur,
+    //     handleSubmit,
+    //     isSubmitting,
+    //     values,
+    //     touched,
+    //     errors,
+    //     isValid,
+    //     setFieldValue,
+    //     setValues,
+    //     resetForm,
+    // } = useFormik({
+    //     initialValues: {programId:programId, programFee:programPrice },
+    //     onSubmit: values => {
+    //         { submitHandler(values) }
+    //     },
+
+    //     // validationSchema: RegisterYupSchema,
+
+    //     validationSchema: LoginYupSchema,
+
+    //     validate: values => {
+    //         const errors = {
+    //             // console.error();
+                
+    //         };
+    //         return errors;
+    //     },
+
+    // });
 
 
     const { handleChange,
@@ -46,22 +76,22 @@ const ProgramForm = ({ route }) => {
         isValid,
         setValues,
         resetForm,
-    } = useFormik({
+      } = useFormik({
         initialValues: { userEmail: "", password: "" },
-
+    
         onSubmit: values => {
-            { submitHandler(values) }
+          { submitHandler(values) }
         },
-
+    
         // validationSchema: LoginYupSchema,
         validationSchema: RegisterYupSchema,
-
+    
         validate: values => {
-            const errors = {};
-            return errors;
+          const errors = {};
+          return errors;
         },
-
-    });
+    
+      });
 
 
 
@@ -83,15 +113,12 @@ const ProgramForm = ({ route }) => {
                 showsHorizontalScrollIndicator={false}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
-                    {/* <KeyboardAvoidingView
+                    <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        // behavior={Platform.OS === "ios" ? 100:0}
-                        keyboardVerticalOffset={Platform.OS === "ios" ? 100:0}
+                        // behavior={Platform.OS === "ios" ? 1000:0}
+                        keyboardVerticalOffset={5000}
                         style={{ width: '100%', flex: 1 }}
-                        // keyboardVerticalOffset={Platform.OS=='ios'?'padding':'height'}
-                    > */}
-
-                    <KeyboardAwareScrollView  style={{ width: '100%', flex: 1 }}>
+                    >
                         <View style={{ marginHorizontal: 18 }}>
 
 
@@ -112,7 +139,7 @@ const ProgramForm = ({ route }) => {
 
 
 
-
+                                
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Enter full name'}
@@ -146,7 +173,7 @@ const ProgramForm = ({ route }) => {
                                 />
 
 
-
+          
 
 
                                 <CustomTextInput3
@@ -280,7 +307,7 @@ const ProgramForm = ({ route }) => {
                                             // bgColor="#B1B1B0"
 
                                             onChangeText={(e) => {
-
+                                                
                                                 handleChange("gender")(e);
                                                 seterrorFormAPI();
                                             }}
@@ -416,7 +443,7 @@ const ProgramForm = ({ route }) => {
                                             // label={'maritalStatus'}
                                             name='maritalStatus'
                                             value={values.maritalStatus}
-
+                                         
 
                                             onChangeText={(e) => {
 
@@ -426,7 +453,7 @@ const ProgramForm = ({ route }) => {
                                             }}
                                             onBlur={handleBlur("maritalStatus")}
                                             validate={handleBlur("maritalStatus")}
-
+                                            
                                             outlined
                                             labelStyle={{ marginBottom: -2 }}
                                             borderColor={`${(errors.maritalStatus && touched.maritalStatus) || (errorFormAPI && errorFormAPI.maritalStatusForm) ? "red" : "#ccc"}`}
@@ -461,7 +488,7 @@ const ProgramForm = ({ route }) => {
                                         <CustomTextInput3
                                             boxWidth={'100%'}
                                             placeholder={'Veg or Non-veg'}
-
+                                            
                                             name='personType'
                                             value={values.personType}
                                             // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
@@ -474,7 +501,7 @@ const ProgramForm = ({ route }) => {
                                             }}
                                             onBlur={handleBlur("personType")}
                                             validate={handleBlur("personType")}
-
+                                            
                                             outlined
                                             labelStyle={{ marginBottom: -2 }}
                                             borderColor={`${(errors.personType && touched.personType) || (errorFormAPI && errorFormAPI.personTypeForm) ? "red" : "#ccc"}`}
@@ -583,7 +610,7 @@ const ProgramForm = ({ route }) => {
                                 // errorColor='magenta'
                                 />
 
-                                <Text>address</Text>
+<Text>address</Text>
 
 
                                 {/* cityAndState */}
@@ -682,7 +709,7 @@ const ProgramForm = ({ route }) => {
 
                                 {/* programFee */}
 
-
+                               
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Program fee'}
@@ -860,8 +887,7 @@ const ProgramForm = ({ route }) => {
                                 </View>
                             </View>
                         </View>
-                        {/* </KeyboardAvoidingView> */}
-                    </KeyboardAwareScrollView>
+                    </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
 
             </ScrollView>

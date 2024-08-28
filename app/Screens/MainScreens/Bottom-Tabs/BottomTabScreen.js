@@ -5,6 +5,7 @@ import { Entypo, Feather, AntDesign, } from "@expo/vector-icons";
 
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import Home from './Home.js';
+import Chat from './Chat.js';
 import Recipe from './Recipe.js';
 import More from './More.js';
 import Profile from './Profile.js';
@@ -12,7 +13,6 @@ import Profile from './Profile.js';
 
 
 import { useNavigation } from '@react-navigation/native';
-import Chat from './Chat.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +28,11 @@ const BottomTabScreen = ({ route }) => {
           // flex: 0.102,
           flex: Platform.OS === "ios" ? 0.08 : 0.102,
 
-          // backgroundColor: '#006AFF'
+          // backgroundColor: '#006AFF',
+        
+        //  borderStartStartRadius:50,
+        //  borderStartEndRadius:50
+
           backgroundColor: 'white'
 
 

@@ -14,6 +14,7 @@ const LoadingImage = ({ source, style, loaderColor = '#0000ff', ...props }) => {
           source={source}
           onLoadStart={() => setLoading(true)}
           onLoadEnd={() => setLoading(false)}
+          
           {...props}
         />
     </View>

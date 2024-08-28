@@ -39,15 +39,14 @@ const SuccessScreen = ({ route }) => {
 
 
 
-    const submitHandler = (values) => {
-      console.log("submitHandler", values)
+    const submitHandler = () => {
+    //   console.log("submitHandler")
       navigation.navigate("Login")
     }
 
 
 
     useEffect(() => {
-        console.log("Hde")
 
         setTimeout(() => {
             

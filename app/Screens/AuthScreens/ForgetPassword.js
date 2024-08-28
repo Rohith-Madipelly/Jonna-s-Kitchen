@@ -74,10 +74,10 @@ const ForgetPassword = ({ route }) => {
         const Message = res.data.message
         // const token = res.data.jwtTocken
 
-        CustomToaster(Message)
+        // CustomToaster(Message)
 
         setTimeout(() => {
-          navigation.navigate("OtpScreenForgot", { email: userEmail })
+          navigation.navigate("OtpScreenForgot", { email: values.userEmail })
         }, 500);
 
       }
@@ -118,7 +118,7 @@ const ForgetPassword = ({ route }) => {
       }
 
       else {
-        console.log("Error in Setting up the Request.")
+        console.log("Error in Setting up the Request.",error)
       }
 
       setSpinnerbool(false)
@@ -167,17 +167,6 @@ const ForgetPassword = ({ route }) => {
             style={styles.container}
           >
             <View style={{ flex: 0.45, justifyContent: 'flex-start', alignItems: 'center' }}>
-              {/* <Image
-                style={{ width: '100%', height: '100%' }}
-                animation={"bounceIn"}
-                source={require("../../assets/Images/Login.png")}
-                contentFit="cover"
-                transition={1000}
-                alt=''
-              /> */}
-
-
-
               <CustomToolKitHeader2 componentName={'Forgot password?'} tagLine={'Hello there, Login to your account'} />
             </View>
             <View style={{ flex: 0.04, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>

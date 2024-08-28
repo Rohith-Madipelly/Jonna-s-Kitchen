@@ -30,20 +30,20 @@ const AboutUS = ({ navigation }) => {
   ]
 
   return (
-    <View style={{ flex: 1 ,paddingTop:20}}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
         style={{ flex: 1 }}
       >
-        <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.08}}>
           <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} textDecorationLine={'underline'} />
-
+        </View>
+        <View style={{flex:1}}>
           <FlatList
             data={AboutData}
             keyExtractor={(item) => item.id}
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
-
                 <LoadingImage
                   source={require('../../../../assets/Images/Food/Food1.png')}
                   style={{ width: '100%', height: 240, }}
@@ -53,23 +53,23 @@ const AboutUS = ({ navigation }) => {
               </View>
             }
             renderItem={({ item }) => (
-              <View style={{marginHorizontal: 18}}>
+              <View style={{ marginHorizontal: 18 }}>
 
-              <View style={[{ backgroundColor: '#E8F4EC', width: '100%', marginVertical: 10 }, styles.container]}>
-                <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', fontFamily: 'BalooTamma2-Bold', lineHeight: 18 }}>
-                  {item.content}
-                </Text>
-              </View>
+                <View style={[{ backgroundColor: '#E8F4EC', width: '100%', marginVertical: 10 }, styles.container]}>
+                  <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', fontFamily: 'BalooTamma2-Bold', lineHeight: 18 }}>
+                    {item.content}
+                  </Text>
+                </View>
               </View>
             )}
             ListFooterComponent={
 
               <View>
-                <CarouselsBasic DATA={AboutImageData} autoScroll={true} showIndicators={false}/>
+                <CarouselsBasic DATA={AboutImageData} autoScroll={true} showIndicators={false} />
               </View>
             }
 
-            // contentContainerStyle={{ paddingHorizontal: 18 }}
+          // contentContainerStyle={{ paddingHorizontal: 18 }}
           />
         </View>
       </ImageBackground>

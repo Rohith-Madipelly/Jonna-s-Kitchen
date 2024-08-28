@@ -84,7 +84,7 @@ const OtpScreenForgot = ({ route }) => {
                 const Message = res.data.message
                 // // const token = res.data.jwtTocken
                 console.log(Message)
-                CustomToaster(Message)
+                // CustomToaster(Message)
                 setTimeout(() => {
                     navigation.navigate("ResetPassword", { email: userEmail })
                 }, 500);

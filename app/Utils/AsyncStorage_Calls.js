@@ -5,7 +5,7 @@ var ASO = function () { };
 
 ASO.prototype.setTokenJWT = function (key, value, callBack) {
 
-    AsyncStorage.setItem('BuyKeys$:' + key, JSON.stringify(value), (err) => {
+    AsyncStorage.setItem('Jonna$:' + key, JSON.stringify(value), (err) => {
         if (err) {
             callBack('Error setting token', false);
         }
@@ -19,7 +19,7 @@ ASO.prototype.setTokenJWT = function (key, value, callBack) {
 
 
 ASO.prototype.getTokenJWT = function (key, callBack) {
-    AsyncStorage.getItem('BuyKeys$:' + key, (err, result) => {
+    AsyncStorage.getItem('Jonna$:' + key, (err, result) => {
         if (err) {
             callBack('Error getting token', null);
         } else {
@@ -31,20 +31,17 @@ ASO.prototype.getTokenJWT = function (key, callBack) {
 
 
 
+
+
 ASO.prototype.RemoveTokenJWT = function (key, callBack) {
-    console.log("Loging", key)
-    AsyncStorage.removeItem('BuyKeys$:' + key, (err, resp) => {
-        if (err)
-            callBack('Error fetching token', false);
-        else {
-            callBack('Error fetching token', true);
-            console.log("dsfvs")
+    AsyncStorage.removeItem('Jonna$:' + key, (err) => {
+        if (err) {
+            callBack('Error removing token', false);
+        } else {
+            callBack(null, true);
+            // console.log("Token removed successfully");
         }
-        // callBack(JSON.parse(resp), true);+
-        
     });
 };
-
-
 
 export default new ASO();

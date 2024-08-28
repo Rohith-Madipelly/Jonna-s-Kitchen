@@ -30,7 +30,7 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                 <MaterialCommunityIcons name="arrow-left-drop-circle" size={18} color="#785600" />
             </TouchableOpacity>
 
-            <Carousel
+            {DATA?<Carousel
                 loop
                 ref={carouselRef}
                 width={width * 0.84}
@@ -39,6 +39,7 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                 data={DATA}
                 scrollAnimationDuration={scrollAnimationDuration}
                 renderItem={({item, index }) => (
+                  
                     <View style={{ flex: 1, }}>
                         <View
                             style={{
@@ -47,9 +48,10 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                                 // justifyContent: 'center',
                             }}
                         >
+                      
                             <TouchableOpacity style={[{ width: '95%',alignItems: 'center', justifyContent: 'center' }]} onPress={() => { console.log("Hello",) }}>
                                 <Image
-                                    source={item.image}
+                                    source={{uri:item.testimonialImg}}
                                     style={{
                                         width: '100%', // Take up the full width of the parent
                                         height: '100%',
@@ -60,7 +62,9 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                         </View>
                     </View>
                 )}
-            />
+            />:<View>
+                <Text>Hello</Text>
+                </View>}
 
             <TouchableOpacity onPress={goToNext} style={{ justifyContent: 'center',marginRight:10}}>
                 <MaterialCommunityIcons name="arrow-right-drop-circle" size={18} color="#785600" />

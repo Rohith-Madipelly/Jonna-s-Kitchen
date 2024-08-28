@@ -3,7 +3,7 @@ import React from 'react'
 
 const ProgramStatus = () => {
   return (
-    <View style={{ flex: 1,paddingHorizontal:20,paddingTop:20 }}>
+    <View style={{ flex: 1,paddingHorizontal:20 }}>
       <View style={{marginTop:15, alignItems: 'center'}}>
         <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize:20,textDecorationLine:'underline'}}>Program Status</Text>
       </View>

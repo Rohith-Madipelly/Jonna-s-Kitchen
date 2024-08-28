@@ -74,12 +74,15 @@ const UserRegister = () => {
 
     } catch (error) {
       if (error.response) {
+        console.log(error.response.status)
+        console.log("dc",error.response)
         if (error.response.status === 400) {
           // console.log("Error With 400.", error.response.data)
           CustomToaster(error.response.data.message)
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)

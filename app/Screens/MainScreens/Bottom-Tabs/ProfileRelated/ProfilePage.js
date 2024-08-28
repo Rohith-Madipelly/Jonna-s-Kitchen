@@ -60,7 +60,7 @@ const ProfilePage = () => {
 
   // console.log(menuItems[0].subItems)
   return (
-    <View style={{ flex: 1,paddingTop:20 }}>
+    <View style={{ flex: 1}}>
       <View style={{ flex: 0.15 }}>
         <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 32, justifyContent: 'space-between' }}>
           <View style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>

@@ -16,7 +16,6 @@ import { setToken } from '../../redux/actions/loginAction.jsx'
 
 import { createPasswordAPI } from '../../Utils/ApiCalls.js'
 
-import ToasterMessage from '../../Utils/ToasterMessage.js'
 
 import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx'
 import { StatusBar } from 'expo-status-bar';

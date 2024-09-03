@@ -16,8 +16,6 @@ import { setToken } from '../../redux/actions/loginAction.jsx'
 
 import { createPasswordAPI } from '../../Utils/ApiCalls.js'
 
-import ToasterMessage from '../../Utils/ToasterMessage.js'
-
 import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx'
 import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
@@ -108,11 +106,13 @@ const CreatePassword = ({ route }) => {
         }
         else if (error.response.status === 404) {
         }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
-        }
+        
         else if (error.response.status === 409) {
           console.log("jbsfdjh",error.response)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined,`${error.message}`)
         }
         else {
           console.log("An error occurred response.>>",error)

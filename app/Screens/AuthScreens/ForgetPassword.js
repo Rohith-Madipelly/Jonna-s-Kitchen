@@ -8,7 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { useDispatch } from 'react-redux'
 import CustomButton1 from '../../Components/UI/Buttons/CustomButton1.js';
 import CustomTextInput from '../../Components/UI/Inputs/CustomTextInput.js';
-import {UserForgotPassword } from '../../Utils/ApiCalls.js'
+import { UserForgotPassword } from '../../Utils/ApiCalls.js'
 
 
 import { StatusBar } from 'expo-status-bar';
@@ -63,7 +63,7 @@ const ForgetPassword = ({ route }) => {
   // }
 
   const submitHandler = async (values) => {
-    console.log("Hello",values)
+    console.log("Hello>>", values)
 
     seterrorFormAPI() //Clear's All API errors
     try {
@@ -83,23 +83,25 @@ const ForgetPassword = ({ route }) => {
       }
 
     } catch (error) {
+      console.log(error.response.status)
       if (error.response) {
         if (error.response.status === 400) {
-          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
         }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
-        }
+       
         else if (error.response.status === 409) {
           console.log("jbsfdjh", error.response)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined,`${error.message}`)
         }
         else {
           console.log("An error occurred response.>>", error)
@@ -118,7 +120,7 @@ const ForgetPassword = ({ route }) => {
       }
 
       else {
-        console.log("Error in Setting up the Request.",error)
+        console.log("Error in Setting up the Request.", error)
       }
 
       setSpinnerbool(false)

@@ -17,12 +17,12 @@ import { setToken } from '../../redux/actions/loginAction'
 
 import { UserLoginApi } from '../../Utils/ApiCalls.js'
 
-import ToasterMessage from '../../Utils/ToasterMessage.js'
 
-import { setAccountPage } from '../../redux/actions/AccountSetUpAction'
 import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
+import { ErrorResPrinter } from '../../Utils/ErrorResPrinter.js';
+import { ServerError } from '../../Utils/ServerError.js';
 
 
 const Login = () => {
@@ -59,19 +59,6 @@ const Login = () => {
 
   });
 
-
-
-  // const submitHandler = (values) => {
-  //   console.log("submitHandler", values)
-  //   const token="s"
-  //   ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
-  //             if (status) {
-  //               // ToasterMessage("success", `Success`, `${Message}`)
-  //               dispatch(setToken(token));
-  //             }
-  //           })
-  //   // navigation.navigate("userEmailVerification")
-  // }
 
   const submitHandler = async (values) => {
 
@@ -112,12 +99,13 @@ const Login = () => {
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
           // console.log("dh")
         }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined,`${error.message}`)
         }
         else {
-          console.log("An error occurred response.>>")
-          ErrorResPrinter(`${error.message}`)
+          console.log("An error occurred response.>>",error.message)
+          // ServerError(,`${error.message}`)
         }
       }
       else if (error.code === 'ECONNABORTED') {
@@ -126,7 +114,6 @@ const Login = () => {
       else if (error.request) {
         console.log("No Response Received From the Server.")
         if (error.request.status === 0) {
-          // console.log("error in request ",error.request.status)
           Alert.alert("No Network Found", "Please Check your Internet Connection")
         }
       }

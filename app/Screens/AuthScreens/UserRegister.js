@@ -17,7 +17,6 @@ import { setToken } from '../../redux/actions/loginAction.jsx'
 
 import { UserRegisterOTPApi } from '../../Utils/ApiCalls.js'
 
-import ToasterMessage from '../../Utils/ToasterMessage.js'
 
 import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx'
 import { StatusBar } from 'expo-status-bar';
@@ -93,8 +92,9 @@ const UserRegister = () => {
         else if (error.response.status === 409) {
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
-        else if (error.response.status === 500) {
-          console.log("Internal Server Error", error.message)
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined,`${error.message}`)
         }
         else {
           console.log("An error occurred response.>>")

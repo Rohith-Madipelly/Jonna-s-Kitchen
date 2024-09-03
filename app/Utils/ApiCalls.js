@@ -21,7 +21,6 @@ export const UserLoginApi = async (loginFormReq) => {
 // UserForgotPassword API
 export const UserForgotPassword = async (FormReq) => {
   console.log("to APi UserForgotPassword", FormReq)
-
   return await axios.post(`${GUEST_URL}/api/forgotPassword`, FormReq)
 }
 
@@ -116,7 +115,6 @@ export const getAllRecipieServiceByKeyWord22 = async (keyWord,token) => {
   try {
     const response = await axios.get(`${GUEST_URL}/api/recipies/getRecipieByKeyWord`,
       {
-      
         headers: {
           Authorization: `Bearer ${token}`
         },

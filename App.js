@@ -9,7 +9,6 @@ import Toast from 'react-native-toast-message';
 function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      
       <Provider store={store}>
         <Screen />
         <Toast />

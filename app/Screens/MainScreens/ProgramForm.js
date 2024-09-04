@@ -47,7 +47,7 @@ const ProgramForm = ({ route }) => {
         setValues,
         resetForm,
     } = useFormik({
-        initialValues: { userEmail: "", password: "" },
+        initialValues: { email: "", password: "" },
 
         onSubmit: values => {
             { submitHandler(values) }
@@ -91,14 +91,9 @@ const ProgramForm = ({ route }) => {
                         // keyboardVerticalOffset={Platform.OS=='ios'?'padding':'height'}
                     > */}
 
-                    <KeyboardAwareScrollView  style={{ width: '100%', flex: 1 }}>
+                    <KeyboardAwareScrollView style={{ width: '100%', flex: 1 }}>
                         <View style={{ marginHorizontal: 18 }}>
-
-
                             <View style={{ alignItems: 'center', marginTop: 10 }}>
-
-
-
                                 <Text style={{
                                     fontWeight: '800',
                                     marginBottom: 20,
@@ -117,7 +112,6 @@ const ProgramForm = ({ route }) => {
                                     boxWidth={'95%'}
                                     placeholder={'Enter full name'}
                                     label={'Full name'}
-
                                     name='userName'
                                     value={values.userName}
                                     // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
@@ -126,12 +120,6 @@ const ProgramForm = ({ route }) => {
 
                                     onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
                                     onBlur={handleBlur("userName")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
                                     validate={handleBlur("userName")}
 
                                     outlined
@@ -166,14 +154,22 @@ const ProgramForm = ({ route }) => {
                                         handleChange("phoneNumber")(numericValue);
                                         seterrorFormAPI();
                                     }}
+                                  
+
                                     onBlur={handleBlur("phoneNumber")}
                                     validate={handleBlur("phoneNumber")}
+
                                     keyboardType="numeric"
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
-                                    borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
-                                    errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
+                                    // borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
+                                    // errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
                                 // errorColor='magenta'
+                                borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
+
+                                errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
+
+                                
                                 />
 
                                 <CustomTextInput3
@@ -204,6 +200,9 @@ const ProgramForm = ({ route }) => {
 
                                 // errorColor='magenta'
                                 />
+                          
+
+
 
                                 {/* Age */}
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', }}>

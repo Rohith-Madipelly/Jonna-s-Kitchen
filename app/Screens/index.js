@@ -31,6 +31,7 @@ import ResetPassword from './AuthScreens/ResetPassword.js';
 import ForgetPassword from './AuthScreens/ForgetPassword.js';
 import OtpScreenForgot from './AuthScreens/OtpScreenForgot.js';
 import DataCheck from './ShareScreens/DataCheck.js';
+import { setAccountPage } from '../redux/actions/AccountSetUpAction.jsx';
 
 
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
@@ -61,10 +62,25 @@ const Screen = () => {
           dispatch(setToken(token));
         }
       }
+      // setAppIsReady(true);
+    });
+
+    ASO.getTokenJWT('programRegistered', (error, token) => {
+      if (error) {
+        console.error('Error getting token:', error);
+      } else {
+        if (token != null) {
+          dispatch(setAccountPage(token));
+        }
+      }
       setAppIsReady(true);
     });
+
+
   }
 
+
+  
 
   useEffect(() => {
     setUser(loginSelector)
@@ -114,8 +130,9 @@ const Screen = () => {
 
   return (
     <SafeAreaView style={GlobalStyles.androidSafeArea}>
-      <NavigationContainer>
+      {/* <NavigationContainer> */}
         <ErrorBoundary FallbackComponent={CustomFallbackUI}>
+
 
           <Stack.Navigator
             id="rootStack"
@@ -135,7 +152,7 @@ const Screen = () => {
               <>
 
                 {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} /> */}
-                {/* <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
+                <Stack.Screen name="ProgramsForm" component={ProgramForm} />
 
                 {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
                 {/* <Stack.Screen name="DataCheck" component={DataCheck} /> */}
@@ -149,7 +166,7 @@ const Screen = () => {
                 <Stack.Screen name="CreatePassword" component={CreatePassword} />
 
 
-                <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+                <Stack.Screen name="ForgetPassword" component={ForgetPassword} /> 
                 <Stack.Screen name="OtpScreenForgot" component={OtpScreenForgot} />
                 <Stack.Screen name="ResetPassword" component={ResetPassword} />
                 <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
@@ -158,7 +175,7 @@ const Screen = () => {
               </>)}
           </Stack.Navigator>
         </ErrorBoundary>
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
     </SafeAreaView>
   )
 }

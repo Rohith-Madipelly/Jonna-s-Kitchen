@@ -9,8 +9,8 @@ try {
 
 const initialState = {
   // PageCount: PageCount || null,
-  PageCount: PageCount || 1,
-  isKycCompleted: PageCount ? true : false,
+  AccountData: PageCount || "",
+  isAccountData: PageCount ? true : false,
 };
 
 
@@ -21,8 +21,8 @@ const AccountSetUpReducer = (state = initialState, action) => {
     case "SET_ACCOUNT":
       return {
         ...state,
-        PageCount: action.PageCount,
-        isKycCompleted: action.PageCount ? true : false,
+        AccountData: action,
+        isAccountData: action ? true : false,
       };
     default:
       return state;

@@ -1,5 +1,5 @@
-export const setAccountPage = (PageCount) => {
+export const setAccountPage = (data) => {
 
-  return { type: "SET_ACCOUNT", PageCount };
+  return { type: "SET_ACCOUNT", data };
 };
 

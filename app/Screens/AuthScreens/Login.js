@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
+import { Alert, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import ASO from '../../Utils/AsyncStorage_Calls'
@@ -23,6 +23,7 @@ import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { ErrorResPrinter } from '../../Utils/ErrorResPrinter.js';
 import { ServerError } from '../../Utils/ServerError.js';
+import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx';
 
 
 const Login = () => {
@@ -69,12 +70,23 @@ const Login = () => {
       if (res) {
         const Message = res.data.message
         const token = res.data.jwtTocken
+        const programRegistered = res.data.programRegistered
+        console.log(res.data)
 
         ASO.setTokenJWT("Token", JSON.stringify(token), function (res, status) {
           if (status) {
             // ToasterMessage("success", `Success`, `${Message}`)
             CustomToaster(Message)
             dispatch(setToken(token));
+          }
+        })
+
+
+          ASO.setTokenJWT("programRegistered", JSON.stringify(programRegistered), function (res, status) {
+          if (status) {
+            // ToasterMessage("success", `Success`, `${Message}`)
+            // CustomToaster(Message)
+            dispatch(setAccountPage(programRegistered));
           }
         })
       }
@@ -112,9 +124,12 @@ const Login = () => {
         console.log('Request timed out. Please try again later.');
       }
       else if (error.request) {
-        console.log("No Response Received From the Server.")
-        if (error.request.status === 0) {
-          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        console.log("No Response Received From the Server.", error.request);
+
+        if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+          Alert.alert("Server Unreachable", "Please try again later.");
+        } else if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please check your internet connection.");
         }
       }
       else {

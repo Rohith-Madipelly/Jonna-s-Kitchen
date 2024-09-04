@@ -12,46 +12,29 @@ const gifAsset = Asset.fromModule(require('../../assets/Images/gif/SplashScreens
 
 const Splash2 = () => {
     const loginSelector = useSelector((state) => state.login.isLogin);
-    console.log(loginSelector)
+    const programRegisteredSelector = useSelector((state) => state.AccountSetUp.AccountData.data);
+    console.log("programRegisteredSelector>>> <><><> ", programRegisteredSelector)
 
     const navigation = useNavigation();
     useEffect(() => {
 
     }, [loginSelector])
-    // useEffect(() => {
-    //     console.log("Asalu nuvu unnava")
-    //     // Set a timer to navigate to the next screen after 10 seconds (10000 milliseconds)
-    //     const timer = setTimeout(() => {
-    //         console.log("Asalu nuvu unnava", loginSelector)
-
-
-
-    //         if (loginSelector) {
-    //             if (PageCountSelector >= 10) {
-    //                 navigation.navigate("BottomTabScreen");
-    //             }
-
-    //         }
-    //         else {
-    //             // navigation.navigate("Login");
-    //         }
-
-    //     }, 2500);
-
-    //     // Clear the timer if the component is unmounted
-    //     return () => clearTimeout(timer);
-    // }, []);
-
-
-
 
     useFocusEffect(
         useCallback(() => {
             const timer = setTimeout(() => {
-                // console.log("fcsdv", loginSelector)
+                console.log("fcsdv", loginSelector)
                 if (loginSelector) {
-                    console.log("cs AccountSetupComponent", loginSelector)
-                    navigation.navigate("BottomTabScreen");
+                    if (programRegisteredSelector==="true") {
+                       
+                        navigation.navigate("BottomTabScreen");
+                        console.log("cs AccountSetupComponent", loginSelector)
+                    }
+                    else {
+                        console.log("cs <><><><><> WelcomeCopy")
+                        
+                        navigation.navigate("WelcomeCopy");
+                    }
                 }
                 else if (loginSelector == false) {
                     console.log("cs", typeof (loginSelector))

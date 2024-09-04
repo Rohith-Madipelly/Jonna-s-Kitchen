@@ -3,10 +3,13 @@ import React from 'react'
 
 const CustomTextInput = ({
     label,
+    rightLabelBtn,
+    style,
     labelStyle,
     value,
     placeholder,
     autoComplete,
+    containerStyle,
     keyboardType,
     autoCapitalize,
     outlined,
@@ -24,14 +27,14 @@ const CustomTextInput = ({
     errorMessage,
     errorColor = 'red',
     bgColor,
-    containerStyle,
+    maxLength
 
 }) => {
 
     const backgroundColor = bgColor || 'white';
     const containerBorder = outlined ? styles.outlined : styles.standard;
     return (
-        <View style={[{ padding: 0,width:boxWidth },]}>
+        <View style={[{ padding: 0,width:boxWidth }, style, styles.boxHeight]}>
             {label?<Text style={[styles.label,labelStyle]}>{label} {asterisksymbol?<Text style={{color:'red'}}>*</Text>:""}</Text>:""}
 
             

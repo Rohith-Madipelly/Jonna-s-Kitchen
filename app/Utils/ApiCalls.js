@@ -13,7 +13,7 @@ export const Bank_Details_on_IFSC = async (IFSC_CODE) => {
 
 // Login API
 export const UserLoginApi = async (loginFormReq) => {
-  return await axios.post(`${GUEST_URL}/api/login`, loginFormReq, { timeout: 5000 })
+  return await axios.post(`${GUEST_URL}/api/login`, loginFormReq,)
 }
 
 
@@ -68,6 +68,31 @@ export const createPasswordAPI = async (userEmail, values) => {
 }
 
 
+//  CreateOder
+
+export const CREATE_USER_API = async (formData, token) => {
+  const formData2 = new FormData();
+  for (const [key, value] of Object.entries(formData)) {
+    formData2.append(key, value);
+  }
+  
+  return await axios.post(`${GUEST_URL}/api/create-razorpay-order`, formData2, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+
+export const GET_SLOTS_BY_DATE_API = async (date, token) => {
+  console.log(token)
+  return await axios.get(`${GUEST_URL}/api/slots/getSlotByDate/${date}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
 
 
 //  Get All Programs
@@ -110,7 +135,7 @@ export const get_all_recipies_by_category_API = async (token) => {
 }
 
 
-export const getAllRecipieServiceByKeyWord22 = async (keyWord,token) => {
+export const getAllRecipieServiceByKeyWord22 = async (keyWord, token) => {
 
   try {
     const response = await axios.get(`${GUEST_URL}/api/recipies/getRecipieByKeyWord`,
@@ -118,7 +143,7 @@ export const getAllRecipieServiceByKeyWord22 = async (keyWord,token) => {
         headers: {
           Authorization: `Bearer ${token}`
         },
-        params:{
+        params: {
           keyWord: keyWord
         },
       }
@@ -134,7 +159,7 @@ export const getAllRecipieServiceByKeyWord22 = async (keyWord,token) => {
 
 
 
-export const GET_ALL_FEEDBACKS=async(token)=>{
+export const GET_ALL_FEEDBACKS = async (token) => {
   return await axios.get(`${GUEST_URL}/api/feedbacks/getAllFeedBacks`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -145,7 +170,7 @@ export const GET_ALL_FEEDBACKS=async(token)=>{
 
 
 
-export const GET_ALL_JOBS=async(token)=>{
+export const GET_ALL_JOBS = async (token) => {
   return await axios.get(`${GUEST_URL}/api/jobOpenings/getAllJobOpenings`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -155,7 +180,7 @@ export const GET_ALL_JOBS=async(token)=>{
 
 
 
-export const GET_ALL_TESTIMONIALS=async(token)=>{
+export const GET_ALL_TESTIMONIALS = async (token) => {
   return await axios.get(`${GUEST_URL}/api/testimonials/getAllTestimonials`, {
     headers: {
       'Authorization': `Bearer ${token}`

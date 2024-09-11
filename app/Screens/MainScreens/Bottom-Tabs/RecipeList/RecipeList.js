@@ -113,7 +113,7 @@ const RecipeList = ({ navigation }) => {
                     setIsLoading(false);
                 }, 5000); 
             }catch (error) {
-                // console.log(error)
+                console.log(error)
                 console.log("dme")
                 if (error.response) {
                   if (error.response.status === 400) {

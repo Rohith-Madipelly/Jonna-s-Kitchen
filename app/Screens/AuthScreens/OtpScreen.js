@@ -1,4 +1,4 @@
-import { Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
+import { Alert, Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
 import React, { useState } from 'react'
 // import Title from '../../Components/UI/TextUI/Title'
 // import CustomButton1 from '../../Components/UI/Buttons/CustomButton1'
@@ -23,6 +23,7 @@ import CustomOtpInput4 from '../../Components/Functionality/OTP/CustomOtpInput4.
 import { UserRegisterOTPApi, verifyOTPAPI } from '../../Utils/ApiCalls.js';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import { StatusBar } from 'expo-status-bar';
+import { ServerError } from '../../Utils/ServerError.js';
 
 const OtpScreen = ({ route }) => {
     const { params } = route;
@@ -82,7 +83,6 @@ const OtpScreen = ({ route }) => {
             if (res) {
                 console.log(res.data)
                 const Message = res.data.message
-                // // const token = res.data.jwtTocken
                 console.log(Message)
                 CustomToaster(Message)
                 setTimeout(() => {
@@ -116,26 +116,25 @@ const OtpScreen = ({ route }) => {
                 }
                 else if (error.response.status >= 500) {
                     // console.log("Internal Server Error", error.message)
-                    ServerError(undefined,`${error.message}`)
-                  }
+                    ServerError(undefined, `${error.message}`)
+                }
                 else {
-                    console.log("An error occurred response.>>")
-                    //   ErrorResPrinter(`${error.message}`)
+                    console.log("An error occurred response.>>", error.message)
                 }
             }
             else if (error.code === 'ECONNABORTED') {
                 console.log('Request timed out. Please try again later.');
             }
             else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                console.log("No Response Received From the Server.", error.request);
+                if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+                    Alert.alert("Server Unreachable", "Please try again later.");
+                } else if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please check your internet connection.");
                 }
             }
-
             else {
-                console.log("Error in Setting up the Request.")
+                console.log("Error in Setting up the Request.", error)
             }
 
             setSpinnerbool(false)
@@ -171,7 +170,7 @@ const OtpScreen = ({ route }) => {
             }
 
         } catch (error) {
-            console.log("sdbmh",error)
+            console.log("sdbmh", error)
             if (error.response) {
                 if (error.response.status === 400) {
                     console.log("Error With 400.", error.response.data)

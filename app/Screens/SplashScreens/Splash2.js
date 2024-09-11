@@ -23,22 +23,22 @@ const Splash2 = () => {
     useFocusEffect(
         useCallback(() => {
             const timer = setTimeout(() => {
-                console.log("fcsdv", loginSelector)
+                console.log("fcsdv", loginSelector,programRegisteredSelector)
                 if (loginSelector) {
                     if (programRegisteredSelector==="true") {
                        
-                        navigation.navigate("BottomTabScreen");
-                        console.log("cs AccountSetupComponent", loginSelector)
+                        navigation.replace("BottomTabScreen");
+                        console.log("cs AccountSetupComponent", loginSelector,programRegisteredSelector)
                     }
                     else {
                         console.log("cs <><><><><> WelcomeCopy")
                         
-                        navigation.navigate("WelcomeCopy");
+                        navigation.replace("WelcomeCopy");
                     }
                 }
                 else if (loginSelector == false) {
                     console.log("cs", typeof (loginSelector))
-                    navigation.navigate("Login");
+                    navigation.replace("Login");
                 }
             }, 2000);
             return () => {

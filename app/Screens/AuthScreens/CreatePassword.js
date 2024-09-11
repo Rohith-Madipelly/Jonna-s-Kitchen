@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
+import { Alert, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import ASO from '../../Utils/AsyncStorage_Calls.js'
@@ -22,6 +22,7 @@ import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { PasswordYupSchema } from '../../FormikYupSchema/PasswordYupSchema.js';
 import CustomToolKitHeader2 from '../../Components/UI/CustomToolKitHeader2.js';
+import { ServerError } from '../../Utils/ServerError.js';
 
 
 const CreatePassword = ({ route }) => {
@@ -80,14 +81,14 @@ const CreatePassword = ({ route }) => {
       setSpinnerbool(true)
       const res = await createPasswordAPI(userEmail, values)
       if (res) {
-        console.log("hbhsa",res.data)
+        console.log("hbhsa", res.data)
         const Message = res.data.message
         // const token = res.data.jwtTocken
 
         CustomToaster(Message)
 
         setTimeout(() => {
-          navigation.navigate("SuccessScreen",{Status:Message})
+          navigation.navigate("SuccessScreen", { Status: Message })
         }, 500);
 
       }
@@ -106,32 +107,30 @@ const CreatePassword = ({ route }) => {
         }
         else if (error.response.status === 404) {
         }
-        
+
         else if (error.response.status === 409) {
-          console.log("jbsfdjh",error.response)
+          console.log("jbsfdjh", error.response)
         }
         else if (error.response.status >= 500) {
-          // console.log("Internal Server Error", error.message)
-          ServerError(undefined,`${error.message}`)
+          ServerError(undefined, `${error.message}`)
         }
         else {
-          console.log("An error occurred response.>>",error)
-          // ErrorResPrinter(`${error.message}`)
+          console.log("An error occurred response.>>", error.message)
         }
       }
       else if (error.code === 'ECONNABORTED') {
         console.log('Request timed out. Please try again later.');
       }
       else if (error.request) {
-        console.log("No Response Received From the Server.")
-        if (error.request.status === 0) {
-          // console.log("error in request ",error.request.status)
-          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        console.log("No Response Received From the Server.", error.request);
+        if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+          Alert.alert("Server Unreachable", "Please try again later.");
+        } else if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please check your internet connection.");
         }
       }
-
       else {
-        console.log("Error in Setting up the Request.")
+        console.log("Error in Setting up the Request.", error)
       }
 
       setSpinnerbool(false)
@@ -151,11 +150,11 @@ const CreatePassword = ({ route }) => {
 
   return (
     <>
-    <StatusBar
-          animated={true}
-          // backgroundColor="#F7F7F7"
-          barStyle={'dark-content'}
-        />
+      <StatusBar
+        animated={true}
+        // backgroundColor="#F7F7F7"
+        barStyle={'dark-content'}
+      />
       <Loader1
         visible={spinnerBool}
       />
@@ -283,7 +282,7 @@ const CreatePassword = ({ route }) => {
                           //   name={'login'} size={18} color={'white'} />}
                           bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                           // bgColor={"rgba(220, 142, 128, 0.9)"}
-                          style={{ marginTop: 50 }}>Change Password</CustomButton1>
+                          style={{ marginTop: 50 }}>Set Password</CustomButton1>
                       </KeyboardAvoidingView>
 
                     </TouchableWithoutFeedback>

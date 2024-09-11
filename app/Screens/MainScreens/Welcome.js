@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 
 import { useDispatch } from "react-redux";
 import { RegisterYupSchema } from "../../FormikYupSchema/RegisterYupSchema";
-import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
+
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
 import { scrollToBottom, scrollToTop } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
@@ -173,14 +173,6 @@ const Welcome = () => {
                                     leftIcon={<Entypo
                                         // style={styles.icon}
                                         name={'login'} size={18} color={'white'} />}
-
-                                    // RightIcon={<SimpleLineIcons
-                                    //     // style={styles.icon}
-
-                                    //     name={'arrow-right'} size={18} color={'white'} />}
-                                    // leftIcon={<Image style={{ width: 24, height: 24, }}
-                                    //     source={item.logo}
-                                    //     resizeMode={"contain"} />}
 
                                     RightIcon={<Image style={{ width: 15, height: 15, }}
                                         source={require("../../assets/Images/ArrowWhite.png")}

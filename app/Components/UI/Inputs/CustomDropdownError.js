@@ -1,15 +1,15 @@
-import { Feather,Entypo,FontAwesome } from '@expo/vector-icons';
+import { Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, FlatList, Platform } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
-const CustomDropdown = ({
+const CustomDropdownError = ({
     label,
     style,
     labelStyle,
     value,
-    placeholder='Select',
+    placeholder = 'Select',
     onChange,
     outlined,
     onBlur,
@@ -32,23 +32,23 @@ const CustomDropdown = ({
     DropDownData,
     DropDownHeigth,
 }) => {
-    
-  
+
 
     const backgroundColor = bgColor || 'white';
     const containerBorder = styles.outlined;
 
     return (
         // <View style={[{ padding: 0, width: boxWidth, }, style, styles.boxHeight]}>
-        <View style={[{ padding: 0, width: boxWidth}, style, styles.boxHeight]}>
+        <View style={[{ padding: 0, width: boxWidth }, style, styles.boxHeight]}>
             {label ? <Text style={styles.label}>{label}</Text> : ""}
 
             <SelectDropdown
                 data={DropDownData}
                 onSelect={(selectedItem, index) => {
-                    onChange(selectedItem.title)
-                    // console.log("selected item", selectedItem, index);
+                    onChange(selectedItem.startTime,selectedItem.endTime)
                 }}
+
+                // onSelect={()=>{console.log("dxsjh")}}
 
                 renderButton={(selectedItem, isOpened) => {
                     return (
@@ -59,14 +59,14 @@ const CustomDropdown = ({
                                 selectedItem.image ?
                                     <Image
                                         source={selectedItem.image}
-                                        style={{ width: 40, height: 35,resizeMode: 'center'  }}
-                                    /> : "" : 
-                                    // <View style={{ width: 35, height: 35 }}></View>
-                                    ""
-                                    }
+                                        style={{ width: 40, height: 35, resizeMode: 'center' }}
+                                    /> : "" :
+                                // <View style={{ width: 35, height: 35 }}></View>
+                                ""
+                            }
 
                             <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.title) || placeholder}
+                                {(selectedItem && `${selectedItem.startTime} - ${selectedItem.endTime}`) || placeholder}
                             </Text>
                             {/* <Feather name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} /> */}
 
@@ -78,25 +78,32 @@ const CustomDropdown = ({
 
 
                 renderItem={(item, index, isSelected) => {
+                    if (DropDownData.length === 0) {
+                        return (
+                            <View style={styles.noDataItemStyle}>
+                                <Text style={styles.noDataTextStyle}>No data available</Text>
+                            </View>
+                        );
+                    }
+                    console.log(item)
                     return (
                         <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
                             {/* <Icon name={item.icon} style={styles.dropdownItemIconStyle} /> */}
-                            {item.image?<Image source={item.image} style={{ width: 40, height: 35,resizeMode: 'center'  }} />:<View style={{height:35}}></View>}
-                            <Text style={[styles.dropdownItemTxtStyle,]}>{item.title}</Text>
+                            {item.image ? <Image source={item.image} style={{ width: 40, height: 35, resizeMode: 'center' }} /> : <View style={{ height: 35 }}></View>}
+                            <Text style={[styles.dropdownItemTxtStyle,]}>{item.startTime} - {item.endTime}</Text>
                             <Image source={isSelected ? require('./selected.png') : require('./unselected.png')} style={{ width: 25, height: 25 }} />
-                            
                         </View>
                     );
                 }}
                 // showsVerticalScrollIndicator={false}
-                dropdownStyle={styles.dropdownMenuStyle}
+                dropdownStyle={[styles.dropdownMenuStyle]}
             />
             <Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>
         </View>
     );
 };
 
-export default CustomDropdown;
+export default CustomDropdownError;
 
 
 const styles = StyleSheet.create({
@@ -109,13 +116,13 @@ const styles = StyleSheet.create({
     },
     container: {
         padding: 10,
-    
+
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 15,
         paddingHorizontal: 20,
-        paddingVertical:12,
+        paddingVertical: 12,
 
         ...Platform.select({
             ios: {
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
             },
             android: {
                 // height:80
-                paddingVertical:12,
+                paddingVertical: 12,
             },
         }),
 
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
         }),
     },
     DropContainer: {
-        
+
         flexDirection: 'row',
         // justifyContent: 'space-between',
         alignItems: 'center',
@@ -161,7 +168,7 @@ const styles = StyleSheet.create({
     dropdownButtonArrowStyle: {
         fontSize: 25,
         // color:'#474464',
-      
+
     },
     dropdownItemStyle: {
         width: '100%',
@@ -173,7 +180,7 @@ const styles = StyleSheet.create({
     },
     dropdownItemTxtStyle: {
         flex: 1,
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: '500',
         // color: '#151E26',
         marginHorizontal: 10
@@ -182,7 +189,7 @@ const styles = StyleSheet.create({
         // backgroundColor: '#E9ECEF',
         borderRadius: 8,
         // height: 300,
-
+        backgroundColor: 'red',
 
         ...Platform.select({
             ios: {
@@ -193,12 +200,12 @@ const styles = StyleSheet.create({
         })
     },
     boxHeight: {
-       
+
         // marginTop:5,
         ...Platform.select({
             ios: {
                 // height:80,
-                marginVertical:5,
+                marginVertical: 5,
             },
             android: {
                 // height:80

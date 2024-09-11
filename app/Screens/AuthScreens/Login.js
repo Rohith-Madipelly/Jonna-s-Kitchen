@@ -82,7 +82,7 @@ const Login = () => {
         })
 
 
-          ASO.setTokenJWT("programRegistered", JSON.stringify(programRegistered), function (res, status) {
+        ASO.setTokenJWT("programRegistered", JSON.stringify(programRegistered), function (res, status) {
           if (status) {
             // ToasterMessage("success", `Success`, `${Message}`)
             // CustomToaster(Message)
@@ -92,7 +92,6 @@ const Login = () => {
       }
 
     } catch (error) {
-      
       if (error.response) {
         console.log("df")
         if (error.response.status === 400) {
@@ -109,15 +108,13 @@ const Login = () => {
         }
         else if (error.response.status === 404) {
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-          // console.log("dh")
         }
         else if (error.response.status >= 500) {
           // console.log("Internal Server Error", error.message)
-          ServerError(undefined,`${error.message}`)
+          ServerError(undefined, `${error.message}`)
         }
         else {
-          console.log("An error occurred response.>>",error.message)
-          // ServerError(,`${error.message}`)
+          console.log("An error occurred response.>>", error.message)
         }
       }
       else if (error.code === 'ECONNABORTED') {
@@ -125,7 +122,6 @@ const Login = () => {
       }
       else if (error.request) {
         console.log("No Response Received From the Server.", error.request);
-
         if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
           Alert.alert("Server Unreachable", "Please try again later.");
         } else if (error.request.status === 0) {
@@ -133,10 +129,10 @@ const Login = () => {
         }
       }
       else {
-        console.log("Error in Setting up the Request.",error)
+        console.log("Error in Setting up the Request.", error)
       }
 
-    
+
 
       if (error) {
         // message = error.message;
@@ -204,22 +200,13 @@ const Login = () => {
                           <CustomTextInput
                             boxWidth={'100%'}
                             placeholder={'Enter Email'}
-                            // label={'Enter your userEmail id'}
                             labelStyle={{ fontWeight: '700', marginBottom: 10 }}
                             name='userEmail'
                             value={values.userEmail}
                             containerStyle={{ elevation: 10 }}
-                            // bgColor='#e1f3f8'
-                            // bgColor="#B1B1B0"
                             onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("userEmail")(eToLowerCaseText); seterrorFormAPI(); }}
                             onBlur={handleBlur("userEmail")}
-                            // validate={() => {
-                            //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                            //     else { setError({ ...error, first: null }) }
-                            // }}
-
                             leftIcon={<Image source={require('../../assets/Images/Icons/Gmail Logo.png')} style={{ width: 24, height: 24 }} />}
-
                             validate={handleBlur("userEmail")}
                             outlined
                             borderColor={`${(errors.userEmail && touched.userEmail) || (errorFormAPI && errorFormAPI.userEmailForm) ? "red" : "#ccc"}`}
@@ -231,18 +218,13 @@ const Login = () => {
                           <CustomTextInput
                             boxWidth={'100%'}
                             placeholder={'Enter password'}
-                            // label={'Enter your userEmail id'}
                             labelStyle={{ fontWeight: '700' }}
                             name='password'
                             value={values.password}
                             containerStyle={{ elevation: 10, marginTop: 5 }}
-                            // bgColor='#e1f3f8'
-                            // bgColor="#B1B1B0"
                             onChangeText={(e) => {
                               handleChange("password")(e); seterrorFormAPI();
-                              // setShow({ ...setShow, password: false });
                             }}
-                            // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("password")(eToLowerCaseText); seterrorFormAPI(); }}
                             onBlur={handleBlur("password")}
                             rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
                               {!show?.password ? (
@@ -257,8 +239,6 @@ const Login = () => {
                             outlined
                             borderColor={`${(errors.password && touched.password) || (errorFormAPI && errorFormAPI.passwordForm) ? "red" : "#ccc"}`}
                             errorMessage={`${(errors.password && touched.password) ? `${errors.password}` : (errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                          // errorMessage={`${(errorFormAPI && errorFormAPI.passwordForm) ? `${errorFormAPI.passwordForm}` : ``}`}
-                          // errorColor='magenta'
                           />
 
                           <View style={{ justifyContent: 'flex-end', width: '100%', marginVertical: 16 }}>
@@ -269,14 +249,9 @@ const Login = () => {
 
                           <CustomButton1
                             boxWidth={'100%'}
-                            // onPress={() => { navigation.navigate("OtpScreen") }}
                             onPress={handleSubmit}
                             textStyling={{ marginBottom: -5 }}
-                            // leftIcon={<Entypo
-                            //   // style={styles.icon}
-                            //   name={'login'} size={18} color={'white'} />}
                             bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
-                            // bgColor={"rgba(220, 142, 128, 0.9)"}
                             style={{ marginTop: 50 }}>Login</CustomButton1>
 
 

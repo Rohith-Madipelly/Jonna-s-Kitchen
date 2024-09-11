@@ -159,7 +159,7 @@ const ProgramDeatils = ({ programId, data }) => {
                         />
 
                     </View>
-                    <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>Program 01</Text>
+                    <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>{data.programName}</Text>
 
                     {/* {ProgramDetails.map((item, index) => (
                         <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
@@ -220,7 +220,7 @@ const ProgramDeatils = ({ programId, data }) => {
 
                         <CustomButton1
                             boxWidth={'75%'}
-                            onPress={() => { navigation.navigate("ProgramsForm",{programId:data.id, programPrice:data.programPrice}) }}
+                            onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}
                             // onPress={handleSubmit}
                             textStyling={{ marginBottom: -5 }}
                             stylebtn={{ paddingVertical: 10 }}

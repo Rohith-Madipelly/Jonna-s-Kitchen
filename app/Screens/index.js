@@ -80,7 +80,7 @@ const Screen = () => {
   }
 
 
-  
+
 
   useEffect(() => {
     setUser(loginSelector)
@@ -131,50 +131,47 @@ const Screen = () => {
   return (
     <SafeAreaView style={GlobalStyles.androidSafeArea}>
       {/* <NavigationContainer> */}
-        <ErrorBoundary FallbackComponent={CustomFallbackUI}>
+      <ErrorBoundary FallbackComponent={CustomFallbackUI}>
 
 
-          <Stack.Navigator
-            id="rootStack"
-            // initialRouteName="Login"
-            screenOptions={{
-              headerShown: false,
-              headerStyle: { backgroundColor: 'lightblue' },
-              // headerTintColor: 'white',
-              // headerTitleStyle: { fontWeight: 'bold' },
-            }}
-            detachInactiveScreens={false} // Disable optimization for demonstration purposes
-            >
-
-            
-            {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
-            {user ? (
-              <>
-
-                {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} /> */}
-                <Stack.Screen name="ProgramsForm" component={ProgramForm} />
-
-                {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
-                {/* <Stack.Screen name="DataCheck" component={DataCheck} /> */}
-                <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
-                <Stack.Screen name="LogOut" component={LogOut} />
-                <Stack.Screen name="Notification" component={Notification} />
-              </>) : (<>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="UserRegister" component={UserRegister} />
-                <Stack.Screen name="OtpScreen" component={OtpScreen} />
-                <Stack.Screen name="CreatePassword" component={CreatePassword} />
+        <Stack.Navigator
+          id="rootStack"
+          // initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+            headerStyle: { backgroundColor: 'lightblue' },
+            // headerTintColor: 'white',
+            // headerTitleStyle: { fontWeight: 'bold' },
+          }}
+          detachInactiveScreens={false} // Disable optimization for demonstration purposes
+        >
 
 
-                <Stack.Screen name="ForgetPassword" component={ForgetPassword} /> 
-                <Stack.Screen name="OtpScreenForgot" component={OtpScreenForgot} />
-                <Stack.Screen name="ResetPassword" component={ResetPassword} />
-                <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
-                {/* <Stack.Screen name="Loading" component={Loading} /> */}
-                {/* <Stack.Screen name="SuccessfulVerify" component={SuccessfulVerify} /> */}
-              </>)}
-          </Stack.Navigator>
-        </ErrorBoundary>
+          {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
+          {user ? (
+            <>
+
+              <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+              <Stack.Screen name="ProgramsForm" component={ProgramForm} />
+              <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
+              <Stack.Screen name="LogOut" component={LogOut} />
+              <Stack.Screen name="Notification" component={Notification} />
+            </>) : (<>
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="UserRegister" component={UserRegister} />
+              <Stack.Screen name="OtpScreen" component={OtpScreen} />
+              <Stack.Screen name="CreatePassword" component={CreatePassword} />
+
+
+              <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+              <Stack.Screen name="OtpScreenForgot" component={OtpScreenForgot} />
+              <Stack.Screen name="ResetPassword" component={ResetPassword} />
+              <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
+              {/* <Stack.Screen name="Loading" component={Loading} /> */}
+              {/* <Stack.Screen name="SuccessfulVerify" component={SuccessfulVerify} /> */}
+            </>)}
+        </Stack.Navigator>
+      </ErrorBoundary>
       {/* </NavigationContainer> */}
     </SafeAreaView>
   )

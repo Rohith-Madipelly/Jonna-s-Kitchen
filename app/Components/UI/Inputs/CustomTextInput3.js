@@ -85,66 +85,6 @@ const CustomTextInput3 = ({
 
 export default CustomTextInput3
 
-// const styles = StyleSheet.create({
-
-//     label: {
-//         // fontWeight: '500',
-//         fontWeight: '400',
-
-//         textTransform: 'none',
-//         color: '#474464',
-//         marginBottom: 5,
-//         // fontSize:22
-//     },
-//     container: {
-//         padding: 10,
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         backgroundColor: 'white',
-//         borderRadius: 10,
-//         paddingHorizontal: 20,
-
-//         ...Platform.select({
-//             ios: {
-//                 height: 55
-//             },
-//             android: {
-//                 // height:80
-//             },
-//         }),
-//         ...Platform.select({
-//             ios: {
-//                 shadowColor: 'black',
-//                 // shadowColor: 'black',
-//                 shadowOffset: { width: 0, height: 2 },
-//                 shadowOpacity: 0.2,
-//                 shadowRadius: 4,
-//             },
-//             android: {
-//                 elevation: 2,
-//             },
-//         }),
-
-
-//     },
-//     boxHeight: {
-//         ...Platform.select({
-//             ios: {
-//                 height: 100
-//             },
-//             android: {
-//                 // height:80
-//             },
-//         })
-//     },
-//     outlined: {
-//         // borderBottomColor: '#48484A',
-//         borderColor: '#48484A',
-//         borderWidth: 0.9,
-//         borderCurve: 50,
-//     }
-// })
-
 const styles = StyleSheet.create({
     label: {
         fontWeight: '500',
@@ -180,8 +120,6 @@ const styles = StyleSheet.create({
                 elevation: 5,
             },
         }),
-
-
     },
     boxHeight: {
         // marginTop:5,

@@ -4,9 +4,7 @@ import * as Yup from "yup";
 const RegisterYupSchema = Yup.object().shape({
 
 
-  userName: Yup.string().required("User Name is a required field "),
-
-
+  userName: Yup.string().required("User name is a required field "),
  
   phoneNumber: Yup.string()
     .trim()
@@ -37,20 +35,31 @@ const RegisterYupSchema = Yup.object().shape({
   ).required("Email is a required Field "),
 
 
-  // age:Yup.string().required("Age is a required Field "),
-  // gender:Yup.string().required("Gender is a required Field "),
-  // height:Yup.string().required("Height is a required Field "),
-  // userHeight:Yup.string().required("Current Weight is a required Field "),
-  // maritalStatus:Yup.string().required("maritalStatus is a required Field "),
-  // personType:Yup.string().required("Veg or Non-veg is a required Field "),
-  // meal:Yup.string().required("meal is a required Field "),
+  gender:Yup.string().required("Gender is a required Field "),
+  
+  userAge:Yup.string().required("Age is a required Field "),
+  
+  userHeight:Yup.string().required("Height is a required Field "),
 
-  // medication:Yup.string().required("medication is a required Field "),
- 
- 
-  // PhysicalActivity:Yup.string().required("PhysicalActivity is a required Field "),
-  // programId:Yup.string().required("program is a required Field "),
-  // programFee:Yup.string().required("programFee is a required Field "),
+  currentWeight:Yup.string().required("Current weight is a required Field "),
 
+  maritalStatus:Yup.string().required("Marital status is a required Field "),
+  foodType:Yup.string().required("Veg or Non-veg is a required Field "),
+  meal:Yup.string().required("Your food is a required Field "),
+
+  address:Yup.string().required("Address is a required Field "),
+  state:Yup.string().required("State is a required Field "),
+  medicalCondition:Yup.string().required("medicalCondition is a required Field "),
+
+  medication:Yup.string().required("medication is a required Field "),
+ 
+  slotDate:Yup.string().required("Slot date is a required Field "),
+  physicalActivity:Yup.string().required("Physical activity is a required Field "),
+  programId:Yup.string().required("Program is a required Field "),
+  programAmount:Yup.string().required("Program fee is a required Field "),
+
+  processingFee:Yup.string().required("Processing fee is a required Field "),
+  slotTime:Yup.string().required("Available Slots is a required Field "),
+  programName:Yup.string().required("Program name is a required Field "),
 });
 export { RegisterYupSchema }

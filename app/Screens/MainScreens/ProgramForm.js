@@ -1,40 +1,36 @@
-import { Button, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Button, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useFormik } from "formik";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RegisterYupSchema } from "../../FormikYupSchema/RegisterYupSchema";
 import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
-import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
-import CustomTextInput from "../../Components/UI/Inputs/CustomTextInput";
-import { LoginYupSchema } from "../../FormikYupSchema/LoginYupSchema";
-import { Entypo } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
-
-// import { re } from "../../../../FormikYupSchema/AccountSetUpSchema/AccountPersonal1";
-
+import CustomDropdown from "../../Components/UI/Inputs/CustomDropdown";
+import CustomDateTimePicker from "../../Components/UI/Inputs/CustomDateTimePicker";
+import { CREATE_USER_API, GET_SLOTS_BY_DATE_API } from "../../Utils/ApiCalls";
+import CustomDropdownError from "../../Components/UI/Inputs/CustomDropdownError";
+import RazorpayCheckout from "react-native-razorpay";
+import { RAZORPAY_KEY } from "../../Enviornment";
 
 
 
 const ProgramForm = ({ route }) => {
     const { params } = route;
-    const programId = params?.programId || 'nana';
-    const programPrice = params?.programPrice || 'nana';
-    console.log("programId > program Form", programId, programPrice)
-    console.log(programPrice)
-    const navigation = useNavigation();
+    const programId = params.programId || 'nana';
+    const programPricex = params.programPrice || 'nana';
+    const processingFeeData = '60'
+    console.log("programId > program Form", programId, programPricex)
+
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
-
-    const dispatch = useDispatch();
-
-
-
+    const [timeSlotArray, setTimeSlotArray] = useState([])
+    const navigation = useNavigation();
+   
 
     const { handleChange,
         handleBlur,
@@ -47,7 +43,29 @@ const ProgramForm = ({ route }) => {
         setValues,
         resetForm,
     } = useFormik({
-        initialValues: { email: "", password: "" },
+
+        initialValues: {
+            userName: "Rohith Madipelly", phoneNumber: "9951072005", email: "madipellyrohith@gmail.com",
+            userAge: "22", gender: "", userHeight: "176", currentWeight: "86",
+            maritalStatus: "", foodType: "",
+            meal: "Chapathi",
+
+            medicalCondition: "",
+            medication: "Test",
+            physicalActivity: "yes",
+
+            address: "Warangal",
+            state: "TG",
+            programName: params.programNameData,
+            programId: params.programId,
+            programAmount: params.programPriceData,
+            // programAmount:programPricex,
+            // processingFeeData
+            processingFee: params.processingFeeData,
+            slotDate: "",
+            slotTime: "",
+
+        },
 
         onSubmit: values => {
             { submitHandler(values) }
@@ -58,6 +76,7 @@ const ProgramForm = ({ route }) => {
 
         validate: values => {
             const errors = {};
+            // console.log(values)
             return errors;
         },
 
@@ -65,10 +84,129 @@ const ProgramForm = ({ route }) => {
 
 
 
-    const submitHandler = (values) => {
-        console.log("VerificationCode>> to ", values)
+    const genderData = [
+        { title: 'Male' },
+        { title: 'Female' },
+        { title: 'Other' },
+        // { title: 'Home appliences', image: require('../../../assets/opitionsImages/Categories/Home appliences.png') },
+    ]
+
+    maritalStatusData = [
+        { title: 'Unmarried' },
+        { title: 'Married' },
+        { title: 'Divorced' },
+        { title: 'Widow' },
+        { title: 'Widower ' },
+        { title: 'Separated' },
+    ];
+
+
+
+    healthConditionsData = [
+        { title: 'PCOD/PCOS' },
+        { title: 'Thyroid (Hyper)' },
+        { title: 'Thyroid (Hypo)' },
+        { title: 'Diabetes' },
+        { title: 'High Cholesterol' },
+        { title: 'Fatty Liver' },
+        { title: 'Postpartum' },
+        { title: 'Lactating Mother (Minimum of 6 months Postpartum)' },
+        { title: 'Fertility' },
+        { title: 'None' },
+        { title: 'Others' },
+    ];
+
+
+    foodPreferenceData = [
+        { title: 'Vegetarian' },
+        { title: 'Non-Vegetarian' },
+        { title: 'Vegan' },
+        { title: 'Eggetarian' },
+        { title: 'Pescatarian' },   // Eats fish but no other meat
+        { title: 'Jain' },          // Follows Jain dietary restrictions (e.g. no root vegetables)
+        { title: 'Gluten-Free' },   // Avoids gluten
+        { title: 'Keto' },          // Follows a ketogenic diet
+        { title: 'Paleo' },         // Follows a paleolithic diet
+    ];
+
+
+    let tokenn = useSelector((state) => state.login.token);
+
+
+    try {
+        if (tokenn != null) {
+            tokenn = tokenn.replaceAll('"', '');
+        }
+    }
+    catch (err) {
+        console.log("Error in token quotes", err)
+        if (err.response.status === 500) {
+            console.log("Internal Server Error", err.message)
+        }
     }
 
+    const submitHandler = (values) => {
+        console.log("VerificationCode>> to ", values)
+        CREATE_USER(values)
+    }
+
+
+    const CREATE_USER = async (values) => {
+            try {
+                const res = await CREATE_USER_API(values,tokenn)
+                const order=res.data.jonasCreatedOrder;
+                if (order) {
+                            
+                    const options = {
+                        key: RAZORPAY_KEY,
+                        order_id: order.id,
+                        amount: order.amount,
+                        name: order.entity,
+                        currency: order.currency,
+                        description: order.notes.notes_key_1,      
+                        prefill: {
+                            name: "Test User",
+                            email: "madipellyrohith@gmail.com",
+                            contact: "9951072023",
+                        },
+                        notes: {
+                            address: "11-24-140,2nd",
+                        },
+                        theme: {
+                            color: "#3399cc",
+                        },
+                    }
+        
+                    RazorpayCheckout.open(options)
+                        .then((data) => {
+                            console.log("Payment >", data)
+                            Alert.alert("Payment Done")
+                            navigation.navigate("BottomTabScreen")
+                        })
+                        .catch((error) => {
+                            console.log("Error in RazorpayCheckout", error,error.response)
+                        })
+                }
+        
+            } catch (error) {
+                console.log(error.response)
+            }
+    }
+
+    
+
+    const getTimeSlotsBydate = async (date) => {
+        try {
+            const res = await GET_SLOTS_BY_DATE_API(date, tokenn)
+            if (res) {
+                console.log(res.data.slotTimeArray)
+                setTimeSlotArray(res.data.slotTimeArray)
+            }
+        } catch (error) {
+            console.log(error)
+            setTimeSlotArray([])
+        }
+    }
     return (
         <ImageBackground
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
@@ -76,21 +214,12 @@ const ProgramForm = ({ route }) => {
                 flex: 1,
                 // backgroundColor:'pink'
             }}>
-
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
-                    {/* <KeyboardAvoidingView
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        // behavior={Platform.OS === "ios" ? 100:0}
-                        keyboardVerticalOffset={Platform.OS === "ios" ? 100:0}
-                        style={{ width: '100%', flex: 1 }}
-                        // keyboardVerticalOffset={Platform.OS=='ios'?'padding':'height'}
-                    > */}
-
                     <KeyboardAwareScrollView style={{ width: '100%', flex: 1 }}>
                         <View style={{ marginHorizontal: 18 }}>
                             <View style={{ alignItems: 'center', marginTop: 10 }}>
@@ -114,26 +243,15 @@ const ProgramForm = ({ route }) => {
                                     label={'Full name'}
                                     name='userName'
                                     value={values.userName}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
                                     onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
                                     onBlur={handleBlur("userName")}
                                     validate={handleBlur("userName")}
-
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
-
-
                                     borderColor={`${(errors.userName && touched.userName) || (errorFormAPI && errorFormAPI.userNameForm) ? "red" : "#ccc"}`}
-
                                     errorMessage={`${(errors.userName && touched.userName) ? `${errors.userName}` : (errorFormAPI && errorFormAPI.userNameForm) ? `${errorFormAPI.userNameForm}` : ``}`}
-
                                 // errorColor='magenta'
                                 />
-
-
 
 
 
@@ -143,10 +261,6 @@ const ProgramForm = ({ route }) => {
                                     label={'Phone number'}
                                     name='phoneNumber'
                                     value={values.phoneNumber}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
                                     onChangeText={(e) => {
                                         // Remove any non-numeric characters
                                         const numericValue = e.replace(/[^0-9]/g, '');
@@ -154,8 +268,6 @@ const ProgramForm = ({ route }) => {
                                         handleChange("phoneNumber")(numericValue);
                                         seterrorFormAPI();
                                     }}
-                                  
-
                                     onBlur={handleBlur("phoneNumber")}
                                     validate={handleBlur("phoneNumber")}
 
@@ -164,12 +276,10 @@ const ProgramForm = ({ route }) => {
                                     labelStyle={{ marginBottom: -2 }}
                                     // borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
                                     // errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
-                                // errorColor='magenta'
-                                borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
+                                    // errorColor='magenta'
+                                    borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
 
-                                errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
-
-                                
+                                    errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
                                 />
 
                                 <CustomTextInput3
@@ -178,29 +288,15 @@ const ProgramForm = ({ route }) => {
                                     label={'Email ID'}
                                     name='email'
                                     value={values.email}
-                                    //   leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
                                     onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("email")(eToLowerCaseText); seterrorFormAPI(); }}
                                     onBlur={handleBlur("email")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
                                     validate={handleBlur("email")}
                                     labelStyle={{ marginBottom: -2 }}
                                     outlined
-
                                     borderColor={`${(errors.email && touched.email) || (errorFormAPI && errorFormAPI.emailForm) ? "red" : "#ccc"}`}
-
                                     errorMessage={`${(errors.email && touched.email) ? `${errors.email}` : (errorFormAPI && errorFormAPI.emailForm) ? `${errorFormAPI.emailForm}` : ``}`}
-
-                                // errorColor='magenta'
                                 />
-                          
+
 
 
 
@@ -224,29 +320,23 @@ const ProgramForm = ({ route }) => {
                                     <View style={{ flex: 0.7, justifyContent: 'center', }}>
                                         <CustomTextInput3
                                             boxWidth={'100%'}
-                                            placeholder={'Enter your age'}
-                                            // label={'Age'}
-                                            name='age'
-                                            value={values.age}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                            // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
-
+                                            placeholder={'Enter your userAge'}
+                                            name='userAge'
+                                            value={values.userAge}
                                             onChangeText={(e) => {
                                                 // Remove any non-numeric characters
                                                 const numericValue = e.replace(/[^0-9]/g, '');
                                                 // Update the state with the numeric value
-                                                handleChange("age")(numericValue);
+                                                handleChange("userAge")(numericValue);
                                                 seterrorFormAPI();
                                             }}
-                                            onBlur={handleBlur("age")}
-                                            validate={handleBlur("age")}
+                                            onBlur={handleBlur("userAge")}
+                                            validate={handleBlur("userAge")}
                                             keyboardType="numeric"
                                             outlined
                                             labelStyle={{ marginBottom: -2 }}
-                                            borderColor={`${(errors.age && touched.age) || (errorFormAPI && errorFormAPI.ageForm) ? "red" : "#ccc"}`}
-                                            errorMessage={`${(errors.age && touched.age) ? `${errors.age}` : (errorFormAPI && errorFormAPI.ageForm) ? `${errorFormAPI.ageForm}` : ``}`}
-                                        // errorColor='magenta'
+                                            borderColor={`${(errors.userAge && touched.userAge) || (errorFormAPI && errorFormAPI.ageForm) ? "red" : "#ccc"}`}
+                                            errorMessage={`${(errors.userAge && touched.userAge) ? `${errors.userAge}` : (errorFormAPI && errorFormAPI.ageForm) ? `${errorFormAPI.ageForm}` : ``}`}
                                         />
                                     </View>
                                 </View>
@@ -268,30 +358,28 @@ const ProgramForm = ({ route }) => {
 
                                     </View>
                                     <View style={{ flex: 0.7 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            placeholder={'Enter your gender'}
-                                            // label={'Age'}
+                                        <CustomDropdown
+                                            boxWidth={'95%'}
+                                            // label={"Gender"}
+                                            // placeholder={'Select'}
                                             name='gender'
+                                            DropDownData={genderData}
+                                            DropDownHeigth={200}
                                             value={values.gender}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                             // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
+                                            // onChange={setCategoriesData}
 
-                                            onChangeText={(e) => {
-
+                                            onChange={(e) => {
                                                 handleChange("gender")(e);
                                                 seterrorFormAPI();
                                             }}
-                                            onBlur={handleBlur("gender")}
-                                            validate={handleBlur("gender")}
-                                            // keyboardType="numeric"
                                             outlined
-                                            labelStyle={{ marginBottom: -2 }}
                                             borderColor={`${(errors.gender && touched.gender) || (errorFormAPI && errorFormAPI.genderForm) ? "red" : "#ccc"}`}
                                             errorMessage={`${(errors.gender && touched.gender) ? `${errors.gender}` : (errorFormAPI && errorFormAPI.genderForm) ? `${errorFormAPI.genderForm}` : ``}`}
                                         // errorColor='magenta'
                                         />
+
+
                                     </View>
 
                                 </View>
@@ -312,53 +400,6 @@ const ProgramForm = ({ route }) => {
                                     </View>
 
                                     <View style={{ flex: 0.7 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            placeholder={'Enter your Height'}
-                                            // label={'height'}
-                                            name='height'
-                                            value={values.height}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                            // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
-
-                                            onChangeText={(e) => {
-                                                // Remove any non-numeric characters
-                                                const numericValue = e.replace(/[^0-9]/g, '');
-                                                // Update the state with the numeric value
-                                                handleChange("height")(numericValue);
-                                                seterrorFormAPI();
-                                            }}
-                                            onBlur={handleBlur("height")}
-                                            validate={handleBlur("height")}
-                                            keyboardType="numeric"
-                                            outlined
-                                            labelStyle={{ marginBottom: -2 }}
-                                            borderColor={`${(errors.height && touched.height) || (errorFormAPI && errorFormAPI.heightForm) ? "red" : "#ccc"}`}
-                                            errorMessage={`${(errors.height && touched.height) ? `${errors.height}` : (errorFormAPI && errorFormAPI.heightForm) ? `${errorFormAPI.heightForm}` : ``}`}
-                                        // errorColor='mheightnta'
-                                        />
-                                    </View>
-
-
-                                </View>
-
-                                {/* Current Weight */}
-                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
-                                    <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10 }}>
-                                        {/* <View style={{flex:1}}> */}
-                                        <Text style={{
-                                            fontWeight: '500',
-                                            marginBottom: 4,
-                                            textTransform: 'none',
-                                            fontFamily: 'BalooTamma2-Bold',
-                                            fontSize: 14,
-                                            marginLeft: 4
-
-                                        }}>Current Weight</Text>
-                                    </View>
-
-                                    <View style={{ flex: 0.6 }}>
                                         <CustomTextInput3
                                             boxWidth={'100%'}
                                             placeholder={'Enter your current weight'}
@@ -390,11 +431,59 @@ const ProgramForm = ({ route }) => {
 
                                 </View>
 
+                                {/* Current Weight */}
+                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
+                                    <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10 }}>
+                                        {/* <View style={{flex:1}}> */}
+                                        <Text style={{
+                                            fontWeight: '500',
+                                            marginBottom: 4,
+                                            textTransform: 'none',
+                                            fontFamily: 'BalooTamma2-Bold',
+                                            fontSize: 14,
+                                            marginLeft: 4
+
+                                        }}>Current Weight</Text>
+                                    </View>
+
+                                    <View style={{ flex: 0.6 }}>
+
+                                        <CustomTextInput3
+                                            boxWidth={'100%'}
+                                            placeholder={'Enter your current weight'}
+                                            // label={'currentWeight'}
+                                            name='currentWeight'
+                                            value={values.currentWeight}
+                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
+                                            // bgColor='#e1f3f8'
+                                            // bgColor="#B1B1B0"
+
+                                            onChangeText={(e) => {
+                                                // Remove any non-numeric characters
+                                                const numericValue = e.replace(/[^0-9]/g, '');
+                                                // Update the state with the numeric value
+                                                handleChange("currentWeight")(numericValue);
+                                                seterrorFormAPI();
+                                            }}
+                                            onBlur={handleBlur("currentWeight")}
+                                            validate={handleBlur("currentWeight")}
+                                            keyboardType="numeric"
+                                            outlined
+                                            labelStyle={{ marginBottom: -2 }}
+                                            borderColor={`${(errors.currentWeight && touched.currentWeight) || (errorFormAPI && errorFormAPI.userWeightForm) ? "red" : "#ccc"}`}
+                                            errorMessage={`${(errors.currentWeight && touched.currentWeight) ? `${errors.currentWeight}` : (errorFormAPI && errorFormAPI.userWeightForm) ? `${errorFormAPI.userWeightForm}` : ``}`}
+                                        // errorColor='muserWeightnta'
+                                        />
+                                    </View>
+
+
+                                </View>
+
 
 
                                 {/* Marital Status */}
                                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
-                                    <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10 }}>
+                                    <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10, }}>
                                         {/* <View style={{flex:1}}> */}
                                         <Text style={{
                                             fontWeight: '500',
@@ -409,29 +498,27 @@ const ProgramForm = ({ route }) => {
 
 
                                     <View style={{ flex: 0.6 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            // placeholder={'Enter your maritalStatus'}
-                                            // label={'maritalStatus'}
+                                        <CustomDropdown
+                                            boxWidth={'95%'}
+                                            // label={"Gender"}
+                                            // placeholder={'Select'}
                                             name='maritalStatus'
+                                            DropDownData={maritalStatusData}
+                                            DropDownHeigth={200}
                                             value={values.maritalStatus}
+                                            // bgColor='#e1f3f8'
+                                            // onChange={setCategoriesData}
 
-
-                                            onChangeText={(e) => {
-
-                                                // Update the state with the numeric value
+                                            onChange={(e) => {
                                                 handleChange("maritalStatus")(e);
                                                 seterrorFormAPI();
                                             }}
-                                            onBlur={handleBlur("maritalStatus")}
-                                            validate={handleBlur("maritalStatus")}
-
                                             outlined
-                                            labelStyle={{ marginBottom: -2 }}
                                             borderColor={`${(errors.maritalStatus && touched.maritalStatus) || (errorFormAPI && errorFormAPI.maritalStatusForm) ? "red" : "#ccc"}`}
                                             errorMessage={`${(errors.maritalStatus && touched.maritalStatus) ? `${errors.maritalStatus}` : (errorFormAPI && errorFormAPI.maritalStatusForm) ? `${errorFormAPI.maritalStatusForm}` : ``}`}
-                                        // errorColor='mmaritalStatusnta'
+                                        // errorColor='magenta'
                                         />
+
                                     </View>
 
                                 </View>
@@ -457,29 +544,29 @@ const ProgramForm = ({ route }) => {
 
 
                                     <View style={{ flex: 0.6 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            placeholder={'Veg or Non-veg'}
-
-                                            name='personType'
-                                            value={values.personType}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
+                                        <CustomDropdown
+                                            boxWidth={'95%'}
+                                            // label={"Gender"}
+                                            placeholder={'Select'}
+                                            name='foodType'
+                                            DropDownData={foodPreferenceData}
+                                            // foodPreferenceData
+                                            DropDownHeigth={200}
+                                            value={values.foodType}
                                             // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
+                                            // onChange={setCategoriesData}
 
-                                            onChangeText={(e) => {
-                                                handleChange("personType")(e);
+                                            onChange={(e) => {
+                                                handleChange("foodType")(e);
                                                 seterrorFormAPI();
                                             }}
-                                            onBlur={handleBlur("personType")}
-                                            validate={handleBlur("personType")}
-
                                             outlined
-                                            labelStyle={{ marginBottom: -2 }}
-                                            borderColor={`${(errors.personType && touched.personType) || (errorFormAPI && errorFormAPI.personTypeForm) ? "red" : "#ccc"}`}
-                                            errorMessage={`${(errors.personType && touched.personType) ? `${errors.personType}` : (errorFormAPI && errorFormAPI.personTypeForm) ? `${errorFormAPI.personTypeForm}` : ``}`}
-                                        // errorColor='mmaritalStatusnta'
+                                            borderColor={`${(errors.foodType && touched.foodType) || (errorFormAPI && errorFormAPI.personTypeForm) ? "red" : "#ccc"}`}
+                                            errorMessage={`${(errors.foodType && touched.foodType) ? `${errors.foodType}` : (errorFormAPI && errorFormAPI.personTypeForm) ? `${errorFormAPI.personTypeForm}` : ``}`}
+                                        // errorColor='magenta'
                                         />
+
+
                                     </View>
 
                                 </View>
@@ -516,39 +603,62 @@ const ProgramForm = ({ route }) => {
                                 // errorColor='magenta'
                                 />
 
-                                <Text>Medical Conditions</Text>
 
 
-
-                                {/* Others Medical Conditions*/}
-                                <CustomTextInput3
+                                <CustomDropdown
                                     boxWidth={'95%'}
-                                    placeholder={'Others medical conditions'}
-                                    label={'Others medical conditions'}
-                                    name='otherMedicalConditions'
-                                    value={values.otherMedicalConditions}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
+                                    label={"Medical conditions"}
+                                    placeholder={'Select'}
+                                    name='maritalStatus'
+                                    DropDownData={healthConditionsData}
+                                    DropDownHeigth={200}
+                                    value={values.medicalCondition}
                                     // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
+                                    // onChange={setCategoriesData}
 
-                                    onChangeText={(e) => { handleChange("otherMedicalConditions")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("otherMedicalConditions")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
-                                    validate={handleBlur("otherMedicalConditions")}
-
+                                    onChange={(e) => {
+                                        handleChange("medicalCondition")(e);
+                                        seterrorFormAPI();
+                                    }}
                                     outlined
-                                    labelStyle={{ marginBottom: -2 }}
-
-                                    borderColor={`${(errors.otherMedicalConditions && touched.otherMedicalConditions) || (errorFormAPI && errorFormAPI.otherMedicalConditionsForm) ? "red" : "#ccc"}`}
-
-                                    errorMessage={`${(errors.otherMedicalConditions && touched.otherMedicalConditions) ? `${errors.otherMedicalConditions}` : (errorFormAPI && errorFormAPI.otherMedicalConditionsForm) ? `${errorFormAPI.otherMedicalConditionsForm}` : ``}`}
+                                    borderColor={`${(errors.medicalCondition && touched.medicalCondition) || (errorFormAPI && errorFormAPI.medicalConditionForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.medicalCondition && touched.medicalCondition) ? `${errors.medicalCondition}` : (errorFormAPI && errorFormAPI.medicalConditionForm) ? `${errorFormAPI.medicalConditionForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
+
+
+                                {values.maritalStatus === "Others" ?
+                                    <CustomTextInput3
+                                        boxWidth={'95%'}
+                                        placeholder={'Others medical conditions'}
+                                        label={'Others medical conditions'}
+                                        name='othermedicalConditions'
+                                        // value={values.othermedicalConditions}
+                                        // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
+                                        // bgColor='#e1f3f8'
+                                        // bgColor="#B1B1B0"
+
+                                        onChangeText={(e) => { handleChange("othermedicalConditions")(e); seterrorFormAPI(); }}
+                                        onBlur={handleBlur("othermedicalConditions")}
+
+                                        // validate={() => {
+                                        //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
+                                        //     else { setError({ ...error, first: null }) }
+                                        // }}
+
+                                        validate={handleBlur("othermedicalConditions")}
+
+                                        outlined
+                                        labelStyle={{ marginBottom: -2 }}
+
+                                        borderColor={`${(errors.othermedicalConditions && touched.othermedicalConditions) || (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? "red" : "#ccc"}`}
+
+                                        errorMessage={`${(errors.othermedicalConditions && touched.othermedicalConditions) ? `${errors.othermedicalConditions}` : (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? `${errorFormAPI.othermedicalConditionsForm}` : ``}`}
+                                    // errorColor='magenta'
+                                    /> : ""}
+
+                                {/* Others Medical Conditions*/}
+
 
 
 
@@ -582,132 +692,93 @@ const ProgramForm = ({ route }) => {
                                 // errorColor='magenta'
                                 />
 
-                                <Text>address</Text>
-
-
-                                {/* cityAndState */}
-                                <CustomTextInput3
-                                    boxWidth={'95%'}
-                                    placeholder={'City and state'}
-                                    label={'City and state'}
-                                    name='cityAndState'
-                                    value={values.cityAndState}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
-                                    onChangeText={(e) => { handleChange("cityAndState")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("cityAndState")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
-                                    validate={handleBlur("cityAndState")}
-
-                                    outlined
-                                    labelStyle={{ marginBottom: -2 }}
-
-                                    borderColor={`${(errors.cityAndState && touched.cityAndState) || (errorFormAPI && errorFormAPI.cityAndStateForm) ? "red" : "#ccc"}`}
-
-                                    errorMessage={`${(errors.cityAndState && touched.cityAndState) ? `${errors.cityAndState}` : (errorFormAPI && errorFormAPI.cityAndStateForm) ? `${errorFormAPI.cityAndStateForm}` : ``}`}
-                                // errorColor='magenta'
-                                />
-
-
-
                                 {/* physicalActivity */}
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Physical activity'}
                                     label={'Physical activity'}
                                     name='physicalActivity'
-                                    value={values.PhysicalActivity}
+                                    value={values.physicalActivity}
+                                    onChangeText={(e) => { handleChange("physicalActivity")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("physicalActivity")}
+                                    validate={handleBlur("physicalActivity")}
+                                    outlined
+                                    labelStyle={{ marginBottom: -2 }}
+                                    borderColor={`${(errors.physicalActivity && touched.physicalActivity) || (errorFormAPI && errorFormAPI.PhysicalActivityForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.physicalActivity && touched.physicalActivity) ? `${errors.physicalActivity}` : (errorFormAPI && errorFormAPI.PhysicalActivityForm) ? `${errorFormAPI.physicalActivityForm}` : ``}`}
+                                // errorColor='magenta'
+                                />
+                                <CustomTextInput3
+                                    boxWidth={'95%'}
+                                    placeholder={'address'}
+                                    label={'address'}
+                                    name='state'
+                                    value={values.address}
+                                    onChangeText={(e) => { handleChange("address")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("address")}
+                                    validate={handleBlur("address")}
+                                    outlined
+                                    labelStyle={{ marginBottom: -2 }}
+                                    borderColor={`${(errors.address && touched.address) || (errorFormAPI && errorFormAPI.addressForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.address && touched.address) ? `${errors.address}` : (errorFormAPI && errorFormAPI.addressForm) ? `${errorFormAPI.addressForm}` : ``}`}
+                                // errorColor='magenta'
+                                />
+
+
+                                {/* state */}
+                                <CustomTextInput3
+                                    boxWidth={'95%'}
+                                    placeholder={'Enter  your state'}
+                                    label={'State'}
+                                    name='state'
+                                    value={values.state}
                                     // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                     // bgColor='#e1f3f8'
                                     // bgColor="#B1B1B0"
-
-                                    onChangeText={(e) => { handleChange("PhysicalActivity")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("PhysicalActivity")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
-                                    validate={handleBlur("PhysicalActivity")}
-
+                                    onChangeText={(e) => { handleChange("state")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("state")}
+                                    validate={handleBlur("state")}
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
-
-                                    borderColor={`${(errors.PhysicalActivity && touched.PhysicalActivity) || (errorFormAPI && errorFormAPI.PhysicalActivityForm) ? "red" : "#ccc"}`}
-
-                                    errorMessage={`${(errors.PhysicalActivity && touched.PhysicalActivity) ? `${errors.PhysicalActivity}` : (errorFormAPI && errorFormAPI.PhysicalActivityForm) ? `${errorFormAPI.physicalActivityForm}` : ``}`}
+                                    borderColor={`${(errors.state && touched.state) || (errorFormAPI && errorFormAPI.cityAndStateForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.state && touched.state) ? `${errors.state}` : (errorFormAPI && errorFormAPI.cityAndStateForm) ? `${errorFormAPI.cityAndStateForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
+
+
+
 
                                 {/* program */}
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Program'}
                                     label={'Program'}
-                                    name='program'
-                                    value={values.programId}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
-                                    onChangeText={(e) => { handleChange("programId")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("programId")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
-                                    validate={handleBlur("programId")}
-
-                                    outlined
                                     labelStyle={{ marginBottom: -2 }}
-
-                                    borderColor={`${(errors.programId && touched.programId) || (errorFormAPI && errorFormAPI.programIdForm) ? "red" : "#ccc"}`}
-
-                                    errorMessage={`${(errors.programId && touched.programId) ? `${errors.programId}` : (errorFormAPI && errorFormAPI.programIdForm) ? `${errorFormAPI.programIdForm}` : ``}`}
+                                    name='program'
+                                    value={values.programName}
+                                    onChangeText={(e) => { handleChange("programName")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("programName")}
+                                    validate={handleBlur("programName")}
+                                    outlined
+                                    borderColor={`${(errors.programName && touched.programName) || (errorFormAPI && errorFormAPI.programNameForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.programName && touched.programName) ? `${errors.programName}` : (errorFormAPI && errorFormAPI.programNameForm) ? `${errorFormAPI.programNameForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
 
-                                <Text>{values.programFee}</Text>
-
-                                {/* programFee */}
-
-
+                                {/* programAmount */}
                                 <CustomTextInput3
                                     boxWidth={'95%'}
                                     placeholder={'Program fee'}
                                     label={'Program fee'}
-                                    name='programFee'
-                                    value={values.programFee}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
-                                    onChangeText={(e) => { handleChange("programFee")(e); seterrorFormAPI(); }}
-                                    onBlur={handleBlur("programFee")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
-                                    validate={handleBlur("programFee")}
-
+                                    name='programAmount'
+                                    value={values.programAmount}
+                                    onChangeText={(e) => { handleChange("programAmount")(e); seterrorFormAPI(); }}
+                                    onBlur={handleBlur("programAmount")}
+                                    validate={handleBlur("programAmount")}
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
-
-                                    borderColor={`${(errors.programFee && touched.programFee) || (errorFormAPI && errorFormAPI.programFeeForm) ? "red" : "#ccc"}`}
-
-                                    errorMessage={`${(errors.programFee && touched.programFee) ? `${errors.programFee}` : (errorFormAPI && errorFormAPI.programFeeForm) ? `${errorFormAPI.programFeeForm}` : ``}`}
+                                    borderColor={`${(errors.programAmount && touched.programAmount) || (errorFormAPI && errorFormAPI.programAmountForm) ? "red" : "#ccc"}`}
+                                    errorMessage={`${(errors.programAmount && touched.programAmount) ? `${errors.programAmount}` : (errorFormAPI && errorFormAPI.programAmountForm) ? `${errorFormAPI.programAmountForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
 
@@ -719,25 +790,12 @@ const ProgramForm = ({ route }) => {
                                     label={'Processing fee'}
                                     name='processingFee'
                                     value={values.processingFee}
-                                    // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                    // bgColor='#e1f3f8'
-                                    // bgColor="#B1B1B0"
-
                                     onChangeText={(e) => { handleChange("processingFee")(e); seterrorFormAPI(); }}
                                     onBlur={handleBlur("processingFee")}
-
-                                    // validate={() => {
-                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                    //     else { setError({ ...error, first: null }) }
-                                    // }}
-
                                     validate={handleBlur("processingFee")}
-
                                     outlined
                                     labelStyle={{ marginBottom: -2 }}
-
                                     borderColor={`${(errors.processingFee && touched.processingFee) || (errorFormAPI && errorFormAPI.processingFeeForm) ? "red" : "#ccc"}`}
-
                                     errorMessage={`${(errors.processingFee && touched.processingFee) ? `${errors.processingFee}` : (errorFormAPI && errorFormAPI.processingFeeForm) ? `${errorFormAPI.processingFeeForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
@@ -745,9 +803,12 @@ const ProgramForm = ({ route }) => {
 
 
 
+
+
+
                                 {/* Slot Date */}
-                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
-                                    <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10 }}>
+                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%', marginBottom: 10, }}>
+                                    <View style={{ flex: 0.4, justifyContent: 'center', height: '100%' }}>
                                         {/* <View style={{flex:1}}> */}
                                         <Text style={{
                                             fontWeight: '500',
@@ -762,34 +823,20 @@ const ProgramForm = ({ route }) => {
 
 
                                     <View style={{ flex: 0.6 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            placeholder={'Enter your slot date'}
-                                            // label={'slotData'}
-                                            name='slotData'
-                                            value={values.slotData}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                            // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
 
-                                            onChangeText={(e) => {
-                                                // Remove any non-numeric characters
-                                                const numericValue = e.replace(/[^0-9]/g, '');
-                                                // Update the state with the numeric value
-                                                handleChange("slotData")(numericValue);
-                                                seterrorFormAPI();
+                                        <CustomDateTimePicker
+                                            boxWidth={'100%'}
+                                            handleChange={(e) => {
+                                                console.log("heloo", e);
+                                                getTimeSlotsBydate(e)
+                                                handleChange("slotDate")(e);
                                             }}
-                                            onBlur={handleBlur("slotData")}
-                                            validate={handleBlur("slotData")}
-                                            keyboardType="numeric"
-                                            outlined
-                                            labelStyle={{ marginBottom: -2 }}
-                                            borderColor={`${(errors.slotData && touched.slotData) || (errorFormAPI && errorFormAPI.slotDataForm) ? "red" : "#ccc"}`}
-                                            errorMessslotData={`${(errors.slotData && touched.slotData) ? `${errors.slotData}` : (errorFormAPI && errorFormAPI.slotDataForm) ? `${errorFormAPI.slotDataForm}` : ``}`}
-                                        // errorColor='mslotDatanta'
+                                            // borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
+                                            // errorMessavailableSlots={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
+                                            borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
+                                            errorMessage={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
                                         />
                                     </View>
-
                                 </View>
 
 
@@ -811,35 +858,33 @@ const ProgramForm = ({ route }) => {
 
 
                                     <View style={{ flex: 0.6 }}>
-                                        <CustomTextInput3
-                                            boxWidth={'100%'}
-                                            placeholder={'Enter your available slots'}
-                                            // label={'availableSlots'}
-                                            name='availableSlots'
-                                            value={values.availableSlots}
-                                            // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                            // bgColor='#e1f3f8'
-                                            // bgColor="#B1B1B0"
 
-                                            onChangeText={(e) => {
-                                                // Remove any non-numeric characters
-                                                const numericValue = e.replace(/[^0-9]/g, '');
-                                                // Update the state with the numeric value
-                                                handleChange("availableSlots")(numericValue);
+                                        <CustomDropdownError
+                                            boxWidth={'95%'}
+                                            // label={"Gender"}
+                                            // placeholder={'Select'}
+                                            name='slotTime'
+                                            DropDownData={timeSlotArray}
+                                            // DropDownData={genderData}
+                                            DropDownHeigth={50}
+                                            value={values.slotTime}
+                                            // bgColor='#e1f3f8'
+                                            // onChange={setCategoriesData}
+
+
+                                            onChange={(startTime, endTime) => {
+                                                handleChange("slotTime")(`${startTime} - ${endTime}`);
                                                 seterrorFormAPI();
                                             }}
-                                            onBlur={handleBlur("availableSlots")}
-                                            validate={handleBlur("availableSlots")}
-                                            keyboardType="numeric"
                                             outlined
-                                            labelStyle={{ marginBottom: -2 }}
-                                            borderColor={`${(errors.availableSlots && touched.availableSlots) || (errorFormAPI && errorFormAPI.availableSlotsForm) ? "red" : "#ccc"}`}
-                                            errorMessavailableSlots={`${(errors.availableSlots && touched.availableSlots) ? `${errors.availableSlots}` : (errorFormAPI && errorFormAPI.availableSlotsForm) ? `${errorFormAPI.availableSlotsForm}` : ``}`}
-                                        // errorColor='mavailableSlotsnta'
+                                            borderColor={`${(errors.slotTime && touched.slotTime) || (errorFormAPI && errorFormAPI.availableSlotsForm) ? "red" : "#ccc"}`}
+                                            errorMessage={`${(errors.slotTime && touched.slotTime) ? `${errors.slotTime}` : (errorFormAPI && errorFormAPI.availableSlotsForm) ? `${errorFormAPI.availableSlotsForm}` : ``}`}
+                                        // errorColor='magenta'
                                         />
-                                    </View>
 
+                                    </View>
                                 </View>
+                                {/* <Text>{values.slotTime}</Text> */}
 
 
                                 <CustomButton1
@@ -862,7 +907,6 @@ const ProgramForm = ({ route }) => {
                         {/* </KeyboardAvoidingView> */}
                     </KeyboardAwareScrollView>
                 </TouchableWithoutFeedback>
-
             </ScrollView>
         </ImageBackground>
     )

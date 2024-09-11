@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RegisterYupSchema } from "../../FormikYupSchema/RegisterYupSchema";
-import CustomTextInput3 from "../../Components/UI/Inputs/CustomTextInput3";
 import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
 import { scrollToBottom, scrollToTop } from "../../Utils/Scrolls";
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
@@ -253,34 +251,34 @@ const WelcomeCopy = () => {
                                         </View>
 
 
- {/* Transformation */}
- <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
-                                    <Text style={[{
-                                        fontWeight: '600', fontSize: 18,
-                                        color: '#FE7B07',
-                                        marginBottom: 3,
-                                    }, styles.TextFamilyA2,]}>Transformation</Text>
+                                        {/* Transformation */}
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+                                            <Text style={[{
+                                                fontWeight: '600', fontSize: 18,
+                                                color: '#FE7B07',
+                                                marginBottom: 3,
+                                            }, styles.TextFamilyA2,]}>Transformation</Text>
 
-                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
-                                    {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
-                                        <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
-                                    </View>
+                                            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                                {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
+                                                <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
+                                            </View>
 
 
-                                </View>
+                                        </View>
 
-                                {/* Successful Pregnancy Stories */}
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
-                                    <Text style={[{
-                                        fontWeight: '600', fontSize: 18,
-                                        color: '#FE7B07',
-                                        marginBottom: 3
-                                    }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
+                                        {/* Successful Pregnancy Stories */}
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+                                            <Text style={[{
+                                                fontWeight: '600', fontSize: 18,
+                                                color: '#FE7B07',
+                                                marginBottom: 3
+                                            }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
 
-                                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
-                                        <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
-                                    </View>
-                                </View>
+                                            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
+                                                <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
+                                            </View>
+                                        </View>
 
                                     </View>
 
@@ -326,7 +324,7 @@ const WelcomeCopy = () => {
                                                 ]}
                                                 key={index}
                                             >
-                              
+
 
                                                 <CustomButton1
                                                     boxWidth={'92%'}

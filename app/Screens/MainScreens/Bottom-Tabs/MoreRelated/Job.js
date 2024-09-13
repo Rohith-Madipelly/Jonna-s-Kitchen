@@ -15,6 +15,7 @@ import Loader1 from '../../../../Utils/Loader1';
 import { Alert } from 'react-native';
 
 import {CustomAlerts_Continue} from '../../../../Utils/CustomReuseAlerts';
+import { openEmail } from '../../../../Utils/Linkings/OpenEmail';
 
 const MorePage = ({ navigation }) => {
 
@@ -108,12 +109,14 @@ const MorePage = ({ navigation }) => {
             {jobOpeningsData.map((data, index) => (
               <TouchableOpacity key={index} style={{ backgroundColor: 'white', margin: 5, padding: 10, borderRadius: 20, paddingLeft: 20 }}
                 onPress={() => {
+                  console.log("dsca", data.jobTitle)
                   CustomAlerts_Continue(
                     `You're leaving our app`,
                     `This action is attempting to open an external app. Would you like to continue ?`,
                     // `Applying for ${data.jobTitle}`,
                     // data.jobTitle,
                     () => {
+                      openEmail(data.email,`Apply for ${data.jobTitle}`,"")
                       console.log("OK pressed for", data.jobTitle);
                     }
                   )

@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 const ProgramDeatils = ({ programId, data }) => {
     const navigation = useNavigation();
 
-
+console.log("<><><><><>",data)
 
     const [show, setShow] = useState()
     const [arrayLength, setArrayLength] = useState(data.programDetails.length)
@@ -45,6 +45,7 @@ const ProgramDeatils = ({ programId, data }) => {
             const res = await getSingleProgramAPI(programId, tokenn)
             if (res) {
                 console.log(",,,,,,,>>", res.data,)
+                console
 
 
                 setTimeout(() => {
@@ -220,7 +221,7 @@ const ProgramDeatils = ({ programId, data }) => {
 
                         <CustomButton1
                             boxWidth={'75%'}
-                            onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}
+                            onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,processingFeeData:`${data.processingFee}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}
                             // onPress={handleSubmit}
                             textStyling={{ marginBottom: -5 }}
                             stylebtn={{ paddingVertical: 10 }}

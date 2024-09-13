@@ -1,150 +1,113 @@
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useState } from 'react';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 
+const StarRating = () => {
+    const [rating, setRating] = useState(0); // Current rating
+    const [isModalVisible, setModalVisible] = useState(false); // Modal visibility
+    const navigation = useNavigation()
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
+    const submitRating = () => {
+        toggleModal();
+        // Here you can handle the submitted rating (e.g., send it to an API)
+        console.log(`Submitted rating: ${rating} stars`);
+    };
 
-import { Entypo, FontAwesome, SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { FlatList } from 'react-native';
-import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
-import { useSelector } from 'react-redux';
-import { GET_ALL_FEEDBACKS } from '../../../../Utils/ApiCalls';
-
-
-const Feedback = ({ navigation }) => {
-    let tokenn = useSelector((state) => state.login.token)
-
-    const [feedbacksData, setFeedBacksData] = useState([])
-
-
-    try {
-        if (tokenn != null) {
-            tokenn = tokenn.replaceAll('"', '');
+    const renderStars = () => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <TouchableOpacity key={i} onPress={() => setRating(i)}>
+                    <Ionicons
+                        name={i <= rating ? "star" : "star-outline"}
+                        size={40}
+                        color={i <= rating ? "#FFD700" : "#999"}
+                    />
+                </TouchableOpacity>
+            );
         }
-    }
-    catch (err) {
-        console.log("Error in token quotes", err)
-        if (err.response.status === 500) {
-            console.log("Internal Server Error", err.message)
-        }
-    }
+        return stars;
+    };
+
+
 
     useEffect(() => {
-        getAllFeedBacks()
+        toggleModal()
     }, [])
-
-    const getAllFeedBacks = async () => {
-        try {
-            const res = await GET_ALL_FEEDBACKS(tokenn)
-            if (res) {
-                console.log(">>Test GET_ALL_FEEDBACKS", res.data)
-                setFeedBacksData(res.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const BannerData2 = [
-        {}
-    ]
-
     return (
-        <>
+        <View style={styles.container}>
+            {/* <Button title="Give Feedback" onPress={toggleModal} /> */}
 
-            <View style={{ flex: 1 }}>
-                <ImageBackground
-                    source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                    style={styles.container}
-                >
-
-                    <View style={{ flex: 1 }}>
-
-                        <View style={{ flex: 0.08}}>
-                            <CustomToolKitHeader componentName={"Feedback"} />
-                        </View>
-
-
-                        <View style={{ flex: 1}}>
-                            <FlatList
-                                data={feedbacksData}
-                                keyExtractor={item => item.key}
-                                style={{ flex: 1, marginTop: 1 }}
-                                renderItem={({ item, index }) => (
-                                    <View style={{ height: 100, flexDirection: 'row', marginVertical: 10, marginHorizontal: 10 }}>
-                                        <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: 'blue', overflow: 'hidden', justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
-                                            <Text style={{ fontSize: 16, color: 'white' }}>
-                                                {item?.name?.charAt(0).toUpperCase()}
-                                            </Text>
-                                        </View>
-                                        <View style={{ width: '80%', borderRadius: 10, backgroundColor: 'white', overflow: 'hidden', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
-                                            <Text> {item.description}</Text>
-                                            <Text style={{ fontSize: 30, color: 'red' }}>description</Text>
-                                        </View>
-                                    </View>)}
-                            />
-
-
-                        </View>
-
-
-
-
-
-
-
+            <Modal visible={isModalVisible} transparent animationType="slide">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Rate your experience</Text>
+                        <View style={styles.starContainer}>{renderStars()}</View>
+                        <TouchableOpacity style={styles.submitButton} onPress={submitRating}>
+                            <Text style={styles.submitText}>Submit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.cancelButton} onPress={() => { navigation.goBack() }}>
+                            <Text style={styles.cancelText}>Cancel</Text>
+                        </TouchableOpacity>
                     </View>
-               
-                </ImageBackground>
-            </View>
-        </>
-    )
-}
-
-export default Feedback
+                </View>
+            </Modal>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
     },
-    containerCard: {
-        // padding: 10,
-
-        backgroundColor: 'white',
-        borderRadius: 20,
-        paddingHorizontal: 10,
-        marginHorizontal: 10,
-
-
-        ...Platform.select({
-            ios: {
-                shadowColor: 'black',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.2,
-                shadowRadius: 4,
-            },
-            android: {
-                elevation: 2,
-            },
-        }),
-
-
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    UpperBox: {
-        flex: 0.6
+    modalContainer: {
+        width: 300,
+        padding: 20,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        alignItems: 'center',
     },
-    ContentBox: {
-        flex: 0.4,
-        backgroundColor: '#F6F8FE',
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        overflow: 'hidden',
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    starContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    submitButton: {
+        backgroundColor: '#28a745',
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        borderRadius: 5,
+    },
+    submitText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    cancelButton: {
+        marginTop: 10,
+    },
+    cancelText: {
+        color: '#dc3545',
+        fontSize: 16,
+    },
+});
 
-
-
-        paddingTop: 36,
-        paddingHorizontal: 17
-    }
-})
+export default StarRating;

@@ -43,7 +43,6 @@ export const verifyOTPScreenForgotAPI = async (email, values) => {
 // Register API
 export const UserRegisterOTPApi = async (registerFormReq) => {
   console.log("to APi >", registerFormReq)
-
   return await axios.post(`${GUEST_URL}/api/register`, registerFormReq)
 }
 
@@ -54,6 +53,7 @@ export const verifyOTPAPI = async (email, values) => {
     userEmail: email,
     sentOtp: values.otp,
   }
+  
   return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
 
 }
@@ -168,8 +168,37 @@ export const GET_ALL_FEEDBACKS = async (token) => {
 }
 
 
+//  Get All faq's
+
+export const Get_FAQs_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/faqs/getAllFaqs`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
 
 
+
+//  Get All faq's
+
+export const Get_Articles_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/articles/getAllArticles`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
+
+// Get_Articles_BY_ID_API
+export const Get_Articles_BY_ID_API = async (id,token) => {
+  return await axios.get(`${GUEST_URL}/api/articles/getArticleById/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
+// Jobs
 export const GET_ALL_JOBS = async (token) => {
   return await axios.get(`${GUEST_URL}/api/jobOpenings/getAllJobOpenings`, {
     headers: {

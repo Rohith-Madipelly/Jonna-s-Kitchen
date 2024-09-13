@@ -16,21 +16,20 @@ import { CREATE_USER_API, GET_SLOTS_BY_DATE_API } from "../../Utils/ApiCalls";
 import CustomDropdownError from "../../Components/UI/Inputs/CustomDropdownError";
 import RazorpayCheckout from "react-native-razorpay";
 import { RAZORPAY_KEY } from "../../Enviornment";
+import { StatusBar } from "expo-status-bar";
+import Loader1 from "../../Utils/Loader1";
 
 
 
 const ProgramForm = ({ route }) => {
     const { params } = route;
-    const programId = params.programId || 'nana';
-    const programPricex = params.programPrice || 'nana';
-    const processingFeeData = '60'
-    console.log("programId > program Form", programId, programPricex)
-
-
+    const programId = params.programId || 'Error in getting programId';
+    const programPricex = params.programPrice || 'Error in getting programPricex';
+    const processingFeeData=params.processingFeeData || "Error in getting processingFee"
     const [errorFormAPI, seterrorFormAPI] = useState("")
     const [timeSlotArray, setTimeSlotArray] = useState([])
     const navigation = useNavigation();
-   
+    const [spinnerBool, setSpinnerbool] = useState(false)
 
     const { handleChange,
         handleBlur,
@@ -51,6 +50,7 @@ const ProgramForm = ({ route }) => {
             meal: "Chapathi",
 
             medicalCondition: "",
+            otherMedicalCondition:"",
             medication: "Test",
             physicalActivity: "yes",
 
@@ -59,9 +59,7 @@ const ProgramForm = ({ route }) => {
             programName: params.programNameData,
             programId: params.programId,
             programAmount: params.programPriceData,
-            // programAmount:programPricex,
-            // processingFeeData
-            processingFee: params.processingFeeData,
+            processingFee:`${processingFeeData}`,
             slotDate: "",
             slotTime: "",
 
@@ -122,11 +120,11 @@ const ProgramForm = ({ route }) => {
         { title: 'Non-Vegetarian' },
         { title: 'Vegan' },
         { title: 'Eggetarian' },
-        { title: 'Pescatarian' },   // Eats fish but no other meat
-        { title: 'Jain' },          // Follows Jain dietary restrictions (e.g. no root vegetables)
-        { title: 'Gluten-Free' },   // Avoids gluten
-        { title: 'Keto' },          // Follows a ketogenic diet
-        { title: 'Paleo' },         // Follows a paleolithic diet
+        // { title: 'Pescatarian' },   // Eats fish but no other meat
+        // { title: 'Jain' },          // Follows Jain dietary restrictions (e.g. no root vegetables)
+        // { title: 'Gluten-Free' },   // Avoids gluten
+        // { title: 'Keto' },          // Follows a ketogenic diet
+        // { title: 'Paleo' },         // Follows a paleolithic diet
     ];
 
 
@@ -152,7 +150,9 @@ const ProgramForm = ({ route }) => {
 
 
     const CREATE_USER = async (values) => {
+
             try {
+                setSpinnerbool(true)
                 const res = await CREATE_USER_API(values,tokenn)
                 const order=res.data.jonasCreatedOrder;
                 if (order) {
@@ -190,6 +190,11 @@ const ProgramForm = ({ route }) => {
         
             } catch (error) {
                 console.log(error.response)
+
+                
+            }
+            finally{
+                setSpinnerbool(false)
             }
     }
 
@@ -197,6 +202,7 @@ const ProgramForm = ({ route }) => {
 
     const getTimeSlotsBydate = async (date) => {
         try {
+            setSpinnerbool(true)
             const res = await GET_SLOTS_BY_DATE_API(date, tokenn)
             if (res) {
                 console.log(res.data.slotTimeArray)
@@ -206,8 +212,23 @@ const ProgramForm = ({ route }) => {
             console.log(error)
             setTimeSlotArray([])
         }
+        finally{
+            setSpinnerbool(false)
+        }
     }
     return (
+        <>
+
+        <StatusBar
+          animated={true}
+          // backgroundColor="#F7F7F7"
+          barStyle={'dark-content'}
+        />
+  
+        <Loader1
+          visible={spinnerBool}
+        />
+  
         <ImageBackground
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
             style={{
@@ -278,7 +299,6 @@ const ProgramForm = ({ route }) => {
                                     // errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
                                     // errorColor='magenta'
                                     borderColor={`${(errors.phoneNumber && touched.phoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
-
                                     errorMessage={`${(errors.phoneNumber && touched.phoneNumber) ? `${errors.phoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
                                 />
 
@@ -627,35 +647,34 @@ const ProgramForm = ({ route }) => {
                                 />
 
 
-                                {values.maritalStatus === "Others" ?
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Others medical conditions'}
                                         label={'Others medical conditions'}
-                                        name='othermedicalConditions'
-                                        // value={values.othermedicalConditions}
+                                        name='otherMedicalCondition'
+                                        // value={values.otherMedicalCondition}
                                         // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                         // bgColor='#e1f3f8'
                                         // bgColor="#B1B1B0"
 
-                                        onChangeText={(e) => { handleChange("othermedicalConditions")(e); seterrorFormAPI(); }}
-                                        onBlur={handleBlur("othermedicalConditions")}
+                                        onChangeText={(e) => { handleChange("otherMedicalCondition")(e); seterrorFormAPI(); }}
+                                        onBlur={handleBlur("otherMedicalCondition")}
 
                                         // validate={() => {
                                         //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
                                         //     else { setError({ ...error, first: null }) }
                                         // }}
 
-                                        validate={handleBlur("othermedicalConditions")}
+                                        validate={handleBlur("otherMedicalCondition")}
 
                                         outlined
                                         labelStyle={{ marginBottom: -2 }}
 
-                                        borderColor={`${(errors.othermedicalConditions && touched.othermedicalConditions) || (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? "red" : "#ccc"}`}
+                                        borderColor={`${(errors.otherMedicalCondition && touched.otherMedicalCondition) || (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? "red" : "#ccc"}`}
 
-                                        errorMessage={`${(errors.othermedicalConditions && touched.othermedicalConditions) ? `${errors.othermedicalConditions}` : (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? `${errorFormAPI.othermedicalConditionsForm}` : ``}`}
+                                        errorMessage={`${(errors.otherMedicalCondition && touched.otherMedicalCondition) ? `${errors.otherMedicalCondition}` : (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? `${errorFormAPI.othermedicalConditionsForm}` : ``}`}
                                     // errorColor='magenta'
-                                    /> : ""}
+                                    /> 
 
                                 {/* Others Medical Conditions*/}
 
@@ -710,8 +729,8 @@ const ProgramForm = ({ route }) => {
                                 />
                                 <CustomTextInput3
                                     boxWidth={'95%'}
-                                    placeholder={'address'}
-                                    label={'address'}
+                                    placeholder={'City'}
+                                    label={'City'}
                                     name='state'
                                     value={values.address}
                                     onChangeText={(e) => { handleChange("address")(e); seterrorFormAPI(); }}
@@ -760,6 +779,7 @@ const ProgramForm = ({ route }) => {
                                     onBlur={handleBlur("programName")}
                                     validate={handleBlur("programName")}
                                     outlined
+                                    editable={false}
                                     borderColor={`${(errors.programName && touched.programName) || (errorFormAPI && errorFormAPI.programNameForm) ? "red" : "#ccc"}`}
                                     errorMessage={`${(errors.programName && touched.programName) ? `${errors.programName}` : (errorFormAPI && errorFormAPI.programNameForm) ? `${errorFormAPI.programNameForm}` : ``}`}
                                 // errorColor='magenta'
@@ -776,6 +796,7 @@ const ProgramForm = ({ route }) => {
                                     onBlur={handleBlur("programAmount")}
                                     validate={handleBlur("programAmount")}
                                     outlined
+                                    editable={false}
                                     labelStyle={{ marginBottom: -2 }}
                                     borderColor={`${(errors.programAmount && touched.programAmount) || (errorFormAPI && errorFormAPI.programAmountForm) ? "red" : "#ccc"}`}
                                     errorMessage={`${(errors.programAmount && touched.programAmount) ? `${errors.programAmount}` : (errorFormAPI && errorFormAPI.programAmountForm) ? `${errorFormAPI.programAmountForm}` : ``}`}
@@ -794,16 +815,12 @@ const ProgramForm = ({ route }) => {
                                     onBlur={handleBlur("processingFee")}
                                     validate={handleBlur("processingFee")}
                                     outlined
+                                    editable={false}
                                     labelStyle={{ marginBottom: -2 }}
                                     borderColor={`${(errors.processingFee && touched.processingFee) || (errorFormAPI && errorFormAPI.processingFeeForm) ? "red" : "#ccc"}`}
                                     errorMessage={`${(errors.processingFee && touched.processingFee) ? `${errors.processingFee}` : (errorFormAPI && errorFormAPI.processingFeeForm) ? `${errorFormAPI.processingFeeForm}` : ``}`}
                                 // errorColor='magenta'
                                 />
-
-
-
-
-
 
 
                                 {/* Slot Date */}
@@ -909,6 +926,7 @@ const ProgramForm = ({ route }) => {
                 </TouchableWithoutFeedback>
             </ScrollView>
         </ImageBackground>
+        </>
     )
 }
 

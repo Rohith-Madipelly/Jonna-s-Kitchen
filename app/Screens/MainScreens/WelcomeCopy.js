@@ -16,6 +16,7 @@ import Loader1 from "../../Utils/Loader1";
 import { GetAllProgramsAPI } from "../../Utils/ApiCalls";
 import { StatusBar } from "expo-status-bar";
 import ProgramDeatils from "../ShareScreens/ProgramDeatils";
+import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
 
 
 const { width } = Dimensions.get('screen');
@@ -121,30 +122,31 @@ const WelcomeCopy = () => {
                     console.log("error.response.status login", error.response.data.message)
                 }
                 else if (error.response.status === 404) {
-                    console.log(error.response.data)
+                    console.log("cvd",error.response.data)
+                    ServerTokenError_Logout(undefined,undefined,dispatch)
                 }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
+                else if (error.response.status >= 500) {
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                  }
+                  else {
+                    console.log("An error occurred response.>>", error.message)
+                  }
+                }
+                else if (error.code === 'ECONNABORTED') {
+                  console.log('Request timed out. Please try again later.');
+                }
+                else if (error.request) {
+                  console.log("No Response Received From the Server.", error.request);
+                  if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+                    Alert.alert("Server Unreachable", "Please try again later.");
+                  } else if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please check your internet connection.");
+                  }
                 }
                 else {
-                    console.log("An error occurred response.>>")
-                    //   ErrorResPrinter(`${error.message}`)
+                  console.log("Error in Setting up the Request.", error)
                 }
-            }
-            else if (error.code === 'ECONNABORTED') {
-                console.log('Request timed out. Please try again later.');
-            }
-            else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
-                }
-            }
-
-            else {
-                console.log("Error in Setting up the Request.")
-            }
 
             setSpinnerbool(false)
 
@@ -296,15 +298,6 @@ const WelcomeCopy = () => {
                                             leftIcon={<Entypo
                                                 // style={styles.icon}
                                                 name={'login'} size={18} color={'white'} />}
-
-                                            // RightIcon={<SimpleLineIcons
-                                            //     // style={styles.icon}
-
-                                            //     name={'arrow-right'} size={18} color={'white'} />}
-                                            // leftIcon={<Image style={{ width: 24, height: 24, }}
-                                            //     source={item.logo}
-                                            //     resizeMode={"contain"} />}
-
                                             RightIcon={<Image style={{ width: 15, height: 15, }}
                                                 source={require("../../assets/Images/ArrowWhite.png")}
                                                 resizeMode={"contain"} />}
@@ -365,81 +358,6 @@ const WelcomeCopy = () => {
                                             </Animated.View>
                                         ))}
 
-
-
-
-
-                                        {/* <Animated.View
-                                            style={[
-                                                { position: 'relative', top: 0 },
-                                                { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY1 }], }
-                                            ]}
-                                        >
-                                            <CustomButton1
-                                                boxWidth={'92%'}
-                                                // onPress={item.onPress}
-                                                textStyling={{ marginBottom: -5 }}
-                                                onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
-                                                btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
-
-                                                leftIcon={<Image style={{ width: 20, height: 20, }}
-                                                    source={require("../../assets/Images/Programs.png")}
-                                                    resizeMode={"contain"} />}
-
-
-                                                RightIcon={<Image style={{ width: 15, height: 15, }}
-                                                    source={require("../../assets/Images/ArrowWhite.png")}
-                                                    resizeMode={"contain"} />}
-                                                // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
-                                                bgColor={"#FE7B07"}
-                                                style={{ marginTop: 50 }}>Program 01</CustomButton1>
-                                        </Animated.View>
-
-                                        <Animated.View
-                                            style={[
-                                                { position: 'relative', top: 0 },
-                                                { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY2 }], }
-                                            ]}
-                                        >
-                                            <CustomButton1
-                                                boxWidth={'92%'}
-                                                // onPress={item.onPress}
-                                                textStyling={{ marginBottom: -5 }}
-                                                onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
-                                                btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
-                                                leftIcon={<Image style={{ width: 20, height: 20, }}
-                                                    source={require("../../assets/Images/Programs.png")}
-                                                    resizeMode={"contain"} />}
-                                                RightIcon={<Image style={{ width: 15, height: 15, }}
-                                                    source={require("../../assets/Images/ArrowWhite.png")}
-                                                    resizeMode={"contain"} />}
-                                                // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
-                                                bgColor={"#FE7B07"}
-                                                style={{ marginTop: 50 }}>Program 02</CustomButton1>
-                                        </Animated.View>
-
-                                        <Animated.View
-                                            style={[
-                                                { position: 'relative', top: 0 },
-                                                { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY3 }], }
-                                            ]}
-                                        >
-                                            <CustomButton1
-                                                boxWidth={'92%'}
-                                                // onPress={item.onPress}
-                                                textStyling={{ marginBottom: -5 }}
-                                                onPress={() => { scrollToBottom(scrollViewRef); toggleExpand(); }}
-                                                btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
-                                                leftIcon={<Image style={{ width: 20, height: 20, }}
-                                                    source={require("../../assets/Images/Programs.png")}
-                                                    resizeMode={"contain"} />}
-                                                RightIcon={<Image style={{ width: 15, height: 15, }}
-                                                    source={require("../../assets/Images/ArrowWhite.png")}
-                                                    resizeMode={"contain"} />}
-                                                // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
-                                                bgColor={"#FE7B07"}
-                                                style={{ marginTop: 50 }}>Program 03</CustomButton1>
-                                        </Animated.View> */}
 
                                         <View style={{ height: 250 }}>
 

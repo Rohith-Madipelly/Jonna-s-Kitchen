@@ -42,6 +42,15 @@ const Accordion = ({ value, index }) => {
         setIsOpen(prev => !prev);
     };
 
+
+    if (!true) {
+        return (
+            <View>
+                <Text>d {value.title}</Text>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container} key={index}>
             <Pressable
@@ -69,15 +78,19 @@ const Accordion = ({ value, index }) => {
             <Animated.View style={heightAnimationStyle} collapsable={false}>
                 <View ref={listRef} style={styles.contentContainer} collapsable={false}>
                     <View style={styles.borderTop}>
-                        {value.content.map((contentValue, idx) => (
+                        {/* {value.content.map((contentValue, idx) => (
                             <View key={idx} style={styles.content} collapsable={false}>
                                 <Text style={styles.textContent}>{contentValue}</Text>
                             </View>
-                        ))}
+                        ))} */}
+
+                        <View  style={styles.content} collapsable={false}>
+                            <Text style={styles.textContent}>{value.content}</Text>
+                        </View>
                     </View>
-                    {value.quotes?<View style={styles.extraContent}>
+                    {value.quotes ? <View style={styles.extraContent}>
                         <Text style={styles.extraText}>{value.quotes}</Text>
-                    </View>:<View style={{marginBottom:10}}>
+                    </View> : <View style={{ marginBottom: 10 }}>
                     </View>}
                 </View>
             </Animated.View>
@@ -91,11 +104,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#FFFFFF',
         marginHorizontal: 16,
-        marginVertical:8,
+        marginVertical: 8,
         borderRadius: 14,
         overflow: 'hidden',
         elevation: 3
-        
+
     },
     titleContainer: {
         paddingHorizontal: 20,
@@ -132,9 +145,9 @@ const styles = StyleSheet.create({
     },
     textContent: {
         fontSize: 13,
-        color:'#646464',
-        fontFamily:'BalooTamma2',
-        fontWeight:'700',
+        color: '#646464',
+        fontFamily: 'BalooTamma2',
+        fontWeight: '700',
         lineHeight: 18,
 
     },
@@ -142,12 +155,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         paddingTop: 10,
     },
-    extraText:{
+    extraText: {
         fontSize: 13,
-        color:'#131313',
-        fontFamily:'BalooTamma2',
-        fontWeight:'700',
+        color: '#131313',
+        fontFamily: 'BalooTamma2',
+        fontWeight: '700',
         lineHeight: 18,
-        marginBottom:10
+        marginBottom: 10
     }
 });

@@ -32,6 +32,7 @@ import ForgetPassword from './AuthScreens/ForgetPassword.js';
 import OtpScreenForgot from './AuthScreens/OtpScreenForgot.js';
 import DataCheck from './ShareScreens/DataCheck.js';
 import { setAccountPage } from '../redux/actions/AccountSetUpAction.jsx';
+import VideoViewPage from './MainScreens/Bottom-Tabs/RecipeList/VideoViewPage.js';
 
 
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
@@ -151,8 +152,10 @@ const Screen = () => {
           {user ? (
             <>
 
-              <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
-              <Stack.Screen name="ProgramsForm" component={ProgramForm} />
+              {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+              <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
+             
+
               <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
               <Stack.Screen name="LogOut" component={LogOut} />
               <Stack.Screen name="Notification" component={Notification} />
@@ -161,14 +164,10 @@ const Screen = () => {
               <Stack.Screen name="UserRegister" component={UserRegister} />
               <Stack.Screen name="OtpScreen" component={OtpScreen} />
               <Stack.Screen name="CreatePassword" component={CreatePassword} />
-
-
               <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
               <Stack.Screen name="OtpScreenForgot" component={OtpScreenForgot} />
               <Stack.Screen name="ResetPassword" component={ResetPassword} />
               <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
-              {/* <Stack.Screen name="Loading" component={Loading} /> */}
-              {/* <Stack.Screen name="SuccessfulVerify" component={SuccessfulVerify} /> */}
             </>)}
         </Stack.Navigator>
       </ErrorBoundary>

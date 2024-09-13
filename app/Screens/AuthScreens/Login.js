@@ -99,9 +99,7 @@ const Login = () => {
           // seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          // 
           seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
@@ -132,13 +130,6 @@ const Login = () => {
         console.log("Error in Setting up the Request.", error)
       }
 
-
-
-      if (error) {
-        // message = error.message;
-        // seterrorFormAPI(message)
-        // "userEmail or Password does not match !"
-      }
     }
     finally {
       setSpinnerbool(false)

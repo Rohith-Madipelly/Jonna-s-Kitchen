@@ -21,13 +21,8 @@ const Notification = () => {
           resizeMode={"contain"} />
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 20, color: '#00000080', textAlign: "center" }}>No Data found</Text>
+        <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 20, color: '#00000080', textAlign: "center" }}>No Notification found</Text>
 
-
-
-        <Button title='Hello' onPress={() => {
-          CustomToaster("dh>>>>>", "info", "info")
-        }}></Button>
       </View>
 
 

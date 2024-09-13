@@ -1,5 +1,5 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -9,11 +9,100 @@ import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
+import { ServerError } from '../../../../Utils/ServerError';
+import Loader1 from '../../../../Utils/Loader1';
+import { useSelector } from 'react-redux';
+import { Get_Articles_BY_ID_API } from '../../../../Utils/ApiCalls';
+import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
 
-const Article = ({ navigation }) => {
+const Article = ({ navigation, route }) => {
 
+  const { params } = route;
+  const id = params?.id || 'nan';
+  console.log("userEmail OtpScreenForgot >", id)
+
+  const [spinnerBool, setSpinnerbool] = useState(false)
+  const [ArticleData, setArticleData] = useState()
+
+
+  let tokenn = useSelector((state) => state.login.token);
+
+
+  try {
+    if (tokenn != null) {
+      tokenn = tokenn.replaceAll('"', '');
+    }
+  }
+  catch (err) {
+    console.log("Error in token quotes", err)
+    if (err.response.status === 500) {
+      console.log("Internal Server Error", err.message)
+    }
+  }
+
+  const getAllArticles = async () => {
+    console.log("dcs")
+    try {
+      setSpinnerbool(true)
+      const res = await Get_Articles_BY_ID_API(id, tokenn)
+
+      setArticleData(res.data)
+      if (res) {
+
+        console.log(res.data)
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.log("df")
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+        }
+        else if (error.response.status === 401) {
+        }
+        else if (error.response.status === 403) {
+        }
+        else if (error.response.status === 404) {
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined, `${error.message}`)
+        }
+        else {
+          console.log("An error occurred response.>>", error.message)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.", error.request);
+        if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+          Alert.alert("Server Unreachable", "Please try again later.");
+        } else if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please check your internet connection.");
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.", error)
+      }
+
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
+
+
+
+  useEffect(() => {
+    getAllArticles()
+  }, [])
   return (
     <>
+      <Loader1
+        visible={spinnerBool}
+      />
 
       <View style={{ flex: 1 }}>
         <ImageBackground
@@ -29,21 +118,39 @@ const Article = ({ navigation }) => {
 
 
             <ScrollView style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
-              <Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>Name of the article</Text>
+              <Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>{ArticleData.title}</Text>
               <ImageBackground
-                source={require('../../../../assets/Images/thinkBox.png')} // Replace with the actual path to your image
+                // source={} // Replace with the actual path to your image
+                // source={require('../../../../assets/Images/thinkBox.png')} // Replace with the actual path to your image
                 style={[styles.container, { width: '100%', height: 250 }]} resizeMode="contain"
               >
+
+
+
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
 
-                  <Image style={{ width: '90%' }} source={require('../../../../assets/Images/FoodArticles.png')} resizeMode="contain" />
+                  <LoadingImage
+                    // source={item.recipieImage}
+                    source={{ uri: ArticleData.image }}
+                    style={{
+                      width: '100%', // Take up the full width of the parent
+                      // height: '100%',
+                      backgroundColor: "pink",
+                      borderRadius: 15,
+                      // resizeMode: 'contain', // Maintain aspect ratio without stretching
+                      resizeMode: 'cover', // Maintain aspect ratio without stretching
+                    }}
+                  />
                 </View>
 
               </ImageBackground>
 
-              <View style={{ backgroundColor: '#000000',borderRadius:20,padding:15 }}>
-                <Text style={{color: 'white', fontSize: 14, fontWeight: 500, fontFamily: 'BalooTamma2', lineHeight: 20}}>Maintaining a healthy diet on a daily basis is essential for overall well-being. A balanced diet provides the body with the necessary nutrients, including vitamins, minerals, proteins, fats, and carbohydrates, which are crucial for the proper functioning of bodily systems. Consuming a variety of nutrient-rich foods helps to boost the immune system, reduce the risk of chronic diseases such as heart disease, diabetes, and cancer, and promote overall physical and mental health. Additionally, a healthy diet can improve energy levels, enhance mood, and support cognitive function, making it easier to manage daily tasks and maintain a positive outlook on life.</Text>
-              </View>
+              <ScrollView style={{ backgroundColor: '#000000', borderRadius: 20, padding: 15, marginTop: 20 }}>
+                <Text style={{ color: 'white', fontSize: 14, fontWeight: 500, fontFamily: 'BalooTamma2', lineHeight: 20 }}>
+                  {ArticleData.description}
+                  {ArticleData.description}
+                </Text>
+              </ScrollView>
             </ScrollView>
 
 

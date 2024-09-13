@@ -45,7 +45,7 @@ const UserRegister = () => {
     setValues,
     resetForm,
   } = useFormik({
-    initialValues: { userEmail: "", },
+    initialValues: { userName: "", userEmail: "", userPhoneNumber: "" },
     onSubmit: values => {
       { submitHandler(values) }
     },
@@ -75,14 +75,14 @@ const UserRegister = () => {
     } catch (error) {
       if (error.response) {
         console.log(error.response.status)
-        console.log("dc",error.response)
+        console.log("dc", error.response)
         if (error.response.status === 400) {
           // console.log("Error With 400.", error.response.data)
           CustomToaster(error.response.data.message)
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
-          
+
         }
         else if (error.response.status === 403) {
           console.log("error.response.status login", error.response.data.message)
@@ -175,7 +175,7 @@ const UserRegister = () => {
               <Image
                 style={{ width: '100%', height: '100%' }}
                 animation={"bounceIn"}
-                source={require("../../assets/Images/Login.png")}
+                source={require("../../assets/Images/SignUp.png")}
                 contentFit="cover"
                 transition={1000}
                 alt=''
@@ -193,11 +193,56 @@ const UserRegister = () => {
                         // keyboardVerticalOffset={5000}
                         style={{ width: '100%', alignItems: 'center' }}
                       >
+
+
+                        <CustomTextInput
+                          boxWidth={'100%'}
+                          placeholder={'Enter user name'}
+                          label={'Enter user name'}
+                          labelStyle={{ fontWeight: '700', marginBottom: 3 }}
+                          name='userName'
+                          value={values.userName}
+                          containerStyle={{ elevation: 10 }}
+                          onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
+                          onBlur={handleBlur("userName")}
+                          validate={handleBlur("userName")}
+                          outlined
+                          borderColor={`${(errors.userName && touched.userName) || (errorFormAPI && errorFormAPI.userNameForm) ? "red" : "#ccc"}`}
+                          errorMessage={`${(errors.userName && touched.userName) ? `${errors.userName}` : (errorFormAPI && errorFormAPI.userNameForm) ? `${errorFormAPI.userNameForm}` : ``}`}
+                        // errorColor='magenta'
+                        />
+
+
+
+
+                        <CustomTextInput
+                          boxWidth={'100%'}
+                          placeholder={'Enter phone number'}
+                          label={'Enter phone number'}
+                          name='userPhoneNumber'
+                          value={values.userPhoneNumber}
+                          onChangeText={(e) => {
+                            // Remove any non-numeric characters
+                            const numericValue = e.replace(/[^0-9]/g, '');
+                            // Update the state with the numeric value
+                            handleChange("userPhoneNumber")(numericValue);
+                            seterrorFormAPI();
+                          }}
+                          containerStyle={{ elevation: 10 }}
+                          onBlur={handleBlur("userPhoneNumber")}
+                          validate={handleBlur("userPhoneNumber")}
+                          keyboardType="numeric"
+                          outlined
+                          labelStyle={{ marginBottom: -2 }}
+                          borderColor={`${(errors.userPhoneNumber && touched.userPhoneNumber) || (errorFormAPI && errorFormAPI.phoneNumberForm) ? "red" : "#ccc"}`}
+                          errorMessage={`${(errors.userPhoneNumber && touched.userPhoneNumber) ? `${errors.userPhoneNumber}` : (errorFormAPI && errorFormAPI.phoneNumberForm) ? `${errorFormAPI.phoneNumberForm}` : ``}`}
+                        />
+
                         <CustomTextInput
                           boxWidth={'100%'}
                           placeholder={'Enter email id'}
                           label={'Enter your email id'}
-                          labelStyle={{ fontWeight: '700', marginBottom: 10 }}
+                          labelStyle={{ fontWeight: '700', marginBottom: 3 }}
                           name='userEmail'
                           value={values.userEmail}
                           containerStyle={{ elevation: 10 }}
@@ -205,23 +250,12 @@ const UserRegister = () => {
                           // bgColor="#B1B1B0"
                           onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("userEmail")(eToLowerCaseText); seterrorFormAPI(); }}
                           onBlur={handleBlur("userEmail")}
-                          // validate={() => {
-                          //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                          //     else { setError({ ...error, first: null }) }
-                          // }}
-
-                          leftIcon={<Image source={require('../../assets/Images/Icons/Gmail Logo.png')} style={{ width: 24, height: 24 }} />}
-
                           validate={handleBlur("userEmail")}
                           outlined
                           borderColor={`${(errors.userEmail && touched.userEmail) || (errorFormAPI && errorFormAPI.userEmailForm) ? "red" : "#ccc"}`}
                           errorMessage={`${(errors.userEmail && touched.userEmail) ? `${errors.userEmail}` : (errorFormAPI && errorFormAPI.userEmailForm) ? `${errorFormAPI.userEmailForm}` : ``}`}
                         // errorColor='magenta'
                         />
-
-
-
-
 
                         <CustomButton1
                           boxWidth={'100%'}

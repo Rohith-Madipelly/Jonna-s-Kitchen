@@ -161,7 +161,7 @@ const CarouselsBasicItem = ({ item, CarouselWidth, containerHeight, keymm,imageN
   return (
     <TouchableOpacity style={[{ width: width*0.85, paddingHorizontal: 10, height: containerH, alignItems: 'center', justifyContent: 'center',marginVertical:10}]} key={keymm} activeOpacity={1} 
     // onPress={item.onPress}
-    onPress={()=>{navigation.navigate("VideoViewPage",{recipieUrl:item.recipieUrl})}}
+    onPress={()=>{navigation.navigate("VideoViewPage",{recipieUrl:item.recipieUrl,recipieName:item.recipieName})}}
     
     >
       <LoadingImage

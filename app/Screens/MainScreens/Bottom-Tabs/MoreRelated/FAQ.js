@@ -1,25 +1,84 @@
 import { ScrollView, StyleSheet, Platform, ImageBackground, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Data from '../../../../Data'
 import Accordion from '../../../../Components/UI/Accordion/Accordion';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
+import { Get_FAQs_API } from '../../../../Utils/ApiCalls';
+import { useSelector } from 'react-redux';
+import Loader1 from '../../../../Utils/Loader1';
+import { StatusBar } from 'expo-status-bar';
 
 const FAQ = ({ navigation }) => {
+  let tokenn = useSelector((state) => state.login.token)
+  const [Data3, setData] = useState()
+  const [spinnerBool, setSpinnerbool] = useState(false)
+
+
+  try {
+    if (tokenn != null) {
+      tokenn = tokenn.replaceAll('"', '');
+    }
+  }
+  catch (err) {
+    console.log("Error in token quotes", err)
+    if (err.response.status === 500) {
+      console.log("Internal Server Error", err.message)
+    }
+  }
+
+  const Get_FAQs = async () => {
+    setSpinnerbool(true)
+
+    try {
+      const res = await Get_FAQs_API(tokenn)
+      console.log(res.data)
+      setData(res.data)
+      console.log("heloo")
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
+
+  useEffect(() => {
+    Get_FAQs()
+  }, [])
+
 
 
   return (
-    <View style={{ flex: 1}}>
-      <ImageBackground
-        source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-        style={{ flex: 1 }}
-      >
-        <View style={{ flex: 0.08 }}>
-          <CustomToolKitHeader componentName={"FAQ"} textDecorationLine={'underline'} />
-        </View>
-   
-          
-        <ScrollView style={{flex: 0.8}}>
-            {Data.map((value, index) => {
+    <>
+      <StatusBar
+        animated={true}
+        // backgroundColor="#F7F7F7"
+        barStyle={'dark-content'}
+      />
+      <Loader1
+        visible={spinnerBool}
+      />
+
+      <View style={{ flex: 1 }}>
+        <ImageBackground
+          source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
+          style={{ flex: 1 }}
+        >
+          <View style={{ flex: 0.08 }}>
+            <CustomToolKitHeader componentName={"FAQ"} textDecorationLine={'underline'} />
+          </View>
+
+          {/* {Data3.map((data, index) => {
+            return (
+              <View>
+                <Text>ccdes,{data.content}</Text>
+              </View>
+            )
+          })} */}
+
+
+          {Data3 ? <ScrollView style={{ flex: 0.8 }}>
+            {Data3.map((value, index) => {
 
               return (
                 <View key={index}>
@@ -27,10 +86,11 @@ const FAQ = ({ navigation }) => {
                 </View>
               )
             })}
-          </ScrollView>
-   
-      </ImageBackground>
-    </View>
+          </ScrollView> : ""}
+
+        </ImageBackground>
+      </View>
+    </>
   );
 }
 

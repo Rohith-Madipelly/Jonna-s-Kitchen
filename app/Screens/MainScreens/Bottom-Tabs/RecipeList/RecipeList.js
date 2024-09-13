@@ -12,10 +12,11 @@ import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import CarouselsBasic from '../../../../Components/UI/CarouselsBasic copy/CarouselsBasic';
 import SkeletonLoader from '../../../../Components/UI/Skeletons/SkeletonLoader';
 import { StatusBar } from 'expo-status-bar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { get_all_recipies_by_category_API, getAllRecipieServiceByKeyWord22, getRecipieByKeyWord_API } from '../../../../Utils/ApiCalls';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
+import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
 
 const RecipeList = ({ navigation }) => {
 
@@ -29,7 +30,7 @@ const RecipeList = ({ navigation }) => {
     const [NOData, setNOData] = useState()
 
     let tokenn = useSelector((state) => state.login.token);
-
+    const dispatch = useDispatch()
 
     try {
         if (tokenn != null) {
@@ -68,6 +69,7 @@ const RecipeList = ({ navigation }) => {
                 }
                 else if (error.response.status === 404) {
                     console.log("Error With 404", error.response.data.message)
+                    ServerTokenError_Logout(undefined, undefined, dispatch)
                 }
                 else if (error.response.status === 500) {
                     console.log("Internal Server Error", error.message)
@@ -75,7 +77,7 @@ const RecipeList = ({ navigation }) => {
                 else if (error.response.status === 503) {
                     console.log("Internal Server Error", error.message)
                     Alert.alert("Internal Server Error", error.message)
-                  }
+                }
                 else {
                     console.log("An error occurred response.>>", error)
                 }
@@ -111,51 +113,51 @@ const RecipeList = ({ navigation }) => {
                 setTimeout(() => {
                     // setData(['Item 1', 'Item 2', 'Item 3']);
                     setIsLoading(false);
-                }, 5000); 
-            }catch (error) {
+                }, 5000);
+            } catch (error) {
                 console.log(error)
                 console.log("dme")
                 if (error.response) {
-                  if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                  }
-                  else if (error.response.status === 401) {
-                    console.log("Error With 401.", error.response.data)
-                  }
-                  else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                  }
-                  else if (error.response.status === 404) {
-                    console.log("error.response.status login", error.response.data.message)
-                  }
-                  else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
-                  }
-                  else if (error.response.status === 503) {
-                    console.log("Internal Server Error", error.message)
-                    Alert.alert("Internal Server Error", error.message)
-                  }
-                  else {
-                    console.log("An error occurred response.>>", error.message)
-                    Alert.alert("An error occurred response", error.message)
-          
-                  }
+                    if (error.response.status === 400) {
+                        console.log("Error With 400.", error.response.data)
+                    }
+                    else if (error.response.status === 401) {
+                        console.log("Error With 401.", error.response.data)
+                    }
+                    else if (error.response.status === 403) {
+                        console.log("error.response.status login", error.response.data.message)
+                    }
+                    else if (error.response.status === 404) {
+                        console.log("error.response.status login", error.response.data.message)
+                    }
+                    else if (error.response.status === 500) {
+                        console.log("Internal Server Error", error.message)
+                    }
+                    else if (error.response.status === 503) {
+                        console.log("Internal Server Error", error.message)
+                        Alert.alert("Internal Server Error", error.message)
+                    }
+                    else {
+                        console.log("An error occurred response.>>", error.message)
+                        Alert.alert("An error occurred response", error.message)
+
+                    }
                 }
                 else if (error.code === 'ECONNABORTED') {
-                  console.log('Request timed out. Please try again later.');
+                    console.log('Request timed out. Please try again later.');
                 }
                 else if (error.request) {
-                  console.log("No Response Received From the Server.")
-                  if (error.request.status === 0) {
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
-                  }
+                    console.log("No Response Received From the Server.")
+                    if (error.request.status === 0) {
+                        Alert.alert("No Network Found", "Please Check your Internet Connection")
+                    }
                 }
                 else {
-                  console.log("Error in Setting up the Request.", error)
+                    console.log("Error in Setting up the Request.", error)
                 }
-              }
-            finally{
-           
+            }
+            finally {
+
             }
         }
         AllRecipie()
@@ -173,8 +175,8 @@ const RecipeList = ({ navigation }) => {
     // Debouncing in React use this for input api call like search box
     useEffect(() => {
         // let timeOut = setTimeout(() => {
-           
-            handleApiCall()
+
+        handleApiCall()
         // }, 500);
 
         // return () => clearTimeout(timeOut)
@@ -258,10 +260,10 @@ const RecipeList = ({ navigation }) => {
 
                             {searchKeyWord !== "" ? <View style={{ flex: 0.2 }}>
                                 <Text style={{ color: '#003E20', fontSize: 24, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginHorizontal: 18 }}>Search Results</Text>
-                                <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>{searchKeyWord}</Text>
+                                <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>Searching for {searchKeyWord} </Text>
                                 {/* <CarouselsBasic DATA={DATA12} autoScroll={true} showIndicators={false} ContainerWidth={250} scrollTime={25000} /> */}
                                 {NOData ?
-                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 170, }}>
                                         {/* <Text>{NOData}</Text> */}
                                         <Text style={{ color: '#FE7B07', fontSize: 16, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18 }}>
                                             {NOData}
@@ -269,17 +271,32 @@ const RecipeList = ({ navigation }) => {
 
                                     </View> :
                                     <>
+                                        {/* <View style={{flexDirection:'row'}}>
                                         {searchData.map((data, index) => (
-                                            <View key={index}>
+                                            <TouchableOpacity key={index} style={{ paddingVertical: 12, flex: 0.5 }} onPress={() => { navigation.navigate("VideoViewPage", { recipieUrl: data.recipieUrl, recipieName: data.recipieName }) }}>
                                                 <LoadingImage
                                                     source={{ uri: data.recipieImage }}
-                                                    style={{ width: '100%', height: 170, borderRadius: 15 }}
+                                                    style={{ width: '100%', height: 170, borderRadius: 15, }}
                                                     loaderColor="#ff0000" // Optional: change loader color
                                                     resizeMode="contain"
                                                 />
-                                                {/* <Text>He</Text> */}
-                                            </View>
-                                        ))}</>}
+                                                <Text style={{
+                                                    textAlign: 'center',
+                                                    color: '#FE7B07', fontSize: 12, fontWeight: 700, fontFamily: 'BalooTamma2', lineHeight: 40, marginBottom: -7, marginHorizontal: 18
+                                                }}>{data.recipieName}</Text>
+                                            </TouchableOpacity>
+                                        ))} */}
+
+
+                                        <CarouselsBasic
+                                            DATA={searchData}
+                                            autoScroll={true}
+                                            showIndicators={false}
+                                            ContainerWidth={250}
+                                        // scrollTime={25000} 
+                                        />
+                                        {/* </View> */}
+                                    </>}
                             </View> :
                                 <View>
                                 </View>}

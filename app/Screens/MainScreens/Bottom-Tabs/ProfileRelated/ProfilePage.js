@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { logoutValidation } from '../../../../Utils/LogOut';
 import { OpenDialer } from '../../../../Utils/OpenDialer';
 import { useDispatch } from 'react-redux';
+import { RequestInAppReview } from '../../../../Utils/InAppStoreReview';
 
 
 const ListItem = ({ leftIcon, ItemName, routeTo }) => {
@@ -42,8 +43,9 @@ const ProfilePage = () => {
       title: 'Account',
       subItems: [
         { title: 'Program Status', logo: require("../../../../assets/Images/ProfileIcons/ProgramStatus.png"), onPress: () => navigation.navigate('ProgramStatus') },
-        { title: 'My Programs', logo: require("../../../../assets/Images/ProfileIcons/MyPrograms.png"), onPress: () => navigation.navigate('MyPrograms') },
+        { title: 'My Diet Plan', logo: require("../../../../assets/Images/ProfileIcons/MyPrograms.png"), onPress: () => navigation.navigate('MyPrograms') },
         { title: 'Feedback', logo: require("../../../../assets/Images/ProfileIcons/Feedback.png"), onPress: () => navigation.navigate('Feedback') },
+        // { title: 'Feedback', logo: require("../../../../assets/Images/ProfileIcons/Feedback.png"), onPress: () => {RequestInAppReview()} },
         { title: 'Contact Us?', logo: require("../../../../assets/Images/ProfileIcons/ContactUs.png"), onPress: () => OpenDialer('9951072005') },
       ],
     },

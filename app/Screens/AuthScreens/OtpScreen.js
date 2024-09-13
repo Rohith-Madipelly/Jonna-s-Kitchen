@@ -267,73 +267,6 @@ const OtpScreen = ({ route }) => {
                                 <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-
-                                        {/* <View style={{ flex: 1, alignItems: 'space-between', flexDirection: 'row', width: '100%' }}>
-
-
-                                            <View style={{ flex: 0.6 }}>
-
-                                            <Text style={[styles.label]}>
-                                            Type a code
-                                            </Text>
-
-            
-                                                <CustomOtpInput
-                                                    value={values.otp}
-                                                    length={6}
-                                                    keyboardType="numeric"
-                                                    onOtpSubmit={(otp) => {
-                                                        // console.log("otp vachinda", otp);
-                                                        seterrorFormAPI() //Clear's All API errors
-                                                        handleChange("otp")(otp)
-                                                    }}
-                                                    onChangeText={(index, value) => {
-                                                        // console.log("index", index, ">value", value)
-                                                    }}
-                                                    // errorMessage={errorFormAPI.otp}
-                                                    errorMessage={`${(errors.otp && touched.otp) ? `${errors.otp}` : (errorFormAPI && errorFormAPI.otp) ? `${errorFormAPI.otp}` : ``}`}
-
-                                                    errorBoxid={errorFormAPI ? [0, 1, 2, 3, 4, 5] : ""}
-                                                    onClear={true}
-                                                />
-                                                <CustomTextInput
-                                                    boxWidth={'100%'}
-                                                    placeholder={'Enter otp dsf'}
-                                                    label={'Type a code'}
-                                                    keyboardType='number-pad'
-                                                    labelStyle={{ fontWeight: '700', marginBottom: 10 }}
-                                                    name='email'
-                                                    value={values.emailorPhoneNumber}
-                                                    containerStyle={{ elevation: 10 }}
-                                                    // bgColor='#e1f3f8'
-                                                    // bgColor="#B1B1B0"
-
-                                                    onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("emailorPhoneNumber")(eToLowerCaseText); seterrorFormAPI(); }}
-                                                    onBlur={handleBlur("emailorPhoneNumber")}
-
-                                                    // validate={() => {
-                                                    //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                                    //     else { setError({ ...error, first: null }) }
-                                                    // }}
-
-                                                    validate={handleBlur("emailorPhoneNumber")}
-
-                                                    outlined
-
-                                                    borderColor={`${(errors.emailorPhoneNumber && touched.emailorPhoneNumber) || (errorFormAPI && errorFormAPI.emailorPhoneNumberForm) ? "red" : "#ccc"}`}
-
-                                                    errorMessage={`${(errors.emailorPhoneNumber && touched.emailorPhoneNumber) ? `${errors.emailorPhoneNumber}` : (errorFormAPI && errorFormAPI.emailorPhoneNumberForm) ? `${errorFormAPI.emailorPhoneNumberForm}` : ``}`}
-
-                                                // errorColor='magenta'
-                                                />
-                                            </View>
-
-                                            <View style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                                <Text style={{ fontFamily: 'BalooTamma2-Bold', marginTop: 10, fontSize: 16, color: '#31A84B' }}>Resend</Text>
-                                            </View>
-
-
-                                        </View> */}
                                         <View style={{ width: '70%' }}>
                                             <Text style={{ color: '#898989', textAlign: 'center', fontFamily: 'BalooTamma2-Bold', fontWeight: '500', fontSize: 14 }}>
                                                 We have sent a verification code to your <Text style={{ color: '#5655B9' }}>
@@ -342,10 +275,6 @@ const OtpScreen = ({ route }) => {
                                         </View>
 
                                         <View style={{ flex: 1, width: '100%' }}>
-
-
-
-
                                             <Text style={[styles.label]}>Type a code </Text>
                                             <CustomOtpInput4
                                                 value={values.otp}

@@ -13,16 +13,6 @@ import ArticlesList from './MoreRelated/ArticlesList';
 const More = () => {
 
 
-  useEffect(() => {
-    try {
-
-    } catch (error) {
-
-    }
-    finally {
-
-    }
-  }, [])
 
   const Stack = createNativeStackNavigator();
   return (

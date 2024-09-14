@@ -9,9 +9,13 @@ import SelectedFullCourse from '../../SelectedFullCourse';
 import CarouselsBasic from '../../../Components/UI/CarouselsBasic/CarouselsBasic';
 import SkeletonLoader from '../../../Components/UI/Skeletons/SkeletonLoader';
 import { StatusBar } from 'expo-status-bar';
+import { useSelector } from 'react-redux';
 
 
 const Home = ({ navigation }) => {
+
+
+  let userName = useSelector((state) => state.SetUserName.userName);
 
   const [loadingComponent, setLoadingComponent] = useState(true)
 
@@ -44,6 +48,12 @@ const Home = ({ navigation }) => {
     }, 2000);
   }, [])
 
+
+
+
+
+
+  
   return (
     <>
       <StatusBar
@@ -67,7 +77,7 @@ const Home = ({ navigation }) => {
               <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 18, }, styles.containerCard]}>
                 <View style={{ flex: 0.5 }}>
                   <Text style={{ color: '#0A3118', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 16 }}>Hello</Text>
-                  <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 20 }}>Pardhu</Text>
+                  <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 20 }}>{userName}</Text>
                 </View>
 
                 <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: 'row' }}>

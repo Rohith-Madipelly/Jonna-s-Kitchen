@@ -24,6 +24,7 @@ import Loader1 from '../../Utils/Loader1.js';
 import { ErrorResPrinter } from '../../Utils/ErrorResPrinter.js';
 import { ServerError } from '../../Utils/ServerError.js';
 import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx';
+import { SET_USER_NAME } from '../../redux/actions/loginAction copy.jsx';
 
 
 const Login = () => {
@@ -70,6 +71,7 @@ const Login = () => {
       if (res) {
         const Message = res.data.message
         const token = res.data.jwtTocken
+        const USERNAMEAPP = res.data.userName
         const programRegistered = res.data.programRegistered
         console.log(res.data)
 
@@ -81,6 +83,15 @@ const Login = () => {
           }
         })
 
+
+        ASO.setTokenJWT("UserName", JSON.stringify(USERNAMEAPP), function (res, status) {
+          if (status) {
+            dispatch(SET_USER_NAME(USERNAMEAPP));
+          }
+        })
+
+
+      
 
         ASO.setTokenJWT("programRegistered", JSON.stringify(programRegistered), function (res, status) {
           if (status) {

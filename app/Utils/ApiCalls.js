@@ -121,6 +121,12 @@ export const getSingleProgramAPI = async (programId, token) => {
 }
 
 
+// Verify verifyOTPScreenForgotAPI
+export const getUserDeatils = async (email, values) => {
+
+  return await axios.post(`${GUEST_URL}/api/verifyforgototp`, ReqData)
+
+}
 
 
 
@@ -215,4 +221,21 @@ export const GET_ALL_TESTIMONIALS = async (token) => {
       'Authorization': `Bearer ${token}`
     },
   });
+}
+
+
+export const CREATE_FEEDBACK_API = async (data,token) => {
+  console.log("Cs",token,data)
+  return await axios.get(`${GUEST_URL}/api/feedbacks/createFeedBack`, data,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+export const ABOUT_US_API = async () => {
+
+  return await axios.get(`${GUEST_URL}/api/about/getAllAbout`);
 }

@@ -1,4 +1,4 @@
-import { Button, Dimensions, Image, ImageBackground, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity } from "react-native";
+import { Button, Dimensions, Image, ImageBackground, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity, Alert } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
@@ -107,9 +107,7 @@ const WelcomeCopy = () => {
             }
 
         } catch (error) {
-            console.log(error)
-
-            console.log(error.response.data.message)
+            console.log("ds",error)
             if (error.response) {
                 if (error.response.status === 400) {
                     console.log("Error With 400.", error.response.data)

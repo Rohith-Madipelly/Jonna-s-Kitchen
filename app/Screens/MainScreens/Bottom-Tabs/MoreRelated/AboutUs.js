@@ -1,5 +1,5 @@
-import { Dimensions, Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import { Alert, Dimensions, Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
@@ -7,6 +7,9 @@ import { FlatList } from 'react-native';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
 import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBasic';
+import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
+import { ABOUT_US_API } from '../../../../Utils/ApiCalls';
+import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get('screen');
 
@@ -29,23 +32,98 @@ const AboutUS = ({ navigation }) => {
     // { id: 2, label: '1', image: require("../../../../assets/Images/Carousels/WelcomeTransformation1.png") },
   ]
 
+  
+  const [Data, setData] = useState([])
+  const [spinnerBool, setSpinnerbool] = useState(false)
+
+  let tokenn = useSelector((state) => state.login.token)
+
+
+  try {
+    if (tokenn != null) {
+      tokenn = tokenn.replaceAll('"', '');
+    }
+  }
+  catch (err) {
+    console.log("Error in token quotes", err)
+    if (err.response.status === 500) {
+      console.log("Internal Server Error", err.message)
+    }
+  }
+
+
+  const CallAPI = async () => {
+    setSpinnerbool(true)
+    try {
+      const res = await ABOUT_US_API()
+      console.log("feh",res.data)
+
+      setData(res.data)
+
+    } catch (error) {
+      console.log(error)
+      if (error.response) {
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+        }
+        else if (error.response.status === 401) {
+          console.log("Error With 401.", error.response.data)
+        }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 500) {
+          console.log("Internal Server Error", error.message)
+        }
+        else {
+          console.log("An error occurred response.>>", error.message)
+          Alert.alert("An error occurred response", error.message)
+
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.", error)
+      }
+    }
+    finally {
+      setSpinnerbool(false)
+    }
+  }
+
+  useEffect(() => {
+    CallAPI()
+  }, [])
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
         source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
         style={{ flex: 1 }}
       >
-          <View style={{ flex: 0.08}}>
+        <View style={{ flex: 0.08 }}>
           <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} textDecorationLine={'underline'} />
         </View>
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
           <FlatList
-            data={AboutData}
+            data={Data[0].points}
             keyExtractor={(item) => item.id}
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
                 <LoadingImage
-                  source={require('../../../../assets/Images/Food/Food1.png')}
+                  // source={require('../../../../assets/Images/Food/Food1.png')}
+                  source={{ uri: Data[0].image }}
                   style={{ width: '100%', height: 240, }}
                   loaderColor="#ff0000" // Optional: change loader color
                   resizeMode="contain"
@@ -57,7 +135,7 @@ const AboutUS = ({ navigation }) => {
 
                 <View style={[{ backgroundColor: '#E8F4EC', width: '100%', marginVertical: 10 }, styles.container]}>
                   <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', fontFamily: 'BalooTamma2-Bold', lineHeight: 18 }}>
-                    {item.content}
+                    {item}
                   </Text>
                 </View>
               </View>

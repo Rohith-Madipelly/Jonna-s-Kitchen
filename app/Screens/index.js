@@ -18,9 +18,7 @@ import Loading from './CommonScreens/Loading.js';
 import SuccessfulVerify from './CommonScreens/SuccessfulVerify.js';
 import Splash2 from './SplashScreens/Splash2.js';
 import { setToken } from '../redux/actions/loginAction.jsx';
-import LogOut from './MainScreens/LogOut.js';
 import ProgramForm from './MainScreens/ProgramForm.js';
-// import Welcome from './MainScreens/Welcome.js';
 import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 import Notification from './MainScreens/Bottom-Tabs/Notification.js';
 import UserRegister from './AuthScreens/UserRegister.js';
@@ -34,7 +32,8 @@ import DataCheck from './ShareScreens/DataCheck.js';
 import { setAccountPage } from '../redux/actions/AccountSetUpAction.jsx';
 import VideoViewPage from './MainScreens/Bottom-Tabs/RecipeList/VideoViewPage.js';
 
-
+import Feedback from './MainScreens/Bottom-Tabs/ProfileRelated/Feedback.js';
+import { SET_USER_NAME } from '../redux/actions/loginAction copy.jsx';
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -65,6 +64,35 @@ const Screen = () => {
       }
       // setAppIsReady(true);
     });
+
+
+
+
+
+    ASO.getTokenJWT('UserName', (error, userName) => {
+      if (error) {
+        console.error('Error getting userName:', error);
+      } else {
+        if (userName != null) {
+          dispatch(SET_USER_NAME(userName));
+        }
+      }
+      // setAppIsReady(true);
+    });
+
+
+    ASO.getTokenJWT('UserEmail', (error, userName) => {
+      if (error) {
+        console.error('Error getting userName:', error);
+      } else {
+        if (userName != null) {
+          // dispatch(SET_USER_NAME(userName));
+        }
+      }
+      // setAppIsReady(true);
+    });
+
+
 
     ASO.getTokenJWT('programRegistered', (error, token) => {
       if (error) {
@@ -148,16 +176,15 @@ const Screen = () => {
         >
 
 
-          {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
+          <Stack.Screen name="Splash2" component={Splash2} />
           {user ? (
             <>
+              <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+              <Stack.Screen name="ProgramsForm" component={ProgramForm} />
 
-              {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
-              <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
-             
 
               <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
-              <Stack.Screen name="LogOut" component={LogOut} />
+
               <Stack.Screen name="Notification" component={Notification} />
             </>) : (<>
               <Stack.Screen name="Login" component={Login} />

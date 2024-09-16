@@ -28,18 +28,6 @@ const Article = ({ navigation, route }) => {
   let tokenn = useSelector((state) => state.login.token);
 
 
-  try {
-    if (tokenn != null) {
-      tokenn = tokenn.replaceAll('"', '');
-    }
-  }
-  catch (err) {
-    console.log("Error in token quotes", err)
-    if (err.response.status === 500) {
-      console.log("Internal Server Error", err.message)
-    }
-  }
-
   const getAllArticles = async () => {
     console.log("dcs")
     try {
@@ -118,7 +106,7 @@ const Article = ({ navigation, route }) => {
 
 
             <ScrollView style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
-              <Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>{ArticleData.title}</Text>
+              {ArticleData?<Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>{ArticleData.title}</Text>:""}
               <ImageBackground
                 // source={} // Replace with the actual path to your image
                 // source={require('../../../../assets/Images/thinkBox.png')} // Replace with the actual path to your image
@@ -129,7 +117,7 @@ const Article = ({ navigation, route }) => {
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
 
-                  <LoadingImage
+                  {ArticleData?<LoadingImage
                     // source={item.recipieImage}
                     source={{ uri: ArticleData.image }}
                     style={{
@@ -140,17 +128,16 @@ const Article = ({ navigation, route }) => {
                       // resizeMode: 'contain', // Maintain aspect ratio without stretching
                       resizeMode: 'cover', // Maintain aspect ratio without stretching
                     }}
-                  />
+                  />:""}
                 </View>
 
               </ImageBackground>
 
-              <ScrollView style={{ backgroundColor: '#000000', borderRadius: 20, padding: 15, marginTop: 20 }}>
-                <Text style={{ color: 'white', fontSize: 14, fontWeight: 500, fontFamily: 'BalooTamma2', lineHeight: 20 }}>
-                  {ArticleData.description}
+              {ArticleData?<ScrollView style={{ backgroundColor: '#000000', borderRadius: 20, padding: 15, marginTop: 20 }}>
+               <Text style={{ color: 'white', fontSize: 14, fontWeight: 500, fontFamily: 'BalooTamma2', lineHeight: 20 }}>
                   {ArticleData.description}
                 </Text>
-              </ScrollView>
+              </ScrollView>:""}
             </ScrollView>
 
 

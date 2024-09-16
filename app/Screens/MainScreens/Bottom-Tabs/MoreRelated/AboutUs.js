@@ -10,6 +10,7 @@ import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBa
 import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
 import { ABOUT_US_API } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
+import Loader1 from '../../../../Utils/Loader1';
 
 const { width } = Dimensions.get('screen');
 
@@ -37,20 +38,6 @@ const AboutUS = ({ navigation }) => {
   const [spinnerBool, setSpinnerbool] = useState(false)
 
   let tokenn = useSelector((state) => state.login.token)
-
-
-  try {
-    if (tokenn != null) {
-      tokenn = tokenn.replaceAll('"', '');
-    }
-  }
-  catch (err) {
-    console.log("Error in token quotes", err)
-    if (err.response.status === 500) {
-      console.log("Internal Server Error", err.message)
-    }
-  }
-
 
   const CallAPI = async () => {
     setSpinnerbool(true)
@@ -106,7 +93,10 @@ const AboutUS = ({ navigation }) => {
     CallAPI()
   }, [])
 
-  return (
+  return (<>
+       <Loader1
+        visible={spinnerBool}
+      />
     <View style={{ flex: 1 }}>
       <ImageBackground
         source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
@@ -116,9 +106,10 @@ const AboutUS = ({ navigation }) => {
           <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} textDecorationLine={'underline'} />
         </View>
         <View style={{ flex: 1 }}>
-          <FlatList
+          
+          {Data.length>0 ?<FlatList
             data={Data[0].points}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.item}
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
                 <LoadingImage
@@ -130,8 +121,8 @@ const AboutUS = ({ navigation }) => {
                 />
               </View>
             }
-            renderItem={({ item }) => (
-              <View style={{ marginHorizontal: 18 }}>
+            renderItem={({ item,index }) => (
+              <View style={{ marginHorizontal: 18 }} key={index}>
 
                 <View style={[{ backgroundColor: '#E8F4EC', width: '100%', marginVertical: 10 }, styles.container]}>
                   <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', fontFamily: 'BalooTamma2-Bold', lineHeight: 18 }}>
@@ -148,10 +139,11 @@ const AboutUS = ({ navigation }) => {
             }
 
           // contentContainerStyle={{ paddingHorizontal: 18 }}
-          />
+          />:""}
         </View>
       </ImageBackground>
     </View>
+    </>
   );
 }
 

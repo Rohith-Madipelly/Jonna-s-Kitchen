@@ -14,18 +14,6 @@ const FAQ = ({ navigation }) => {
   const [spinnerBool, setSpinnerbool] = useState(false)
 
 
-  try {
-    if (tokenn != null) {
-      tokenn = tokenn.replaceAll('"', '');
-    }
-  }
-  catch (err) {
-    console.log("Error in token quotes", err)
-    if (err.response.status === 500) {
-      console.log("Internal Server Error", err.message)
-    }
-  }
-
   const Get_FAQs = async () => {
     setSpinnerbool(true)
 

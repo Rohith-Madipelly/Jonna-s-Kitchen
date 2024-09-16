@@ -76,28 +76,9 @@ const WelcomeCopy = () => {
         { id: 2, label: '1', image: require("../../assets/Images/Carousels/Successful Pregnancy Stories.png") },
     ]
 
-
-
-
     let tokenn = useSelector((state) => state.login.token);
 
-
-    try {
-        if (tokenn != null) {
-            tokenn = tokenn.replaceAll('"', '');
-        }
-    }
-    catch (err) {
-        console.log("Error in token quotes", err)
-        if (err.response.status === 500) {
-            console.log("Internal Server Error", err.message)
-        }
-    }
-
-
     const ProgramsAPICaller = async () => {
-
-
         seterrorFormAPI() //Clear's All API errors
         try {
             setSpinnerbool(true)

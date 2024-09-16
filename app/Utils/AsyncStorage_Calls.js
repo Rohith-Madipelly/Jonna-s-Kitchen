@@ -23,7 +23,21 @@ ASO.prototype.getTokenJWT = function (key, callBack) {
         if (err) {
             callBack('Error getting token', null);
         } else {
-            callBack(null, result ? JSON.parse(result) : null);
+            let dataSender=JSON.parse(result)
+            try {
+                if (dataSender != null) {
+                    dataSender = dataSender.replaceAll('"', '');
+                }
+            }
+            catch (err) {
+                console.log("Error in token quotes", err)
+                if (err.response.status === 500) {
+                    console.log("Internal Server Error", err.message)
+                }
+            }
+        
+            callBack(null, result ? dataSender : null);
+            // callBack(null, result ? JSON.parse(result) : null);
         }
     });
 };

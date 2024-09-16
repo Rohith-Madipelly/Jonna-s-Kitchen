@@ -19,10 +19,12 @@ import { RAZORPAY_KEY } from "../../Enviornment";
 import { StatusBar } from "expo-status-bar";
 import Loader1 from "../../Utils/Loader1";
 import AsyncStorage_Calls from "../../Utils/AsyncStorage_Calls";
+import { Entypo } from "@expo/vector-icons";
 
 
 
 const ProgramForm = ({ route }) => {
+    const [show, setShow] = useState()
     const { params } = route;
     const programId = params.programId || 'Error in getting programId';
     const programPricex = params.programPrice || 'Error in getting programPricex';
@@ -132,19 +134,6 @@ const ProgramForm = ({ route }) => {
 
 
     let tokenn = useSelector((state) => state.login.token);
-
-
-    try {
-        if (tokenn != null) {
-            tokenn = tokenn.replaceAll('"', '');
-        }
-    }
-    catch (err) {
-        console.log("Error in token quotes", err)
-        if (err.response.status === 500) {
-            console.log("Internal Server Error", err.message)
-        }
-    }
 
     const submitHandler = (values) => {
         console.log("VerificationCode>> to ", values)
@@ -440,16 +429,32 @@ const ProgramForm = ({ route }) => {
                                                 placeholder={'Enter your current weight'}
                                                 // label={'userHeight'}
                                                 name='userHeight'
-                                                value={values.userHeight}
+                                                value={`${values.userHeight}`}
                                                 // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                                 // bgColor='#e1f3f8'
                                                 // bgColor="#B1B1B0"
+
+                                                rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })} style={{paddingHorizontal:5,paddingVertical:5,backgroundColor:'skyblue',marginRight:-12}}>
+                                                {!show?.password ? (
+                                                    <View>
+                                                        <Text style={{fontWeight:700}}>Ft</Text>
+                                                    </View>
+                                                //   <Entypo name="eye-with-line" size={20} color="black" />
+                                                ) : (
+                                                    <View>
+                                                    <Text style={{fontWeight:700}}>cm</Text>
+                                                </View>
+                                                //   <Entypo name="eye" size={20} color="black" />
+                                                )
+                                                }
+                                              </Pressable>
+                                              }
 
                                                 onChangeText={(e) => {
                                                     // Remove any non-numeric characters
                                                     const numericValue = e.replace(/[^0-9]/g, '');
                                                     // Update the state with the numeric value
-                                                    handleChange("userHeight")(numericValue);
+                                                    handleChange("userHeight")(`${numericValue}`);
                                                     seterrorFormAPI();
                                                 }}
                                                 onBlur={handleBlur("userHeight")}
@@ -492,6 +497,22 @@ const ProgramForm = ({ route }) => {
                                                 // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                                 // bgColor='#e1f3f8'
                                                 // bgColor="#B1B1B0"
+
+                                                rightIcon={<Pressable onPress={() => setShow({ ...setShow, currentWeightUnit: !show?.currentWeightUnit })} style={{paddingHorizontal:5,paddingVertical:5,backgroundColor:'skyblue',marginRight:-12}}>
+                                                {!show?.currentWeightUnit ? (
+                                                    <View>
+                                                        <Text style={{fontWeight:700}}>Kgs</Text>
+                                                    </View>
+                                                //   <Entypo name="eye-with-line" size={20} color="black" />
+                                                ) : (
+                                                    <View>
+                                                    <Text style={{fontWeight:700}}>LBS</Text>
+                                                </View>
+                                                //   <Entypo name="eye" size={20} color="black" />
+                                                )
+                                                }
+                                              </Pressable>
+                                              }
 
                                                 onChangeText={(e) => {
                                                     // Remove any non-numeric characters

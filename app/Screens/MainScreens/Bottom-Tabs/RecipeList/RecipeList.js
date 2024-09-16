@@ -32,20 +32,6 @@ const RecipeList = ({ navigation }) => {
     let tokenn = useSelector((state) => state.login.token);
     const dispatch = useDispatch()
 
-    try {
-        if (tokenn != null) {
-            tokenn = tokenn.replaceAll('"', '');
-        }
-    }
-    catch (err) {
-        console.log("Error in token quotes", err)
-        if (err.response.status === 500) {
-            console.log("Internal Server Error", err.message)
-        }
-    }
-
-
-
     const handleApiCall = async () => {
         try {
             const res = await getAllRecipieServiceByKeyWord22(searchKeyWord, tokenn)

@@ -25,17 +25,6 @@ const MorePage = ({ navigation }) => {
   let tokenn = useSelector((state) => state.login.token)
 
 
-  try {
-    if (tokenn != null) {
-      tokenn = tokenn.replaceAll('"', '');
-    }
-  }
-  catch (err) {
-    console.log("Error in token quotes", err)
-    if (err.response.status === 500) {
-      console.log("Internal Server Error", err.message)
-    }
-  }
 
   const JobFetch = async () => {
     setSpinnerbool(true)

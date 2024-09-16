@@ -72,9 +72,8 @@ const CustomTextInput3 = ({
                     style={{ flex: 4, height: '130%' }}
 
                 />
-                <View style={{ paddingLeft: 5 }}>
+                <View style={{ paddingLeft: 5}}>
                     {rightIcon}
-
                 </View>
             </View>
             <Text style={{ color: errorColor, fontSize:12,marginLeft: 15 }}>{errorMessage}</Text>

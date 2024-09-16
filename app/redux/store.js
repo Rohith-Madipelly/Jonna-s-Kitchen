@@ -3,6 +3,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import loginReducer from "./reducers/loginReducer";
 import AccountSetUpReducer from './reducers/AccountSetUpReducer'
 import SetUserNameReducer from './reducers/SetUserNameReducer';
+import SetUserPhoneReducer from './reducers/SetUserPhoneReducer';
 
 
 // Combine reducers
@@ -10,7 +11,7 @@ const rootReducer = combineReducers({
     login: loginReducer,
     AccountSetUp: AccountSetUpReducer, // Note: Use lowercase 'n' for consistency
     SetUserName: SetUserNameReducer, // Note: Use lowercase 'n' for consistency
-    // SetUserEmail: SetUserEmailReducer, // Note: Use lowercase 'n' for consistency
+    SetUserPhoneReducer: SetUserPhoneReducer, // Note: Use lowercase 'n' for consistency
   });
  
 

@@ -11,6 +11,9 @@ export const Bank_Details_on_IFSC = async (IFSC_CODE) => {
 };
 
 
+
+// axios. get('/api/users', {timeout: 5000}) . then(response => { // handle success })
+
 // Login API
 export const UserLoginApi = async (loginFormReq) => {
   return await axios.post(`${GUEST_URL}/api/login`, loginFormReq,)

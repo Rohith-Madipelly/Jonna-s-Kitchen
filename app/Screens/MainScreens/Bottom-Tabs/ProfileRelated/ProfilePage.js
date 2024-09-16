@@ -60,6 +60,7 @@ const ProfilePage = () => {
 
   ];
   let userName = useSelector((state) => state.SetUserName.userName);
+  let userPhoneNumber = useSelector((state) => state.SetUserPhoneReducer.UserPhoneNumber);
 
   // console.log(menuItems[0].subItems)
   return (
@@ -72,7 +73,7 @@ const ProfilePage = () => {
           <View style={{ flex: 0.80 }}>
 
             <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14 }}>{userName}</Text>
-            {/* <Text><Feather name="phone" size={15} color="black" />99866 50042</Text> */}
+            <Text><Feather name="phone" size={15} color="black" /> {userPhoneNumber}</Text>
           </View>
         </View>
       </View>

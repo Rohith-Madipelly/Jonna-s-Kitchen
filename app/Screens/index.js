@@ -34,6 +34,7 @@ import VideoViewPage from './MainScreens/Bottom-Tabs/RecipeList/VideoViewPage.js
 
 import Feedback from './MainScreens/Bottom-Tabs/ProfileRelated/Feedback.js';
 import { SET_USER_NAME } from '../redux/actions/loginAction copy.jsx';
+import { SetUserPhoneNumber } from '../redux/actions/SetUserPhoneNumber.jsx';
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -66,7 +67,16 @@ const Screen = () => {
     });
 
 
-
+    ASO.getTokenJWT('userPhoneNumber12', (error, USERPHONEAPP) => {
+      if (error) {
+        console.error('Error getting userName:', error);
+      } else {
+        if (USERPHONEAPP != null) {
+          dispatch(SetUserPhoneNumber(USERPHONEAPP));
+        }
+      }
+      // setAppIsReady(true);
+    });
 
 
     ASO.getTokenJWT('UserName', (error, userName) => {
@@ -79,6 +89,19 @@ const Screen = () => {
       }
       // setAppIsReady(true);
     });
+
+
+
+    // ASO.getTokenJWT('UserName', (error, userName) => {
+    //   if (error) {
+    //     console.error('Error getting userName:', error);
+    //   } else {
+    //     if (userName != null) {
+    //       dispatch(SET_USER_NAME(userName));
+    //     }
+    //   }
+    //   // setAppIsReady(true);
+    // });
 
 
     ASO.getTokenJWT('UserEmail', (error, userName) => {

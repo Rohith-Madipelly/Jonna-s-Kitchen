@@ -20,6 +20,7 @@ import { StatusBar } from "expo-status-bar";
 import Loader1 from "../../Utils/Loader1";
 import AsyncStorage_Calls from "../../Utils/AsyncStorage_Calls";
 import { Entypo } from "@expo/vector-icons";
+import { setAccountPage } from "../../redux/actions/AccountSetUpAction";
 
 
 

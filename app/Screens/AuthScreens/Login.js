@@ -26,6 +26,7 @@ import { ServerError } from '../../Utils/ServerError.js';
 import { setAccountPage } from '../../redux/actions/AccountSetUpAction.jsx';
 import { SET_USER_NAME } from '../../redux/actions/loginAction copy.jsx';
 import { SetUserPhoneNumber } from '../../redux/actions/SetUserPhoneNumber.jsx';
+import { SetUserEmail } from '../../redux/actions/SetUserEmail.jsx';
 
 
 const Login = () => {
@@ -69,11 +70,13 @@ const Login = () => {
     try {
       setSpinnerbool(true)
       const res = await UserLoginApi(values)
+
       if (res) {
         const Message = res.data.message
         const token = res.data.jwtTocken
         const USERNAMEAPP = res.data.userName
         const USERPHONEAPP = res.data.userPhoneNumber
+        const UserEmail = res.data.userEmail
         const programRegistered = res.data.programRegistered
         console.log(res.data)
 
@@ -92,16 +95,24 @@ const Login = () => {
           }
         })
 
-        console.log(USERPHONEAPP,"user phoen number")
+        console.log(USERPHONEAPP, "user phoen number")
         ASO.setTokenJWT("userPhoneNumber12", JSON.stringify(USERPHONEAPP), function (res, status) {
           if (status) {
-        console.log(USERPHONEAPP,"user phoen number >>>>>>>>>")
-
+            console.log(USERPHONEAPP, "user phoen number >>>>>>>>>")
             dispatch(SetUserPhoneNumber(USERPHONEAPP));
           }
         })
 
-      
+
+
+        ASO.setTokenJWT("userEmail", JSON.stringify(UserEmail), function (res, status) {
+          if (status) {
+            console.log(UserEmail, "user phoen number >>>>>>>>>")
+            dispatch(SetUserEmail(UserEmail));
+          }
+        })
+
+
 
         ASO.setTokenJWT("programRegistered", JSON.stringify(programRegistered), function (res, status) {
           if (status) {

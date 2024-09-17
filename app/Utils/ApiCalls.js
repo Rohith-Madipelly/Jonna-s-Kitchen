@@ -71,6 +71,22 @@ export const createPasswordAPI = async (userEmail, values) => {
 }
 
 
+
+export const GET_ALL_BANNERS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getAllBanners`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
+
+
+
+
+
+
+
+
 //  CreateOder
 
 export const CREATE_USER_API = async (formData, token) => {
@@ -229,7 +245,7 @@ export const GET_ALL_TESTIMONIALS = async (token) => {
 
 export const CREATE_FEEDBACK_API = async (data,token) => {
   console.log("Cs",token,data)
-  return await axios.get(`${GUEST_URL}/api/feedbacks/createFeedBack`, data,{
+  return await axios.post(`${GUEST_URL}/api/feedbacks/createFeedBack`, data,{
     headers: {
       'Authorization': `Bearer ${token}`
     },

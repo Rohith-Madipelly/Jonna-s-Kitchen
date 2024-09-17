@@ -19,8 +19,9 @@ const StarRating = () => {
     const navigation = useNavigation()
     let userName = useSelector((state) => state.SetUserName.userName);
 
+    let userEmail = useSelector((state) => state.SetUserEmailReducer.userEmail);
 const dispatch=useDispatch()
-
+ 
     const [spinnerBool, setSpinnerbool] = useState(false)
 
     let tokenn = useSelector((state) => state.login.token)
@@ -57,7 +58,6 @@ const dispatch=useDispatch()
         setModalVisible(!isModalVisible);
     };
 
-
     const APICaller = async (data) => {
         setSpinnerbool(true)
         try {
@@ -79,7 +79,8 @@ const dispatch=useDispatch()
                     console.log("Error With 400.", error.response.data)
                 }
                 else if (error.response.status === 401) {
-                    ServerTokenError_Logout(undefined, undefined, dispatch)
+                    console.log("Error With 400.", error.response.data)
+                    // ServerTokenError_Logout(undefined, undefined, dispatch)
                 }
                 else if (error.response.status === 403) {
                     console.log("error.response.status login", error.response.data.message)
@@ -122,7 +123,7 @@ const dispatch=useDispatch()
         console.log(rating, "d", values.description,)
         if (rating > 0) {
             const data = {
-                email: "madipellyrohith@gmail.com",
+                email: userEmail,
                 name: userName,
                 description: values.description,
                 stars: rating
@@ -193,7 +194,8 @@ const dispatch=useDispatch()
                             />
                         </View>
 
-                        <TouchableOpacity style={styles.submitButton} onPress={submitRating}>
+                        <TouchableOpacity style={styles.submitButton} onPress={submitRating}
+                        >
                             <Text style={styles.submitText}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.cancelButton} onPress={() => { navigation.goBack() }}>

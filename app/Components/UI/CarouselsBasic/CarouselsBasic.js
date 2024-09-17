@@ -159,7 +159,7 @@ const CarouselsBasicItem = ({ item, CarouselWidth, containerHeight, keymm }) => 
   return (
     <TouchableOpacity key={keymm} style={[{ width: width, paddingHorizontal: 20, height: containerH, alignItems: 'center', justifyContent: 'center' }]}  activeOpacity={1} onPress={item.onPress}>
       <Image
-        source={item.image}
+        source={item.image ?item.image : { uri: item.img } }
         style={{
           width: '100%', // Take up the full width of the parent
           height: '100%',

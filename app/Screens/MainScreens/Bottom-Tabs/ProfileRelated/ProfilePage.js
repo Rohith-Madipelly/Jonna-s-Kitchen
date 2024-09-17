@@ -74,6 +74,7 @@ const ProfilePage = () => {
 
             <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14 }}>{userName}</Text>
             <Text><Feather name="phone" size={15} color="black" /> {userPhoneNumber}</Text>
+            {/* <Text><Feather name="phone" size={15} color="black" /> {userEmail}</Text> */}
           </View>
         </View>
       </View>

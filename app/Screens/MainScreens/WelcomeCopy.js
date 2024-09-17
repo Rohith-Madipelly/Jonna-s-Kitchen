@@ -242,7 +242,7 @@ const WelcomeCopy = () => {
 
                                             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
                                                 {/* <SkeletonLoader width={300} height={240} borderRadius={5} /> */}
-                                                <CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />
+                                                {TransformationData?<CarouselsBasic DATA={TransformationData} autoScroll={true} showIndicators={false} containerHeight={191} />:""}
                                             </View>
 
 
@@ -257,7 +257,7 @@ const WelcomeCopy = () => {
                                             }, styles.TextFamilyA2,]}>Successful Pregnancy Stories</Text>
 
                                             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10, }}>
-                                                <CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />
+                                                {PregnancyStoriesData?<CarouselsBasic DATA={PregnancyStoriesData} autoScroll={true} showIndicators={false} containerHeight={159} />:""}
                                             </View>
                                         </View>
 
@@ -287,7 +287,7 @@ const WelcomeCopy = () => {
 
 
 
-                                        {APICallData.map((data, index) => (
+                                        {APICallData ? APICallData.map((data, index) => (
 
                                             <Animated.View
                                                 style={[
@@ -335,7 +335,17 @@ const WelcomeCopy = () => {
                                                     <ProgramDeatils programId={data.id} data={data} />
                                                 </View>}
                                             </Animated.View>
-                                        ))}
+                                        )):
+                                        <Animated.View
+                                        style={[
+                                            { position: 'relative', top: 0 },
+                                            { opacity: buttonOpacity, transform: [{ translateY: buttonTranslateY1 }], }
+                                        ]}
+                                        // key={index}
+                                    >
+
+                                        <Text>No Data found</Text>
+                                </Animated.View>}
 
 
                                         <View style={{ height: 250 }}>

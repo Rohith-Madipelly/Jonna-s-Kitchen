@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 
@@ -10,14 +10,18 @@ import CarouselsBasic from '../../../Components/UI/CarouselsBasic/CarouselsBasic
 import SkeletonLoader from '../../../Components/UI/Skeletons/SkeletonLoader';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector } from 'react-redux';
+import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
+import { GET_ALL_BANNERS_API } from '../../../Utils/ApiCalls';
 
 
 const Home = ({ navigation }) => {
 
 
   let userName = useSelector((state) => state.SetUserName.userName);
+  let tokenn = useSelector((state) => state.login.token)
 
   const [loadingComponent, setLoadingComponent] = useState(true)
+  const [Data, setData] = useState("")
 
   const DATA12 = [
     {
@@ -40,12 +44,64 @@ const Home = ({ navigation }) => {
 
   ];
 
+  const HomeBanners = async () => {
+    try {
+      const res = await GET_ALL_BANNERS_API(tokenn)
+
+      if(res)
+      {
+        console.log("Res >",res.data)
+        setData(res.data)
+      }
+    } catch (error) {
+      console.log("Error in APi Call in GET_ALL_BANNERS_API >", error.response)
+      if (error.response) {
+        if (error.response.status === 400) {
+
+        }
+        else if (error.response.status === 401) {
+          console.log("Error With 401", error.response.data)
+        }
+        else if (error.response.status === 403) {
+          console.log("Error With 403", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("Error With 404", error.response.data.message)
+          ServerTokenError_Logout(undefined, undefined, dispatch)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined, `${error.message}`)
+        }
+        else {
+          console.log("An error occurred response.>>", error)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+    } finally {
+      // console.log("Finally >")
+      setTimeout(() => {
+        setLoadingComponent(false)
+      }, 2000);
+    }
+  }
+
 
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoadingComponent(false)
-    }, 2000);
+    HomeBanners()
   }, [])
 
 
@@ -53,7 +109,7 @@ const Home = ({ navigation }) => {
 
 
 
-  
+
   return (
     <>
       <StatusBar
@@ -61,7 +117,7 @@ const Home = ({ navigation }) => {
         // backgroundColor="white"
         barStyle={'dark-content'}
       />
-      <View style={{ flex: 1}}>
+      <View style={{ flex: 1 }}>
 
 
         <View style={{ flex: 1 }}>
@@ -100,7 +156,7 @@ const Home = ({ navigation }) => {
               <View style={{ flex: 0.7, marginTop: 20 }}>
                 {loadingComponent ? <View style={{ height: 200, marginHorizontal: 18, marginTop: 20, }}>
                   <SkeletonLoader width={200} height={159} borderRadius={5} />
-                </View> : <CarouselsBasic DATA={DATA12} autoScroll={true} showIndicators={true} />}
+                </View> : <CarouselsBasic DATA={Data} autoScroll={true} showIndicators={true} />}
 
 
                 {loadingComponent ? <View style={{ height: 900, marginHorizontal: 18, marginTop: 20, borderRadius: 40, overflow: 'hidden' }}>

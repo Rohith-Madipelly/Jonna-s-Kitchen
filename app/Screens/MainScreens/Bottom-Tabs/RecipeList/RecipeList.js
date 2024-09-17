@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { get_all_recipies_by_category_API, getAllRecipieServiceByKeyWord22, getRecipieByKeyWord_API } from '../../../../Utils/ApiCalls';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
-import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
+import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError';
 
 const RecipeList = ({ navigation }) => {
 
@@ -57,13 +57,10 @@ const RecipeList = ({ navigation }) => {
                     console.log("Error With 404", error.response.data.message)
                     ServerTokenError_Logout(undefined, undefined, dispatch)
                 }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
-                }
-                else if (error.response.status === 503) {
-                    console.log("Internal Server Error", error.message)
-                    Alert.alert("Internal Server Error", error.message)
-                }
+                else if (error.response.status >= 500) {
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                  }
                 else {
                     console.log("An error occurred response.>>", error)
                 }

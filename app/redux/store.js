@@ -4,6 +4,7 @@ import loginReducer from "./reducers/loginReducer";
 import AccountSetUpReducer from './reducers/AccountSetUpReducer'
 import SetUserNameReducer from './reducers/SetUserNameReducer';
 import SetUserPhoneReducer from './reducers/SetUserPhoneReducer';
+import SetUserEmailReducer from './reducers/SetUserEmailReducer';
 
 
 // Combine reducers
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     AccountSetUp: AccountSetUpReducer, // Note: Use lowercase 'n' for consistency
     SetUserName: SetUserNameReducer, // Note: Use lowercase 'n' for consistency
     SetUserPhoneReducer: SetUserPhoneReducer, // Note: Use lowercase 'n' for consistency
+    SetUserEmailReducer:SetUserEmailReducer
   });
  
 

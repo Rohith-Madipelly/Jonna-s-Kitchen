@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const email = "userEmail"
+const userEmail = "userEmail"
 // try {
 //   token = AsyncStorage.getItem('BuyKeys:' + 'Token');
 //   // console.log("reducer >> token", token);
@@ -9,7 +9,7 @@ const email = "userEmail"
 // }
 
 const initialState = {
-  email: email || "",
+  userEmail: userEmail || "",
 };
 
 
@@ -21,8 +21,7 @@ const SetUserEmailReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        token: action.token,
-        isLogin: action.token ? true : false,
+        userEmail: action.userEmail,
       };
     default:
       return state;

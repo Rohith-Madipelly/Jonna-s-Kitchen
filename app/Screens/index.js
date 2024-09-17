@@ -35,6 +35,7 @@ import VideoViewPage from './MainScreens/Bottom-Tabs/RecipeList/VideoViewPage.js
 import Feedback from './MainScreens/Bottom-Tabs/ProfileRelated/Feedback.js';
 import { SET_USER_NAME } from '../redux/actions/loginAction copy.jsx';
 import { SetUserPhoneNumber } from '../redux/actions/SetUserPhoneNumber.jsx';
+import { SetUserEmail } from '../redux/actions/SetUserEmail.jsx';
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -109,11 +110,24 @@ const Screen = () => {
         console.error('Error getting userName:', error);
       } else {
         if (userName != null) {
-          // dispatch(SET_USER_NAME(userName));
+          dispatch(SET_USER_NAME(userName));
         }
       }
       // setAppIsReady(true);
     });
+
+
+    ASO.getTokenJWT('userEmail', (error, userName) => {
+      if (error) {
+        console.error('Error getting userName:', error);
+      } else {
+        if (userName != null) {
+          dispatch(SetUserEmail(userName));
+        }
+      }
+      // setAppIsReady(true);
+    });
+
 
 
 
@@ -204,8 +218,6 @@ const Screen = () => {
             <>
               <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
               <Stack.Screen name="ProgramsForm" component={ProgramForm} />
-
-
               <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
 
               <Stack.Screen name="Notification" component={Notification} />

@@ -254,7 +254,56 @@ export const CREATE_FEEDBACK_API = async (data,token) => {
 
 
 
+
+
+export const GET_USER_DEATILS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getUserByEmail`,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const PREVIOUS_CHAT_API = async (param1,param2,token) => {
+  return await axios.get(`${GUEST_URL}/api/message/getChatByUserAndEmployee/${param1}/${param2}`,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
 export const ABOUT_US_API = async () => {
 
   return await axios.get(`${GUEST_URL}/api/about/getAllAbout`);
+}
+
+
+
+export const PRIVACY_POLICY_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/privacypolicy/getAllPrivacyPolicies`,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const TERMS_AND_CONDITIONS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/privacypolicy/getAllPrivacyPolicies`,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+export const GET_USER_BY_EMAIL_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getUserByEmail`,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
 }

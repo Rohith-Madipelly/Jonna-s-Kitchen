@@ -67,9 +67,9 @@ const ProfilePage = () => {
     <View style={{ flex: 1}}>
       <View style={{ flex: 0.15 }}>
         <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 32, justifyContent: 'space-between' }}>
-          <View style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={()=>navigation.navigate('ProgramStatus')} style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#FFFFFF', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 32 }}>{userName[0]}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={{ flex: 0.80 }}>
 
             <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14 }}>{userName}</Text>

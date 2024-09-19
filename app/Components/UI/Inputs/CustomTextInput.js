@@ -41,7 +41,6 @@ const CustomTextInput = ({
             <View style={[styles.container, containerBorder,containerStyle, { borderColor: borderColor }, { backgroundColor: backgroundColor }]}>
                 <View style={{ paddingRight: 7 }}>
                     {leftIcon}
-
                 </View>
                 <TextInput
                     placeholder={placeholder ? placeholder : label ? `Enter ${label}` : ''}
@@ -60,7 +59,7 @@ const CustomTextInput = ({
                     multiline={numLines > 1 ? true : false}
                     numberOfLines={numLines}
                     editable={editable}
-                    style={{ flex: 4 }}
+                    style={{ flex: 4, }}
 
                 />
                 <View style={{ paddingLeft: 5 }}>
@@ -104,6 +103,20 @@ const styles = StyleSheet.create({
         }),
 
 
+    },
+
+
+    boxHeight: {
+        // marginTop:5,
+        ...Platform.select({
+            ios: {
+                // height:80,
+                marginVertical:5,
+            },
+            android: {
+                // height:80
+            },
+        })
     },
     outlined: {
         // borderBottomColor: 'darkgrey',

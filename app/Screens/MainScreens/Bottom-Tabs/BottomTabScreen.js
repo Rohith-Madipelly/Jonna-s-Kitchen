@@ -29,9 +29,9 @@ const BottomTabScreen = ({ route }) => {
           flex: Platform.OS === "ios" ? 0.08 : 0.102,
 
           // backgroundColor: '#006AFF',
-        
-        //  borderStartStartRadius:50,
-        //  borderStartEndRadius:50
+
+          //  borderStartStartRadius:50,
+          //  borderStartEndRadius:50
 
           backgroundColor: 'white'
 

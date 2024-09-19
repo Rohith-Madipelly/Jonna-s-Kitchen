@@ -216,8 +216,8 @@ const Screen = () => {
           {/* <Stack.Screen name="Splash2" component={Splash2} /> */}
           {user ? (
             <>
-              {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
-              <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
+               {/* <Stack.Screen name="WelcomeCopy" component={WelcomeCopy} />
+               <Stack.Screen name="ProgramsForm" component={ProgramForm} /> */}
               <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
 
               <Stack.Screen name="Notification" component={Notification} />

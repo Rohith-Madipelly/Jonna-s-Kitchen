@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
 
       if(res)
       {
-        console.log("Res >",res.data)
+        // console.log("Res >",res.data)
         setData(res.data)
       }
     } catch (error) {

@@ -43,8 +43,6 @@ const AboutUS = ({ navigation }) => {
     setSpinnerbool(true)
     try {
       const res = await ABOUT_US_API()
-      console.log("feh",res.data)
-
       setData(res.data)
 
     } catch (error) {
@@ -109,7 +107,8 @@ const AboutUS = ({ navigation }) => {
           
           {Data.length>0 ?<FlatList
             data={Data[0].points}
-            keyExtractor={(item) => item.item}
+
+            keyExtractor={(item, index) => index.toString()} 
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
                 <LoadingImage

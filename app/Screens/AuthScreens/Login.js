@@ -1,5 +1,5 @@
 import { Alert, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import ASO from '../../Utils/AsyncStorage_Calls'
 import { useNavigation } from '@react-navigation/native';
@@ -29,6 +29,12 @@ import { SetUserPhoneNumber } from '../../redux/actions/SetUserPhoneNumber.jsx';
 import { SetUserEmail } from '../../redux/actions/SetUserEmail.jsx';
 
 
+
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+
+
 const Login = () => {
   const [errorFormAPI, seterrorFormAPI] = useState("")
   const [show, setShow] = useState()
@@ -36,6 +42,104 @@ const Login = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
+
+  const notificationListener = useRef();
+  const responseListener = useRef();
+  const [expoPushToken, setExpoPushToken] = useState('');
+
+
+
+// This will run only when app starts not like when ever the component is updated so we are not placing it in app component
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+  shouldSetBadge: true, 
+  }),
+});
+
+
+
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+// notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+// });
+
+// Alert.alert(
+//   notification.request.content.title,
+//   notification.request.content.body
+// );
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    // Learn more about projectId:
+    // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+    // EAS projectId is used here.
+    try {
+      const projectId =
+        Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+      console.log("project id ", projectId)
+      if (!projectId) {
+        throw new Error('Project ID not found');
+      }
+      // token = (
+      //   await Notifications.getExpoPushTokenAsync({
+      //     projectId,
+      //   })
+      // ).data;
+
+
+      token =  (await Notifications.getDevicePushTokenAsync()).data;
+
+      // token = (await Notifications.getDevicePushTokenAsync()).data;
+      // const pushTokenData = (await Notifications.getDevicePushTokenAsync()).data;
+      // console.log(pushTokenData)
+
+    } catch (e) {
+      token = `${e}`;
+    }
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
+}
+
+
+useEffect(() => {
+  registerForPushNotificationsAsync()
+    .then(token => {
+      console.log(token)
+      token && setExpoPushToken(token)
+      setFieldValue('fcmToken',token)
+      // console.log(">>>",expoPushToken)
+    })
+    .catch((err) => { console.log(err) })
+
+  console.log("Registering  for push notification..")
+}, [])
+
 
   const { handleChange,
     handleBlur,
@@ -46,9 +150,10 @@ const Login = () => {
     errors,
     isValid,
     setValues,
+    setFieldValue,
     resetForm,
   } = useFormik({
-    initialValues: { userEmail: "", password: "" },
+    initialValues: { userEmail: "madipellyrohith@gmail.com", password: "Rohith@7",fcmToken:'' },
 
     onSubmit: values => {
       { submitHandler(values) }
@@ -62,6 +167,7 @@ const Login = () => {
     },
 
   });
+
 
 
   const submitHandler = async (values) => {
@@ -125,10 +231,9 @@ const Login = () => {
 
     } catch (error) {
       if (error.response) {
-        console.log("df")
         if (error.response.status === 400) {
           console.log("Error With 400.", error.response.data)
-          // seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status === 401) {
           seterrorFormAPI({ passwordForm: `${error.response.data.message}` })

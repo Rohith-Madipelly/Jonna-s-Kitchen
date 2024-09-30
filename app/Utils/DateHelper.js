@@ -149,6 +149,32 @@ export const DateHelper = {
     return new Date(year, month, day);
   },
 
+  getDayFromToday(dateEnd) {
+    const today = new Date();
+  
+    // Split the input date string (DD-MM-YYYY) and convert it to MM/DD/YYYY for JavaScript Date parsing
+    const [day, month, year] = dateEnd.split('-');
+    const futureDate = new Date(`${year}-${month}-${day}`); // Convert to YYYY-MM-DD format
+  
+    const oneDay = 1000 * 60 * 60 * 24; // Milliseconds in one dayrc
+    const diffTime = (futureDate - today) / oneDay; // Time difference in days
+    return Math.ceil(diffTime); // Round up to the nearest day
+  },
+
+  getDaysBtwDates(dateStart, dateEnd) {
+    // Convert dateStart to MM/DD/YYYY format
+    const [startDay, startMonth, startYear] = dateStart.split('-');
+    const startDate = new Date(`${startYear}-${startMonth}-${startDay}`); // Convert to YYYY-MM-DD format
+  
+    // Convert dateEnd to MM/DD/YYYY format
+    const [endDay, endMonth, endYear] = dateEnd.split('-');
+    const endDate = new Date(`${endYear}-${endMonth}-${endDay}`); // Convert to YYYY-MM-DD format
+  
+    const oneDay = 1000 * 60 * 60 * 24; // Milliseconds in one day
+    const diffTime = (endDate - startDate) / oneDay; // Time difference in days
+    return Math.ceil(diffTime); // Round up to the nearest day
+  },
+
   getDifferenceBtwDate(date1, date2) {
     const diffTime = Math.abs(date2 - date1);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

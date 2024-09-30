@@ -128,13 +128,6 @@ const WelcomeCopy = () => {
                 }
 
             setSpinnerbool(false)
-
-            if (error) {
-
-                // message = error.message;
-                // seterrorFormAPI(message)
-                // "userEmail or Password does not match !"
-            }
         }
         finally {
             setSpinnerbool(false)
@@ -160,7 +153,7 @@ const WelcomeCopy = () => {
 
 
     const getSpecifice = (index) => {
-        console.log("Hello", index)
+        // console.log("Hello", index)
     }
 
 
@@ -200,10 +193,7 @@ const WelcomeCopy = () => {
                                 style={{ width: '100%', flex: 1 }}
                             >
                                 <View style={{ flex: 1 }}>
-
                                     <View style={{ marginTop: 10, flex: 0.9 }}>
-
-
                                         <View style={{ marginHorizontal: 20, }}>
                                             <Text style={{
                                                 fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,

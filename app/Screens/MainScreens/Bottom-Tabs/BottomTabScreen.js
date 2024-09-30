@@ -13,6 +13,7 @@ import Profile from './Profile.js';
 
 
 import { useNavigation } from '@react-navigation/native';
+import WelcomeCopy from '../WelcomeCopy.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -29,9 +30,9 @@ const BottomTabScreen = ({ route }) => {
           flex: Platform.OS === "ios" ? 0.08 : 0.102,
 
           // backgroundColor: '#006AFF',
-        
-        //  borderStartStartRadius:50,
-        //  borderStartEndRadius:50
+
+          //  borderStartStartRadius:50,
+          //  borderStartEndRadius:50
 
           backgroundColor: 'white'
 
@@ -138,7 +139,7 @@ const BottomTabScreen = ({ route }) => {
       })}>
 
 
-      <Tab.Screen name="Home" component={Home} options={{
+      <Tab.Screen name="Home" component={WelcomeCopy} options={{
         headerShown: false, // Show the header
         // headerShown: false, // Show the header
         headerBackVisible: true, // Hide the back button

@@ -18,15 +18,44 @@ const UserRegisterYupSchema = Yup.object().shape({
     .matches(/^[0-9]{10}$/, "Mobile number must be a 10-digit number"),
 
 
-  userEmail: Yup.string().email("Email must be a valid email").test(
-    "is-valid",
-    "Email must be a valid email",
-    (value) =>
-      Yup.string()
-        .email()
-        .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/)
-        .isValidSync(value) || /^\d{10}$/.test(value)
-  ).required("Email is a Required Field "),
+  // userEmail: Yup.string().email("Email must be a valid email").test(
+  //   "is-valid",
+  //   "Email must be a valid email",
+  //   (value) =>
+  //     Yup.string()
+  //       .email()
+  //       .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/)
+  //       .isValidSync(value) || /^\d{10}$/.test(value)
+  // ).required("Email is a Required Field "),
+
+
+  userEmail: Yup
+  .string()
+  .matches(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email")
+  .test(
+    "single-tld",
+    "Email address is required and cannot be empty. Please provide a valid email address",
+    (value) => {
+      return !/\.[a-zA-Z]{2,}\./.test(value);
+    }
+  )
+  .required("Email is Required"),
+
+
+
+
+
+  // const userEmail = Yup.string()
+  // .test("is-valid-email-or-phone", "Email or phone number must be valid", (value) => {
+  //   const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Domain limit set between 2-4 characters
+  //   const noConsecutiveDots = !/(..@|@\.\.|@.*\.\.)/.test(value); // No consecutive dots or special chars in local or domain part
+  //   const noSpecialStartEnd = !/^[-._@]|[-._@]$/.test(value); // No special characters at start or end
+  //   const phoneRegex = /^\d{10}$/; // 10-digit phone number
+
+  //   return emailRegex.test(value) && noConsecutiveDots && noSpecialStartEnd || phoneRegex.test(value);
+  // })
+  // .required("Email or phone number is required")
+  // .email("Email must be a valid email format");
 
 
 });

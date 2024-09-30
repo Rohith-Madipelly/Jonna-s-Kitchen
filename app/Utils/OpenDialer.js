@@ -5,11 +5,11 @@ export const OpenDialer = (phoneNumber) => {
     Linking.canOpenURL(phoneUrl)
       .then((supported) => {
         console.log(supported)
-        if (supported) {
+        // if (supported) {
           return Linking.openURL(phoneUrl);
-        } else {
-          Alert.alert('Error', 'Phone dialer is not available');
-        }
+        // } else {
+        //   Alert.alert('Error', 'Phone dialer is not available');
+        // }
       })
       .catch((err) => Alert.alert('Error', err.message));
   };

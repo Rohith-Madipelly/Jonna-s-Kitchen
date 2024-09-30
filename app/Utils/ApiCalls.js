@@ -34,9 +34,6 @@ export const verifyOTPScreenForgotAPI = async (email, values) => {
     userEmail: email,
     forgotOtp: values.otp,
   }
-
-  console.log(">>>>>", ReqData)
-
   return await axios.post(`${GUEST_URL}/api/verifyforgototp`, ReqData)
 
 }
@@ -45,7 +42,6 @@ export const verifyOTPScreenForgotAPI = async (email, values) => {
 
 // Register API
 export const UserRegisterOTPApi = async (registerFormReq) => {
-  console.log("to APi >", registerFormReq)
   return await axios.post(`${GUEST_URL}/api/register`, registerFormReq)
 }
 
@@ -56,9 +52,7 @@ export const verifyOTPAPI = async (email, values) => {
     userEmail: email,
     sentOtp: values.otp,
   }
-  
   return await axios.post(`${GUEST_URL}/api/verifyOtp`, ReqData)
-
 }
 
 // CREATE PASSWORD
@@ -94,11 +88,22 @@ export const CREATE_USER_API = async (formData, token) => {
   for (const [key, value] of Object.entries(formData)) {
     formData2.append(key, value);
   }
-  
+
   return await axios.post(`${GUEST_URL}/api/create-razorpay-order`, formData2, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+
+
+
+export const Get_All_Slots_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/slots/getAllSlots`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
   })
 }
@@ -184,13 +189,13 @@ export const getAllRecipieServiceByKeyWord22 = async (keyWord, token) => {
 
 
 
-export const GET_ALL_FEEDBACKS = async (token) => {
-  return await axios.get(`${GUEST_URL}/api/feedbacks/getAllFeedBacks`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
-  });
-}
+// export const GET_ALL_FEEDBACKS = async (token) => {
+//   return await axios.get(`${GUEST_URL}/api/feedbacks/getAllFeedBacks`, {
+//     headers: {
+//       'Authorization': `Bearer ${token}`
+//     },
+//   });
+// }
 
 
 //  Get All faq's
@@ -216,7 +221,7 @@ export const Get_Articles_API = async (token) => {
 }
 
 // Get_Articles_BY_ID_API
-export const Get_Articles_BY_ID_API = async (id,token) => {
+export const Get_Articles_BY_ID_API = async (id, token) => {
   return await axios.get(`${GUEST_URL}/api/articles/getArticleById/${id}`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -243,11 +248,72 @@ export const GET_ALL_TESTIMONIALS = async (token) => {
 }
 
 
-export const CREATE_FEEDBACK_API = async (data,token) => {
-  console.log("Cs",token,data)
-  return await axios.post(`${GUEST_URL}/api/feedbacks/createFeedBack`, data,{
+export const CREATE_FEEDBACK_API = async (data, token) => {
+  console.log("Cs", token, data)
+  return await axios.post(`${GUEST_URL}/api/feedbacks/createFeedBack`, data, {
     headers: {
       'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+
+
+export const GET_USER_DEATILS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getUserByEmail`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const PREVIOUS_CHAT_API = async (param1, param2, token) => {
+  return await axios.get(`${GUEST_URL}/api/message/getChatByUserAndEmployee/${param1}/${param2}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+export const Weight_Details_API = async (data, token) => {
+
+  const formData = new FormData();
+
+  formData.append("weightUnits", data.weightUnits);
+  formData.append("currentWeight", data.currentWeight);
+  formData.append('file', {
+    uri: data.file.uri,
+    name: data.file.fileName,
+    type: data.file.mimeType || 'application/octet-stream'
+  })
+
+  return await axios.post(`${GUEST_URL}/api/uploadweightPIc`, formData, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
+
+export const Meal_Plate_API = async (data, token) => {
+
+  const formData = new FormData();
+  formData.append('file', {
+    uri: data.file.uri,
+    name: data.file.fileName,
+    type: data.file.mimeType || 'application/octet-stream'
+  })
+
+  return await axios.post(`${GUEST_URL}/api/mealPlate`, formData, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 }
@@ -257,4 +323,41 @@ export const CREATE_FEEDBACK_API = async (data,token) => {
 export const ABOUT_US_API = async () => {
 
   return await axios.get(`${GUEST_URL}/api/about/getAllAbout`);
+}
+
+
+
+export const PRIVACY_POLICY_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/privacypolicy/getAllPrivacyPolicies`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const TERMS_AND_CONDITIONS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/privacypolicy/getAllPrivacyPolicies`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const GET_MEDICAL_CONDITIONS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/conditions/getAllConditions`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+export const GET_USER_BY_EMAIL_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getUserByEmail`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
 }

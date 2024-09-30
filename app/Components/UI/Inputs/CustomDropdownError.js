@@ -42,7 +42,7 @@ const CustomDropdownError = ({
                 data={DropDownData.length > 0 ? DropDownData : [{ startTime: '', endTime: 'No data available' }]}
                 onSelect={(selectedItem, index) => {
                     if (DropDownData.length > 0) {
-                        onChange(selectedItem.startTime, selectedItem.endTime);
+                        onChange(selectedItem.slotTimeStartToEnd);
                     }
                 }}
                 renderButton={(selectedItem, isOpened) => {
@@ -54,8 +54,8 @@ const CustomDropdownError = ({
                                     style={{ width: 40, height: 35, resizeMode: 'center' }}
                                 /> : null : null}
 
-                            <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && `${selectedItem.startTime} - ${selectedItem.endTime}`) || placeholder}
+                            <Text style={styles.dropdownButtonTxtStyle} numberOfLines={1}>
+                                {(selectedItem && `${selectedItem.slotTimeStartToEnd}`) || placeholder}
                             </Text>
                             <FontAwesome name={isOpened ? 'caret-up' : 'caret-down'} style={styles.dropdownButtonArrowStyle} />
                         </View>
@@ -69,9 +69,9 @@ const CustomDropdownError = ({
                     // ) : (
                     return(
                         <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
-                            {item.image ? <Image source={item.image} style={{ width: 40, height: 35, resizeMode: 'center' }} /> : <View style={{ height: 35 }} />}
-                            <Text style={[styles.dropdownItemTxtStyle]}>{item.startTime} - {item.endTime}</Text>
-                            <Image source={isSelected ? require('./selected.png') : require('./unselected.png')} style={{ width: 25, height: 25 }} />
+                            {/* {item.image ? <Image source={item.image} style={{ width: 40, height: 35, resizeMode: 'center' }} /> : <View style={{ height: 35 }} />} */}
+                            <Text style={[styles.dropdownItemTxtStyle]}>{item.slotTimeStartToEnd}</Text>
+                            {/* <Image source={isSelected ? require('./selected.png') : require('./unselected.png')} style={{ width: 25, height: 25 }} /> */}
                         </View>
                     );
                 }}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 12,
         alignItems: 'center',
-        paddingVertical: 8,
+        paddingVertical: 12,
     },
     dropdownItemTxtStyle: {
         flex: 1,

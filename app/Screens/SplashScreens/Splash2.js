@@ -16,9 +16,9 @@ const Splash2 = () => {
     console.log("programRegisteredSelector>>> <><><> ", programRegisteredSelector)
 
     const navigation = useNavigation();
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [loginSelector])
+    // }, [loginSelector])
 
     useFocusEffect(
         useCallback(() => {

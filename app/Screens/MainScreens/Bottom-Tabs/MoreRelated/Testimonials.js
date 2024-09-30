@@ -18,15 +18,13 @@ import Loader1 from '../../../../Utils/Loader1';
 const Testimonials = ({ navigation }) => {
   const [spinnerBool, setSpinnerbool] = useState(false)
   const [Data, setData] = useState([])
+  const [result,setResult]=useState("Loading ......")
+
 
   let tokenn = useSelector((state) => state.login.token)
 
   useEffect(() => {
-    try {
-      TestimonialsFetch()
-    } catch (error) {
-      console.log(error)
-    }
+    TestimonialsFetch()
   }, [])
 
 
@@ -34,10 +32,11 @@ const Testimonials = ({ navigation }) => {
     setSpinnerbool(true)
     try {
       const res = await GET_ALL_TESTIMONIALS(tokenn)
+
       setData(res.data)
     } catch (error) {
-      // console.log(error)
-      console.log("dme")
+      setResult("Testimonials not found")
+      console.log(error)
       if (error.response) {
         if (error.response.status === 400) {
           console.log("Error With 400.", error.response.data)
@@ -114,13 +113,15 @@ const Testimonials = ({ navigation }) => {
 
                 <View style={{ flex: 0.1, justifyContent: 'space-between', flexDirection: 'row', marginHorizontal: 18, marginTop: 10 }}>
                   <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 600, fontSize: 16 }}>Testimonials</Text>
-                  <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14, textDecorationLine: 'underline' }}>View all</Text>
+                  <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 14, textDecorationLine: 'underline' }}>
+                    {/* View all */}
+                    </Text>
                 </View>
 
                 <View style={{ flex: 0.9, marginBottom: 25, }}>
                   {Data.length !== 0 ? <CarouselWithButton DATA={Data} autoPlay={false} scrollAnimationDuration={1000} /> :
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>Testimonials not found</Text>
+                      <Text>{result}</Text>
                     </View>}
                 </View>
 

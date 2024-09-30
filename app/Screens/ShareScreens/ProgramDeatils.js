@@ -23,90 +23,75 @@ console.log("<><><><><>",data)
     let tokenn = useSelector((state) => state.login.token);
 
 
-    try {
-        if (tokenn != null) {
-            tokenn = tokenn.replaceAll('"', '');
-        }
-    }
-    catch (err) {
-        console.log("Error in token quotes", err)
-        if (err.response.status === 500) {
-            console.log("Internal Server Error", err.message)
-        }
-    }
+    // const getSingleProgramAPICaller = async () => {
+    //     seterrorFormAPI() //Clear's All API errors
+    //     try {
+    //         setSpinnerbool(true)
+    //         const res = await getSingleProgramAPI(programId, tokenn)
+    //         if (res) {
+    //             console.log(",,,,,,,>>", res.data,)
+    //             console
 
 
-    const getSingleProgramAPICaller = async () => {
+    //             setTimeout(() => {
+                 
+    //             }, 200);
 
+    //         }
 
-        seterrorFormAPI() //Clear's All API errors
-        try {
-            setSpinnerbool(true)
-            const res = await getSingleProgramAPI(programId, tokenn)
-            if (res) {
-                console.log(",,,,,,,>>", res.data,)
-                console
+    //     } catch (error) {
 
+    //         if (error.response) {
+    //             if (error.response.status === 400) {
+    //                 console.log("Error With 400.", error.response.data)
+    //                 seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+    //             }
+    //             else if (error.response.status === 401) {
+    //                 seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+    //             }
+    //             else if (error.response.status === 403) {
+    //                 console.log("error.response.status login", error.response.data.message)
+    //             }
+    //             else if (error.response.status === 404) {
+    //                 // console.log("error.response.status login", error.response)
 
-                setTimeout(() => {
-                    console.log("desssikiii,>>>>>>>>>>>>>>>>>>", APICallData)
-                }, 200);
+    //             }
+    //             else if (error.response.status === 500) {
+    //                 console.log("Internal Server Error", error.message)
+    //             }
+    //             else {
+    //                 console.log("An error occurred response.>>")
+    //                 //   ErrorResPrinter(`${error.message}`)
+    //             }
+    //         }
+    //         else if (error.code === 'ECONNABORTED') {
+    //             console.log('Request timed out. Please try again later.');
+    //         }
+    //         else if (error.request) {
+    //             console.log("No Response Received From the Server.")
+    //             if (error.request.status === 0) {
+    //                 // console.log("error in request ",error.request.status)
+    //                 Alert.alert("No Network Found", "Please Check your Internet Connection 1123")
+    //             }
+    //         }
 
-            }
+    //         else {
+    //             console.log("Error in Setting up the Request.")
+    //         }
 
-        } catch (error) {
+    //         setSpinnerbool(false)
 
-            if (error.response) {
-                if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 401) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                }
-                else if (error.response.status === 404) {
-                    // console.log("error.response.status login", error.response)
+    //         if (error) {
 
-                }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
-                }
-                else {
-                    console.log("An error occurred response.>>")
-                    //   ErrorResPrinter(`${error.message}`)
-                }
-            }
-            else if (error.code === 'ECONNABORTED') {
-                console.log('Request timed out. Please try again later.');
-            }
-            else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection 1123")
-                }
-            }
-
-            else {
-                console.log("Error in Setting up the Request.")
-            }
-
-            setSpinnerbool(false)
-
-            if (error) {
-
-                // message = error.message;
-                // seterrorFormAPI(message)
-                // "userEmail or Password does not match !"
-            }
-        }
-        finally {
-            setSpinnerbool(false)
-        }
-    }
+    //             // message = error.message;
+    //             // seterrorFormAPI(message)
+    //             // "userEmail or Password does not match !"
+    //         }
+    //     }
+    //     finally {
+    //         setSpinnerbool(false)
+    //     }
+    // }
 
 
 
@@ -143,36 +128,25 @@ console.log("<><><><><>",data)
                             source={require("../../assets/Images/Vector 1.png")}
                             resizeMode='stretch'
                         />
+
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
 
                     <View style={[styles.topCenterImage]}>
-                        {/* <Image
+                        <Image
                             style={styles.image}
                             source={require("../../assets/Images/Home/BannerBack01.png")}
                         // resizeMode="contain"
-                        /> */}
-                        <Image
+                        />
+                        {/* <Image
                             style={styles.image}
                             source={{ uri: data.programImage }}
                             resizeMode="contain"
-                        />
+                        /> */}
 
                     </View>
                     <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>{data.programName}</Text>
-
-                    {/* {ProgramDetails.map((item, index) => (
-                        <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
-                            <View style={{ flex: 0.1 }}>
-                                <Image style={{ width: 24, height: 24, marginTop: -1 }}
-                                    source={require('../../assets/Images/CheckMark.png')}
-                                    resizeMode={"contain"} />
-                            </View>
-                            <View style={{ flex: 0.9, marginTop: 2 }}>
-                                <Text style={[styles.TextTine, { marginVertical: 1 }]}>{item.data}</Text>
-                            </View>
-                        </View>))} */}
 
 
                     {data.programDetails.map((item, index) => (
@@ -218,7 +192,6 @@ console.log("<><><><><>",data)
 
 
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-
                         <CustomButton1
                             boxWidth={'75%'}
                             onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,processingFeeData:`${data.processingFee}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}

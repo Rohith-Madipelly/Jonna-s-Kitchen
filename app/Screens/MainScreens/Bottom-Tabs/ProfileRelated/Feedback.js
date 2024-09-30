@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
 import { CREATE_FEEDBACK_API } from '../../../../Utils/ApiCalls';
 import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
+import CustomToaster from '../../../../Utils/CustomToaster';
 
 const StarRating = () => {
 
@@ -66,6 +67,7 @@ const dispatch=useDispatch()
             // toggleModal();
             // Here you can handle the submitted rating (e.g., send it to an API)
             console.log(`Submitted rating: ${rating} stars`);
+            CustomToaster(`Submitted rating: ${rating} stars`)
             setTimeout(() => {
                 // CustomToaster(Message)
                 toggleModal();
@@ -77,6 +79,7 @@ const dispatch=useDispatch()
             if (error.response) {
                 if (error.response.status === 400) {
                     console.log("Error With 400.", error.response.data)
+                    seterrorFormAPI({ descriptionForm: `${error.response.data.description}` })
                 }
                 else if (error.response.status === 401) {
                     console.log("Error With 400.", error.response.data)

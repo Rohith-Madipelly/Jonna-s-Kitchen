@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+echo "aits-jonnaskitchen-firebase-adminsdk-nqk6r-83d109e5cd.json" >> .gitignore
+
+
+# Firebase Service Account JSON file (exclude from Git)
+aits-jonnaskitchen-firebase-adminsdk-nqk6r-83d109e5cd.json

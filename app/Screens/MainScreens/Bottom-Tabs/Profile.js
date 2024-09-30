@@ -7,6 +7,7 @@ import MyPrograms from './ProfileRelated/MyPrograms';
 import Feedback from './ProfileRelated/Feedback';
 import PrivacyPolicy from './ProfileRelated/PrivacyPolicy';
 import TermsandConditions from './ProfileRelated/TermsandConditions';
+import ContactUs from './ProfileRelated/ContactUs';
 
 const Profile = () => {
 
@@ -42,6 +43,7 @@ const Profile = () => {
         <Stack.Screen name="MyPrograms" component={MyPrograms} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        <Stack.Screen name="ContactUs" component={ContactUs} />
         <Stack.Screen name="TermsandConditions" component={TermsandConditions} />
 
   </Stack.Navigator>

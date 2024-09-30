@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 const LoadingImage = ({ source, style, loaderColor = '#0000ff', ...props }) => {
   const [loading, setLoading] = useState(true)
+  const [imageUri, setImageUri] = useState( source );
 
   return (
     <View style={[styles.container, style]}>
@@ -11,10 +12,11 @@ const LoadingImage = ({ source, style, loaderColor = '#0000ff', ...props }) => {
       {/* {loading === true ? <ActivityIndicator style={styles.loader} size="large" color={loaderColor} /> : */}
         <Image
           style={[styles.image, style]}
-          source={source}
+          source={imageUri}
           onLoadStart={() => setLoading(true)}
           onLoadEnd={() => setLoading(false)}
-          
+          // onError={(e)=>{console.log("F>>>>>>>",e)}}
+          onError={() => setImageUri(require('../../../assets/WarningError.png') )}
           {...props}
         />
     </View>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1020974236877",
+    "project_id": "aits-jonnaskitchen",
+    "storage_bucket": "aits-jonnaskitchen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020974236877:android:bac46a4fdc2f4c2d391584",
+        "android_client_info": {
+          "package_name": "com.analogueitsolutions.Jonnas_Kitchen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz38qt16Wut7-3UPPPQ9v65pobnO-JL3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

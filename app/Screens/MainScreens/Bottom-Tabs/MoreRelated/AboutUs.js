@@ -8,7 +8,7 @@ import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
 import CarouselsBasic from '../../../../Components/UI/CarouselsBasic/CarouselsBasic';
 import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
-import { ABOUT_US_API } from '../../../../Utils/ApiCalls';
+import { ABOUT_US_API, GET_ALL_BANNERS_API } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
 
@@ -35,6 +35,7 @@ const AboutUS = ({ navigation }) => {
 
   
   const [Data, setData] = useState([])
+  const [banners, setBanners] = useState([])
   const [spinnerBool, setSpinnerbool] = useState(false)
 
   let tokenn = useSelector((state) => state.login.token)
@@ -43,8 +44,6 @@ const AboutUS = ({ navigation }) => {
     setSpinnerbool(true)
     try {
       const res = await ABOUT_US_API()
-      console.log("feh",res.data)
-
       setData(res.data)
 
     } catch (error) {
@@ -85,12 +84,79 @@ const AboutUS = ({ navigation }) => {
       }
     }
     finally {
-      setSpinnerbool(false)
+      // setSpinnerbool(false)
     }
   }
 
   useEffect(() => {
     CallAPI()
+    HomeBanners()
+  }, [])
+
+
+
+
+
+  
+  const HomeBanners = async () => {
+    try {
+      const res = await GET_ALL_BANNERS_API(tokenn)
+
+      if(res)
+      {
+        // console.log("Res >",res.data)
+        setBanners(res.data)
+      }
+    } catch (error) {
+      console.log("Error in APi Call in GET_ALL_BANNERS_API >", error.response)
+      if (error.response) {
+        if (error.response.status === 400) {
+
+        }
+        else if (error.response.status === 401) {
+          console.log("Error With 401", error.response.data)
+        }
+        else if (error.response.status === 403) {
+          console.log("Error With 403", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("Error With 404", error.response.data.message)
+          ServerTokenError_Logout(undefined, undefined, dispatch)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined, `${error.message}`)
+        }
+        else {
+          console.log("An error occurred response.>>", error)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+    } finally {
+      // console.log("Finally >")
+      // setTimeout(() => {
+        // setLoadingComponent(false)
+        setSpinnerbool(false)
+      // }, 2000);
+    }
+  }
+
+
+
+  useEffect(() => {
+    // HomeBanners()
   }, [])
 
   return (<>
@@ -109,12 +175,14 @@ const AboutUS = ({ navigation }) => {
           
           {Data.length>0 ?<FlatList
             data={Data[0].points}
-            keyExtractor={(item) => item.item}
+
+            keyExtractor={(item, index) => index.toString()} 
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
                 <LoadingImage
                   // source={require('../../../../assets/Images/Food/Food1.png')}
                   source={{ uri: Data[0].image }}
+                  // source={{ uri: Data[0].image }}
                   style={{ width: '100%', height: 240, }}
                   loaderColor="#ff0000" // Optional: change loader color
                   resizeMode="contain"
@@ -134,12 +202,15 @@ const AboutUS = ({ navigation }) => {
             ListFooterComponent={
 
               <View>
-                <CarouselsBasic DATA={AboutImageData} autoScroll={true} showIndicators={false} />
+                <CarouselsBasic DATA={banners} autoScroll={true} showIndicators={false} />
               </View>
             }
 
           // contentContainerStyle={{ paddingHorizontal: 18 }}
           />:""}
+          <View style={{height:20}}>
+
+          </View>
         </View>
       </ImageBackground>
     </View>

@@ -24,21 +24,35 @@ const RegisterYupSchema = Yup.object().shape({
 
 
 
-  email: Yup.string().email("Email must be a valid email").test(
-    "is-valid",
-    "Email must be a valid email",
-    (value) =>
-      Yup.string()
-        .email()
-        .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/)
-        .isValidSync(value) || /^\d{10}$/.test(value)
-  ).required("Email is a required Field "),
+  // email: Yup.string().email("Email must be a valid email").test(
+  //   "is-valid",
+  //   "Email must be a valid email",
+  //   (value) =>
+  //     Yup.string()
+  //       .email()
+  //       .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/)
+  //       .isValidSync(value) || /^\d{10}$/.test(value)
+  // ).required("Email is a required Field "),
 
+
+  email: Yup
+  .string()
+  .matches(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email")
+  .test(
+    "single-tld",
+    "Email address is required and cannot be empty. Please provide a valid email address",
+    (value) => {
+      return !/\.[a-zA-Z]{2,}\./.test(value);
+    }
+  )
+  .required("Email is Required"),
 
   gender: Yup.string().required("Gender is a required Field "),
 
   userAge: Yup.string().required("Age is a required Field "),
 
+
+  heightUnits:Yup.string(),
   userHeight: Yup.number()
     .typeError('Height must be a number')  // Ensures it's a number
     .min(50, 'Height must be at least 50 cm')
@@ -46,6 +60,7 @@ const RegisterYupSchema = Yup.object().shape({
     .required('Height is required'),
 
 
+  weightUnits: Yup.string(),
   currentWeight: Yup.number()
     .typeError('Weight must be a number')  // Ensures it's a valid number
     .min(30, 'Weight must be at least 30 kg')
@@ -57,29 +72,29 @@ const RegisterYupSchema = Yup.object().shape({
   foodType: Yup.string().required("Veg or Non-veg is a required Field "),
 
   meal: Yup.string().required("Your food is a required Field ")
-  // .max(50, "Your food cannot be more than 50 characters"),
-  .max(50, "Please make sure your input is between 1 and 50 characters."),
+    // .max(50, "Your food cannot be more than 50 characters"),
+    .max(50, "Please make sure your input is between 1 and 50 characters."),
 
   address: Yup.string().required("Address is a required Field "),
 
   state: Yup.string().required("State is a required Field "),
 
   medicalCondition: Yup.string().required("medicalCondition is a required Field ")
-  .max(50, "Please make sure your input is between 1 and 50 characters."),
+    .max(50, "Please make sure your input is between 1 and 50 characters."),
 
   otherMedicalCondition: Yup.string().required("medicalCondition is a required Field "),
 
   medication: Yup.string().required("medication is a required Field ")
-  .max(50, "Please make sure your input is between 1 and 50 characters."),
+    .max(50, "Please make sure your input is between 1 and 50 characters."),
 
   slotDate: Yup.string().required("Slot date is a required Field "),
   physicalActivity: Yup.string().required("Physical activity is a required Field ")
-  .max(50, "Please make sure your input is between 1 and 50 characters."),
+    .max(50, "Please make sure your input is between 1 and 50 characters."),
   programId: Yup.string().required("Program is a required Field "),
   programAmount: Yup.string().required("Program fee is a required Field "),
 
   processingFee: Yup.string().required("Processing fee is a required Field "),
-  slotTime: Yup.string().required("Available Slots is a required Field "),
+  // slotTime: Yup.string().required("Available Slots is a required Field "),
   programName: Yup.string().required("Program name is a required Field "),
 });
 export { RegisterYupSchema }

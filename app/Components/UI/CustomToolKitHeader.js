@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 
-function CustomToolKitHeader({componentName,textDecorationLine}) {
+function CustomToolKitHeader({componentName,textDecorationLine,rightIcon}) {
   const navigation = useNavigation() 
 
   return (
@@ -16,6 +16,7 @@ function CustomToolKitHeader({componentName,textDecorationLine}) {
       <View style={{  justifyContent: 'center', alignContent: 'center',flex:0.8 }}>
         <Text style={[{ color: '#000000', fontSize: 20, fontWeight: 700,fontFamily: 'BalooTamma2-Bold',textAlign:'center',textDecorationLine:textDecorationLine,}]}>{componentName}</Text>
       </View>
+     {rightIcon}
     </View>
   )
 }

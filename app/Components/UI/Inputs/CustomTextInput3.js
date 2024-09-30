@@ -30,6 +30,7 @@ const CustomTextInput3 = ({
     errorColor = 'red',
     bgColor,
     maxLength,
+    Note
 
 }) => {
 
@@ -38,16 +39,16 @@ const CustomTextInput3 = ({
     const containerBorder = outlined ? styles.outlined : styles.outlined;
 
     return (
-        <View style={[{ padding: 0, width: boxWidth}, style, styles.boxHeight]}>
-            <View style={{flexDirection:'row' ,justifyContent:'space-between'}}>
-                <View>
+        <View style={[{ padding: 0, width: boxWidth, }, style, styles.boxHeight]}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                {/* <View> */}
                     {label ? <Text style={[styles.label, labelStyle]}>{label} {asterisksymbol ? <Text style={{ color: 'red' }}>*</Text> : ""}</Text> : ""}
-                </View>
-                {rightLabelBtn?<Pressable onPress={()=>{console.log("hello")}}>
-                    {label ? <Text style={[styles.label, labelStyle,{fontSize:10,textDecorationLine:'underline'}]}>{rightLabelBtn} </Text> : ""}
-                </Pressable>:""}
+                {/* </View> */}
+                {/* {rightLabelBtn ? <Pressable onPress={() => { console.log("hello") }}>
+                    {label ? <Text style={[styles.label, labelStyle, { fontSize: 10, textDecorationLine: 'underline' }]}>{rightLabelBtn} </Text> : ""}
+                </Pressable> : ""} */}
             </View>
-            <View style={[styles.container, containerBorder,containerStyle, { borderColor: borderColor }, { backgroundColor: backgroundColor }]}>
+            <View style={[styles.container, containerBorder, containerStyle, { borderColor: borderColor }, { backgroundColor: backgroundColor }]}>
                 {leftIcon ? <View style={{ paddingRight: 8 }}>
                     {leftIcon}
 
@@ -72,11 +73,22 @@ const CustomTextInput3 = ({
                     style={{ flex: 4, height: '130%' }}
 
                 />
-                <View style={{ paddingLeft: 5}}>
+                <View style={{ paddingLeft: 5 }}>
                     {rightIcon}
                 </View>
             </View>
-            <Text style={{ color: errorColor, fontSize:12,marginLeft: 15 }}>{errorMessage}</Text>
+    
+           {errorMessage?<Text style={{ color: errorColor, fontSize: 12, marginLeft: 15 }}>{errorMessage}</Text>:""}
+           
+           
+           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <Text style={{
+                    textTransform: 'none',
+                    fontFamily: 'BalooTamma2-Bold',
+                    fontSize: 12,
+                    color: '#FE7B07'
+                }}>{Note}</Text>
+            </View>
             {/* {errorMessage?<Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>:<View style={{height:10}}></View>} */}
         </View>
     )
@@ -87,7 +99,7 @@ export default CustomTextInput3
 const styles = StyleSheet.create({
     label: {
         fontWeight: '500',
-        marginBottom: 4,
+        // marginBottom: 4,
         textTransform: 'none',
         fontFamily: 'BalooTamma2-Bold',
     },
@@ -125,7 +137,7 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 // height:80,
-                marginVertical:5,
+                marginVertical: 5,
             },
             android: {
                 // height:80

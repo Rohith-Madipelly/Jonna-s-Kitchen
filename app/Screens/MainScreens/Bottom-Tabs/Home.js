@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useSelector } from 'react-redux';
 import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
 import { GET_ALL_BANNERS_API } from '../../../Utils/ApiCalls';
+import Wapper from '../../../Components/UI/Wapper';
 
 
 const Home = ({ navigation }) => {
@@ -40,17 +41,13 @@ const Home = ({ navigation }) => {
       "image": require('../../../assets/Images/Home/HomeBanner1.png'),
       onPress: () => { console.log("sd") }
     },
-
-
   ];
 
   const HomeBanners = async () => {
     try {
       const res = await GET_ALL_BANNERS_API(tokenn)
 
-      if(res)
-      {
-        console.log("Res >",res.data)
+      if (res) {
         setData(res.data)
       }
     } catch (error) {
@@ -112,11 +109,14 @@ const Home = ({ navigation }) => {
 
   return (
     <>
-      <StatusBar
+    <Wapper>
+
+   
+      {/* <StatusBar
         animated={true}
         // backgroundColor="white"
         barStyle={'dark-content'}
-      />
+      /> */}
       <View style={{ flex: 1 }}>
 
 
@@ -163,6 +163,7 @@ const Home = ({ navigation }) => {
                   <SkeletonLoader width={200} height={900} borderRadius={5} />
                 </View> : <SelectedFullCourse />}
 
+
                 <View style={{ height: 20 }}>
 
                 </View>
@@ -171,6 +172,7 @@ const Home = ({ navigation }) => {
           </ScrollView>
         </View>
       </View>
+      </Wapper>
     </>
   )
 }

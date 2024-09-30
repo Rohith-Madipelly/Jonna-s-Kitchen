@@ -1,0 +1,1 @@
+npm install @stomp/stompjs ws

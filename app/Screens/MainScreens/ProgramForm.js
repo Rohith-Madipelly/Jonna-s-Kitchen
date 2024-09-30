@@ -2,7 +2,7 @@ import { Alert, Button, ImageBackground, Keyboard, KeyboardAvoidingView, Platfor
 
 
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import CustomButton1 from "../../Components/UI/Buttons/CustomButton1";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CustomDropdown from "../../Components/UI/Inputs/CustomDropdown";
 import CustomDateTimePicker from "../../Components/UI/Inputs/CustomDateTimePicker";
-import { CREATE_USER_API, GET_SLOTS_BY_DATE_API } from "../../Utils/ApiCalls";
+import { CREATE_USER_API, GET_MEDICAL_CONDITIONS_API, GET_SLOTS_BY_DATE_API, } from "../../Utils/ApiCalls";
 import CustomDropdownError from "../../Components/UI/Inputs/CustomDropdownError";
 import RazorpayCheckout from "react-native-razorpay";
 import { RAZORPAY_KEY } from "../../Enviornment";
@@ -21,11 +21,16 @@ import Loader1 from "../../Utils/Loader1";
 import AsyncStorage_Calls from "../../Utils/AsyncStorage_Calls";
 import { Entypo } from "@expo/vector-icons";
 import { setAccountPage } from "../../redux/actions/AccountSetUpAction";
+import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
+import CustomDatePickerbyslots from "../../Components/UI/Inputs/CustomDatePickerbyslots";
 
 
 
 const ProgramForm = ({ route }) => {
-    const [show, setShow] = useState()
+    const [show, setShow] = useState({
+        HeightUnitsShow: "",
+        currentWeightUnit: "",
+    });
     const { params } = route;
     const programId = params.programId || 'Error in getting programId';
     const programPricex = params.programPrice || 'Error in getting programPricex';
@@ -35,7 +40,7 @@ const ProgramForm = ({ route }) => {
     const navigation = useNavigation();
     const [spinnerBool, setSpinnerbool] = useState(false)
 
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
 
     const { handleChange,
         handleBlur,
@@ -51,10 +56,17 @@ const ProgramForm = ({ route }) => {
 
         initialValues: {
             userName: "Rohith Madipelly", phoneNumber: "9951072005", email: "madipellyrohith@gmail.com",
-            userAge: "22", gender: "", userHeight: "176", currentWeight: "86",
+            userAge: "22", gender: "",
+
+
+            weightUnits: "Kgs",
+            currentWeight: "86",
+
+            heightUnits: "Ft",
+            userHeight: "176",
+
             maritalStatus: "", foodType: "",
             meal: "Chapathi",
-
             medicalCondition: "",
             otherMedicalCondition: "",
             medication: "Test",
@@ -86,8 +98,6 @@ const ProgramForm = ({ route }) => {
 
     });
 
-
-
     const genderData = [
         { title: 'Male' },
         { title: 'Female' },
@@ -104,23 +114,6 @@ const ProgramForm = ({ route }) => {
         { title: 'Separated' },
     ];
 
-
-
-    healthConditionsData = [
-        { title: 'PCOD/PCOS' },
-        { title: 'Thyroid (Hyper)' },
-        { title: 'Thyroid (Hypo)' },
-        { title: 'Diabetes' },
-        { title: 'High Cholesterol' },
-        { title: 'Fatty Liver' },
-        { title: 'Postpartum' },
-        { title: 'Lactating Mother (Minimum of 6 months Postpartum)' },
-        { title: 'Fertility' },
-        { title: 'None' },
-        { title: 'Others' },
-    ];
-
-
     foodPreferenceData = [
         { title: 'Vegetarian' },
         { title: 'Non-Vegetarian' },
@@ -134,7 +127,80 @@ const ProgramForm = ({ route }) => {
     ];
 
 
+
+    const [healthConditionsData, setHealthConditionsData] = useState([])
+
+
+
+
+
+
     let tokenn = useSelector((state) => state.login.token);
+
+
+    const getMedicalCondition = async () => {
+        setSpinnerbool(true)
+        try {
+            const res = await GET_MEDICAL_CONDITIONS_API(tokenn)
+            rawData = res.data.map(item => ({
+                title: item.medicalConditionsData
+            }));
+            setHealthConditionsData(rawData)
+        } catch (error) {
+            console.log("Error ..", error)
+            setHealthConditionsData([
+                { title: 'No Health Conditions>: due to error' }
+            ])
+
+            if (error.response) {
+                if (error.response.status === 400) {
+                    console.log("Error With 400.", error.response.data)
+                }
+                else if (error.response.status === 401) {
+                    console.log("Error With 401.", error.response.data)
+                    ServerTokenError_Logout(undefined, undefined, dispatch)
+                }
+                else if (error.response.status === 403) {
+                    console.log("error.response.status login", error.response.data.message)
+                }
+                else if (error.response.status === 404) {
+                    console.log("error.response.status login", error.response)
+                }
+                else if (error.response.status >= 500) {
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                }
+                else {
+                    console.log("An error occurred response.>>", error)
+                }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.")
+                if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
+
+        }
+        finally {
+            setSpinnerbool(false)
+        }
+
+    }
+
+
+    useEffect(() => {
+        getMedicalCondition()
+    }, [])
+
+
+
 
     const submitHandler = (values) => {
         console.log("VerificationCode>> to ", values)
@@ -143,7 +209,6 @@ const ProgramForm = ({ route }) => {
 
 
     const CREATE_USER = async (values) => {
-
         try {
             setSpinnerbool(true)
             const res = await CREATE_USER_API(values, tokenn)
@@ -172,7 +237,7 @@ const ProgramForm = ({ route }) => {
 
                 RazorpayCheckout.open(options)
                     .then((data) => {
-                        console.log("Payment >", data)
+                        console.log("Payment > >>>>>>>>>", data)
 
                         AsyncStorage_Calls.setTokenJWT("programRegistered", JSON.stringify(true), function (res, status) {
                             if (status) {
@@ -186,7 +251,7 @@ const ProgramForm = ({ route }) => {
                             Alert.alert("Payment Done")
                             navigation.navigate("BottomTabScreen")
                         }, 200);
-                       
+
                     })
                     .catch((error) => {
                         console.log("Error in RazorpayCheckout", error, error.response)
@@ -194,8 +259,41 @@ const ProgramForm = ({ route }) => {
             }
 
         } catch (error) {
-            console.log(error.response)
-
+            console.log("Error ..>>>>", error)
+            if (error.response) {
+                if (error.response.status === 400) {
+                    console.log("Error With 400.", error.response.data)
+                }
+                else if (error.response.status === 401) {
+                    console.log("Error With 401.", error.response.data)
+                    ServerTokenError_Logout(undefined, undefined, dispatch)
+                }
+                else if (error.response.status === 403) {
+                    console.log("error.response.status login", error.response.data.message)
+                }
+                else if (error.response.status === 404) {
+                    console.log("error.response.status login", error.response)
+                }
+                else if (error.response.status >= 500) {
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                }
+                else {
+                    console.log("An error occurred response.>>", error)
+                }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.")
+                if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
 
         }
         finally {
@@ -221,6 +319,10 @@ const ProgramForm = ({ route }) => {
             setSpinnerbool(false)
         }
     }
+
+
+
+
     return (
         <>
 
@@ -294,6 +396,7 @@ const ProgramForm = ({ route }) => {
                                             handleChange("phoneNumber")(numericValue);
                                             seterrorFormAPI();
                                         }}
+                                        Note={'Please mention your whatsapp number'}
                                         onBlur={handleBlur("phoneNumber")}
                                         validate={handleBlur("phoneNumber")}
 
@@ -346,6 +449,7 @@ const ProgramForm = ({ route }) => {
                                             <CustomTextInput3
                                                 boxWidth={'100%'}
                                                 placeholder={'Enter your userAge'}
+                                                Note={'Max Age Limit is: 50'}
                                                 name='userAge'
                                                 value={values.userAge}
                                                 onChangeText={(e) => {
@@ -409,6 +513,9 @@ const ProgramForm = ({ route }) => {
 
                                     </View>
 
+
+                                    {/* <Text>{values.heightUnits} vs {show?.HeightUnitsShow ? "true" : "false"}</Text> */}
+
                                     {/* Height */}
                                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
                                         <View style={{ flex: 0.3, justifyContent: 'center', marginBottom: 10 }}>
@@ -435,27 +542,41 @@ const ProgramForm = ({ route }) => {
                                                 // bgColor='#e1f3f8'
                                                 // bgColor="#B1B1B0"
 
-                                                rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })} style={{paddingHorizontal:5,paddingVertical:5,backgroundColor:'skyblue',marginRight:-12}}>
-                                                {!show?.password ? (
-                                                    <View>
-                                                        <Text style={{fontWeight:700}}>Ft</Text>
-                                                    </View>
-                                                //   <Entypo name="eye-with-line" size={20} color="black" />
-                                                ) : (
-                                                    <View>
-                                                    <Text style={{fontWeight:700}}>cm</Text>
-                                                </View>
-                                                //   <Entypo name="eye" size={20} color="black" />
-                                                )
+                                                rightIcon={<Pressable onPress={() => {
+                                                    handleChange("heightUnits")(show?.HeightUnitsShow ? "Ft" : "cm");
+                                                    setShow((prevShow) => ({
+                                                        ...prevShow,
+                                                        HeightUnitsShow: !prevShow.HeightUnitsShow,
+                                                    }));
                                                 }
-                                              </Pressable>
-                                              }
+                                                }
+                                                    style={{ paddingHorizontal: 5, paddingVertical: 5, borderRadius: 5, backgroundColor: 'skyblue', marginRight: -12 }}>
+
+
+                                                    {!show?.HeightUnitsShow ? (
+                                                        <View>
+                                                            <Text style={{ fontWeight: 700 }}>Ft</Text>
+                                                        </View>
+                                                        //   <Entypo name="eye-with-line" size={20} color="black" />
+                                                    ) : (
+                                                        <View>
+                                                            <Text style={{ fontWeight: 700 }}>cm</Text>
+                                                        </View>
+                                                        //   <Entypo name="eye" size={20} color="black" />
+                                                    )
+                                                    }
+                                                </Pressable>
+                                                }
 
                                                 onChangeText={(e) => {
-                                                    // Remove any non-numeric characters
-                                                    const numericValue = e.replace(/[^0-9]/g, '');
-                                                    // Update the state with the numeric value
-                                                    handleChange("userHeight")(`${numericValue}`);
+
+
+                                                    const formattedValue = e.replace(/[^0-9.]/g, '');
+                                                    // Ensure only one decimal point is present
+                                                    if ((formattedValue.match(/\./g) || []).length <= 1) {
+                                                        handleChange("userHeight")(formattedValue);
+                                                        // setHeight(formattedValue);
+                                                    }
                                                     seterrorFormAPI();
                                                 }}
                                                 onBlur={handleBlur("userHeight")}
@@ -471,6 +592,9 @@ const ProgramForm = ({ route }) => {
 
 
                                     </View>
+
+                                    {/* <Text>{values.weightUnits} vs {show?.currentWeightUnit ? "true" : "false"}</Text> */}
+
 
                                     {/* Current Weight */}
                                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
@@ -499,27 +623,38 @@ const ProgramForm = ({ route }) => {
                                                 // bgColor='#e1f3f8'
                                                 // bgColor="#B1B1B0"
 
-                                                rightIcon={<Pressable onPress={() => setShow({ ...setShow, currentWeightUnit: !show?.currentWeightUnit })} style={{paddingHorizontal:5,paddingVertical:5,backgroundColor:'skyblue',marginRight:-12}}>
-                                                {!show?.currentWeightUnit ? (
-                                                    <View>
-                                                        <Text style={{fontWeight:700}}>Kgs</Text>
-                                                    </View>
-                                                //   <Entypo name="eye-with-line" size={20} color="black" />
-                                                ) : (
-                                                    <View>
-                                                    <Text style={{fontWeight:700}}>LBS</Text>
-                                                </View>
-                                                //   <Entypo name="eye" size={20} color="black" />
-                                                )
+                                                rightIcon={<Pressable onPress={() => {
+                                                    setShow((prevShow) => ({
+                                                        ...prevShow,
+                                                        currentWeightUnit: !prevShow.currentWeightUnit,
+                                                    }));
+                                                    handleChange("weightUnits")(show?.currentWeightUnit ? "Kgs" : "LBS")
+
+                                                }}
+
+                                                    style={{ paddingHorizontal: 5, paddingVertical: 5, borderRadius: 5, backgroundColor: 'skyblue', marginRight: -12 }}>
+                                                    {!show?.currentWeightUnit ? (
+                                                        <View>
+                                                            <Text style={{ fontWeight: 700 }}>Kgs</Text>
+                                                        </View>
+                                                        //   <Entypo name="eye-with-line" size={20} color="black" />
+                                                    ) : (
+                                                        <View>
+                                                            <Text style={{ fontWeight: 700 }}>LBS</Text>
+                                                        </View>
+                                                        //   <Entypo name="eye" size={20} color="black" />
+                                                    )
+                                                    }
+                                                </Pressable>
                                                 }
-                                              </Pressable>
-                                              }
 
                                                 onChangeText={(e) => {
-                                                    // Remove any non-numeric characters
-                                                    const numericValue = e.replace(/[^0-9]/g, '');
-                                                    // Update the state with the numeric value
-                                                    handleChange("currentWeight")(numericValue);
+                                                    const formattedValue = e.replace(/[^0-9.]/g, '');
+                                                    // Ensure only one decimal point is present
+                                                    if ((formattedValue.match(/\./g) || []).length <= 1) {
+                                                        handleChange("currentWeight")(formattedValue);
+                                                        // setHeight(formattedValue);
+                                                    }
                                                     seterrorFormAPI();
                                                 }}
                                                 onBlur={handleBlur("currentWeight")}
@@ -860,28 +995,13 @@ const ProgramForm = ({ route }) => {
                                     />
 
 
-                                    {/* Slot Date */}
-                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%', marginBottom: 10, }}>
-                                        <View style={{ flex: 0.4, justifyContent: 'center', height: '100%' }}>
-                                            {/* <View style={{flex:1}}> */}
-                                            <Text style={{
-                                                fontWeight: '500',
-                                                marginBottom: 4,
-                                                textTransform: 'none',
-                                                fontFamily: 'BalooTamma2-Bold',
-                                                fontSize: 14,
-                                                marginLeft: 4
-
-                                            }}>Slot Date</Text>
-                                        </View>
 
 
-                                        <View style={{ flex: 0.6 }}>
-
-                                            <CustomDateTimePicker
-                                                boxWidth={'100%'}
+                                            <CustomDatePickerbyslots
+                                            label={'Slot date'}
+                                            labelStyle={{ marginBottom: -3,marginTop:-3 }}
+                                                boxWidth={'95%'}
                                                 handleChange={(e) => {
-                                                    console.log("heloo", e);
                                                     getTimeSlotsBydate(e)
                                                     handleChange("slotDate")(e);
                                                 }}
@@ -890,44 +1010,25 @@ const ProgramForm = ({ route }) => {
                                                 borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
                                                 errorMessage={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
                                             />
-                                        </View>
-                                    </View>
 
 
 
-                                    {/* Available Slots */}
-                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
-                                        <View style={{ flex: 0.4, justifyContent: 'center', marginBottom: 10 }}>
-                                            {/* <View style={{flex:1}}> */}
-                                            <Text style={{
-                                                fontWeight: '500',
-                                                marginBottom: 4,
-                                                textTransform: 'none',
-                                                fontFamily: 'BalooTamma2-Bold',
-                                                fontSize: 14,
-                                                marginLeft: 4
 
-                                            }}>Available Slots</Text>
-                                        </View>
+                                
 
-
-                                        <View style={{ flex: 0.6 }}>
 
                                             <CustomDropdownError
                                                 boxWidth={'95%'}
-                                                // label={"Gender"}
+                                                label={"Available Slots"}
                                                 // placeholder={'Select'}
+                                                labelStyle={{ marginBottom: -3,marginTop:-3 }}
                                                 name='slotTime'
                                                 DropDownData={timeSlotArray}
                                                 // DropDownData={genderData}
                                                 DropDownHeigth={50}
                                                 value={values.slotTime}
-                                                // bgColor='#e1f3f8'
-                                                // onChange={setCategoriesData}
-
-
-                                                onChange={(startTime, endTime) => {
-                                                    handleChange("slotTime")(`${startTime} - ${endTime}`);
+                                                onChange={(e) => {
+                                                    handleChange("slotTime")(e);
                                                     seterrorFormAPI();
                                                 }}
                                                 outlined
@@ -936,9 +1037,6 @@ const ProgramForm = ({ route }) => {
                                             // errorColor='magenta'
                                             />
 
-                                        </View>
-                                    </View>
-                                    {/* <Text>{values.slotTime}</Text> */}
 
 
                                     <CustomButton1

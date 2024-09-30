@@ -1,7 +1,9 @@
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const MyPrograms = () => {
+const MyPrograms = () => { 
+
+    
     return (
         <View style={{ flex: 1, paddingHorizontal: 20 }}>
             <View style={{ marginTop: 15, alignItems: 'center' }}>

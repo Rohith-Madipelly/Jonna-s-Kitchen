@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
 import { Alert } from 'react-native';
 
-import {CustomAlerts_Continue} from '../../../../Utils/CustomReuseAlerts';
+import { CustomAlerts_Continue } from '../../../../Utils/CustomReuseAlerts';
 import { openEmail } from '../../../../Utils/Linkings/OpenEmail';
 
 const MorePage = ({ navigation }) => {
@@ -105,7 +105,7 @@ const MorePage = ({ navigation }) => {
                     // `Applying for ${data.jobTitle}`,
                     // data.jobTitle,
                     () => {
-                      openEmail(data.email,`Apply for ${data.jobTitle}`,"")
+                      openEmail(data.email, `Apply for ${data.jobTitle}`, "")
                       console.log("OK pressed for", data.jobTitle);
                     }
                   )

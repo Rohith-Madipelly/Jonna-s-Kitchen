@@ -9,6 +9,8 @@ import FAQ from './MoreRelated/FAQ';
 import Article from './MoreRelated/Article';
 import Job from './MoreRelated/Job';
 import ArticlesList from './MoreRelated/ArticlesList';
+import Healthylifestyleprograms2 from './MoreRelated/reuse/ProgramViewers/Healthylifestyleprograms2';
+import TestingUI from './MoreRelated/TestingUI';
 
 const More = () => {
 
@@ -48,6 +50,8 @@ const More = () => {
       <Stack.Screen name="ArticlesList" component={ArticlesList} />
       <Stack.Screen name="Article" component={Article} />
       <Stack.Screen name="Job" component={Job} />
+      {/* <Stack.Screen name="HealthylifestyleprogramsTest" component={Healthylifestyleprograms2} /> */}
+      <Stack.Screen name="HealthylifestyleprogramsTest" component={TestingUI} />
 
     </Stack.Navigator>
   )

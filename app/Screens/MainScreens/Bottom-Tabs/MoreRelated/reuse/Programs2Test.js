@@ -1,16 +1,9 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import LoadingImage from '../../../../../Components/UI/ImageConatiners/LoadingImage'
 
-const Programs2 = ({ProgramsName,ProgramImage}) => {
-    
-    const ProgramPoints = [
-        { data: "In this program, you will get 6 weeks Consultation support." },
-        { data: "Daily Diet Monitoring and progress check- we will ask to share meal plates through WhatsApp." },
-        { data: "We will share the meal plan for every 2 weeks as per your previous week feedback / weight loss and daily diet updates ( If you fail to update your weight progress, diet updates , your meal plans will be delayed or may be Lapsed or we may as to repeat as we don’t understand your progress)." },
-        { data: "The meal plans will be totally home cooked, we don't allow any packet food, ready to eat stuff. All the meals have to be cooked in your own kitchen." },
-        { data: "All the recipes are easy to cook and will share sample written recipes along with Links." },
-        { data: "A lifestyle is something which you should be able to adapt it hence we share healthy food recipes along with Physical activity of – 45 mins of Brisk walking." },
-    ]
+const Programs2Test = ({data}) => {
+
     return (
         <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20, }}>
             <View style={styles.container}>
@@ -33,28 +26,30 @@ const Programs2 = ({ProgramsName,ProgramImage}) => {
                 <View style={{ flex: 1 }}>
 
                     <View style={[styles.topCenterImage]}>
-                    <Image
+                 
+                    <LoadingImage
+                            // source={item.recipieImage}
+                            source={{ uri: data.programImage }}
                             style={styles.image}
-                            source={ProgramImage}
-                        // resizeMode="contain"
                         />
                     </View>
-                    <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>{ProgramsName}</Text>
+                    <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>{data.programName}</Text>
 
-                    {ProgramPoints.map((item, index) => (
-                        <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
-                            {/* <View style={{ flex: 0.1 }}>
-                                <Image style={{ width: 24, height: 24, marginTop: -1 }}
-                                    source={require('../../../../../assets/Images/CheckMark.png')}
-                                    resizeMode={"contain"} />
-                            </View> */}
-                                <View style={{ flex: 0.08, }}>
-                                <Text style={[styles.TextBold]}>{index+1}.</Text>
-                            </View>
-                            <View style={{ flex: 0.9, marginTop: 2 }}>
-                                <Text style={[styles.TextTine, { marginVertical: 1 }]}>{item.data}</Text>
-                            </View>
-                        </View>))}
+
+{data.programDetails.map((item, index) => (
+    <View style={{ marginHorizontal: 17, flexDirection: 'row', marginTop: 2 }} key={index}>
+        <View style={{ flex: 0.1 }}>
+           
+            <View style={{ flex: 0.08, marginTop: 1 }}>
+                <Text style={[styles.TextBold]}>{index + 1}.</Text>
+            </View>
+
+        </View>
+        <View style={{ flex: 0.9 }}>
+            <Text style={[styles.TextTine, { marginTop: 2 }]}>{item}</Text>
+        </View>
+    </View>))}
+
 
                     <View style={{ height: 20 }}>
 
@@ -65,7 +60,7 @@ const Programs2 = ({ProgramsName,ProgramImage}) => {
     )
 }
 
-export default Programs2
+export default Programs2Test
 
 
 const styles = StyleSheet.create({

@@ -2,27 +2,21 @@ import { Button, Image, FlatList, ImageBackground, Keyboard, KeyboardAvoidingVie
 
 
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import CustomButton1 from "../../../../Components/UI/Buttons/CustomButton1";
 import BackTable from "../../../BackTable";
 import Programs from "./reuse/Programs";
 import Programs2 from "./reuse/Programs2";
-import ProgramsTest from "./reuse/ProgramsTest";
-import { GetAllProgramsAPI } from "../../../../Utils/ApiCalls";
-import Programs2Test from "./reuse/Programs2Test";
 
 
 
 const Healthylifestyleprograms = () => {
   const navigation = useNavigation();
-  
-  const [spinnerBool, setSpinnerbool] = useState(false)
 
   const [errorFormAPI, seterrorFormAPI] = useState("")
-  const [APICallData, setApiCallData] = useState([])
 
   const dispatch = useDispatch();
   const scrollViewRef = useRef(null);
@@ -43,70 +37,7 @@ const Healthylifestyleprograms = () => {
       image: require("../../../../assets/Images/Home/BannerBack01.png")
     }
   ]
-  let tokenn = useSelector((state) => state.login.token);
 
-    const ProgramsAPICaller = async () => {
-        seterrorFormAPI() //Clear's All API errors
-        try {
-            setSpinnerbool(true)
-            const res = await GetAllProgramsAPI(tokenn)
-            if (res) {
-              console.log("csmnb><><>")
-                setApiCallData(res.data)
-            }
-
-        } catch (error) {
-            console.log("ds",error)
-            if (error.response) {
-                if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 401) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                }
-                else if (error.response.status === 404) {
-                    console.log("cvd",error.response.data)
-                    ServerTokenError_Logout(undefined,undefined,dispatch)
-                }
-                else if (error.response.status >= 500) {
-                    // console.log("Internal Server Error", error.message)
-                    ServerError(undefined, `${error.message}`)
-                  }
-                  else {
-                    console.log("An error occurred response.>>", error.message)
-                  }
-                }
-                else if (error.code === 'ECONNABORTED') {
-                  console.log('Request timed out. Please try again later.');
-                }
-                else if (error.request) {
-                  console.log("No Response Received From the Server.", error.request);
-                  if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
-                    Alert.alert("Server Unreachable", "Please try again later.");
-                  } else if (error.request.status === 0) {
-                    Alert.alert("No Network Found", "Please check your internet connection.");
-                  }
-                }
-                else {
-                  console.log("Error in Setting up the Request.", error)
-                }
-        }
-        finally {
-            setSpinnerbool(false)
-            // setRefreshing(false);
-        }
-    }
-
-
-
-
-    useEffect(() => {
-        ProgramsAPICaller()
-    }, [])
 
 
 
@@ -159,12 +90,12 @@ const Healthylifestyleprograms = () => {
             </View>
 
 
-            {APICallData && APICallData.map((item, index) => (
+            {HealthyProgramsData.map((item, index) => (
               <View key={index}>
                 {index % 2 === 0 ? (
-                  <ProgramsTest  data={APICallData[index]}/>
+                  <Programs ProgramsName={item.title} ProgramImage={item.image} />
                 ) : (
-                  <Programs2Test  data={APICallData[index]}/>
+                  <Programs2 ProgramsName={item.title}  ProgramImage={item.image}/>
                 )}
               </View>
             ))}

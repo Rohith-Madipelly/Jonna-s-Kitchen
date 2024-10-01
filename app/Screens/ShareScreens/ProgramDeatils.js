@@ -10,8 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 const ProgramDeatils = ({ programId, data }) => {
     const navigation = useNavigation();
 
-console.log("<><><><><>",data)
-
     const [show, setShow] = useState()
     const [arrayLength, setArrayLength] = useState(data.programDetails.length)
     const [spinnerBool, setSpinnerbool] = useState(false)

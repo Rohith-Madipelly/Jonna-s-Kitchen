@@ -1,14 +1,26 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+// NoInternetScreen.js
+import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-const OfflineScreen = () => {
+const OfflineScreen = ({ onRetry }) => {
   return (
-    <View>
-      <Text>OfflineScreen</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>No Internet Connection</Text>
+      <Button title="Retry" onPress={onRetry} />
     </View>
-  )
-}
+  );
+};
 
-export default OfflineScreen
+export default OfflineScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+});

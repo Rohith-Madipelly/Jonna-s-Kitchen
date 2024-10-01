@@ -242,7 +242,7 @@ useEffect(() => {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
         }
         else if (error.response.status >= 500) {
           // console.log("Internal Server Error", error.message)

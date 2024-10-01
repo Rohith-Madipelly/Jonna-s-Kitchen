@@ -36,11 +36,14 @@ import Feedback from './MainScreens/Bottom-Tabs/ProfileRelated/Feedback.js';
 import { SET_USER_NAME } from '../redux/actions/loginAction copy.jsx';
 import { SetUserPhoneNumber } from '../redux/actions/SetUserPhoneNumber.jsx';
 import { SetUserEmail } from '../redux/actions/SetUserEmail.jsx';
+import OfflineScreen from './ShareScreens/OfflineScreen.js';
+import NetInfo from '@react-native-community/netinfo'; 
+
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
   const [appIsReady, setAppIsReady] = useState(false)
   const [user, setUser] = useState()
-
+  const [isConnected, setIsConnected] = useState(true);
   const Stack = createNativeStackNavigator();
   const dispatch = useDispatch();
   const loginSelector = useSelector((state) => state.login.isLogin);
@@ -51,7 +54,26 @@ const Screen = () => {
     'BalooTamma2': require('../../app/assets/Fonts/BalooTamma2-VariableFont_wght.ttf'),
     'Poppins-SemiBold': require('../../app/assets/Fonts/Poppins-SemiBold.ttf'),
   });
+  useEffect(() => {
+    // Subscribe to network state updates
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleRetry = () => {
+    // Trigger a network check when retry is pressed
+    NetInfo.fetch().then((state) => {
+      setIsConnected(state.isConnected);
+    });
+  };
+
+
+  
 
   console.log("user login Status", loginSelector)
 
@@ -191,7 +213,9 @@ const Screen = () => {
     return null;
   }
 
-
+if (!isConnected) {
+    return <OfflineScreen onRetry={handleRetry} />;
+  }
 
 
   return (

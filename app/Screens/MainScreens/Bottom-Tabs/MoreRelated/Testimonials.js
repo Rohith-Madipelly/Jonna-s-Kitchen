@@ -1,5 +1,5 @@
-import { Alert, Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Alert, Image, ImageBackground, Platform, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -20,6 +20,13 @@ const Testimonials = ({ navigation }) => {
   const [Data, setData] = useState([])
   const [result,setResult]=useState("Loading ......")
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    TestimonialsFetch()
+  
+  }, []);
 
   let tokenn = useSelector((state) => state.login.token)
 
@@ -78,6 +85,7 @@ const Testimonials = ({ navigation }) => {
     }
     finally {
       setSpinnerbool(false)
+      setRefreshing(false);
     }
   }
 
@@ -108,7 +116,14 @@ const Testimonials = ({ navigation }) => {
             </View>
 
 
-            <ScrollView style={{ flex: 0.95, marginTop: 20 }}>
+            <ScrollView style={{ flex: 0.95, marginTop: 20 }}
+             refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+          >
               <View style={[{ flex: 1, height: 316 }, styles.containerCard]}>
 
                 <View style={{ flex: 0.1, justifyContent: 'space-between', flexDirection: 'row', marginHorizontal: 18, marginTop: 10 }}>

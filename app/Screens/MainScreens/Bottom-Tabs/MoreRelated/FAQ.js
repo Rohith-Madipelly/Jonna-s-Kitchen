@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Platform, ImageBackground, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Platform, ImageBackground, Text, View, RefreshControl } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import Data from '../../../../Data'
 import Accordion from '../../../../Components/UI/Accordion/Accordion';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
@@ -19,7 +19,6 @@ const FAQ = ({ navigation }) => {
 
     try {
       const res = await Get_FAQs_API(tokenn)
-      console.log(res.data)
       setData(res.data)
       console.log("heloo")
     } catch (error) {
@@ -27,6 +26,7 @@ const FAQ = ({ navigation }) => {
     }
     finally {
       setSpinnerbool(false)
+      setRefreshing(false);
     }
   }
 
@@ -35,6 +35,12 @@ const FAQ = ({ navigation }) => {
   }, [])
 
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Get_FAQs()
+  }, []);
 
   return (
     <>
@@ -65,7 +71,14 @@ const FAQ = ({ navigation }) => {
           })} */}
 
 
-          {Data3 ? <ScrollView style={{ flex: 0.8 }}>
+          {Data3 ? <ScrollView style={{ flex: 0.8 }}
+           refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+           >
             {Data3.map((value, index) => {
 
               return (

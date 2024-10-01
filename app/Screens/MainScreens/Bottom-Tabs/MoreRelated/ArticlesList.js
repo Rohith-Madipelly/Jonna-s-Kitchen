@@ -1,5 +1,5 @@
-import { Alert, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Alert, Image, ImageBackground, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -19,6 +19,14 @@ const ArticlesList = ({ navigation }) => {
   const [spinnerBool, setSpinnerbool] = useState(false)
   const [ArticleData, setArticleData] = useState([])
 
+  
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllArticles()
+  
+  }, []);
 
   let tokenn = useSelector((state) => state.login.token);
 
@@ -69,6 +77,7 @@ const ArticlesList = ({ navigation }) => {
     }
     finally {
       setSpinnerbool(false)
+       setRefreshing(false);
     }
   }
 
@@ -101,7 +110,15 @@ const ArticlesList = ({ navigation }) => {
           </View>
 
 
-          <ScrollView style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
+          <ScrollView style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}
+          
+  refreshControl={
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+    />
+  }
+>
             {/* <Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>Articles</Text> */}
 
             {ArticleData.map((data, index) => (

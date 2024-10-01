@@ -1,5 +1,5 @@
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
@@ -24,7 +24,13 @@ const MorePage = ({ navigation }) => {
 
   let tokenn = useSelector((state) => state.login.token)
 
+  const [refreshing, setRefreshing] = useState(false);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    JobFetch()
+  
+  }, []);
 
   const JobFetch = async () => {
     setSpinnerbool(true)
@@ -71,6 +77,7 @@ const MorePage = ({ navigation }) => {
     }
     finally {
       setSpinnerbool(false)
+      setRefreshing(false);
     }
   }
 

@@ -1,5 +1,5 @@
-import { Alert, Dimensions, Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { Alert, Dimensions, Image, ImageBackground, Platform, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
@@ -37,6 +37,15 @@ const AboutUS = ({ navigation }) => {
   const [Data, setData] = useState([])
   const [banners, setBanners] = useState([])
   const [spinnerBool, setSpinnerbool] = useState(false)
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    CallAPI()
+    HomeBanners()
+  
+  }, []);
 
   let tokenn = useSelector((state) => state.login.token)
 
@@ -85,6 +94,7 @@ const AboutUS = ({ navigation }) => {
     }
     finally {
       // setSpinnerbool(false)
+      setRefreshing(false);
     }
   }
 
@@ -145,19 +155,16 @@ const AboutUS = ({ navigation }) => {
       }
 
     } finally {
-      // console.log("Finally >")
-      // setTimeout(() => {
-        // setLoadingComponent(false)
         setSpinnerbool(false)
-      // }, 2000);
+        setRefreshing(false);
     }
   }
 
 
+  
 
-  useEffect(() => {
-    // HomeBanners()
-  }, [])
+
+
 
   return (<>
        <Loader1
@@ -175,7 +182,12 @@ const AboutUS = ({ navigation }) => {
           
           {Data.length>0 ?<FlatList
             data={Data[0].points}
-
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
             keyExtractor={(item, index) => index.toString()} 
             ListHeaderComponent={
               <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>

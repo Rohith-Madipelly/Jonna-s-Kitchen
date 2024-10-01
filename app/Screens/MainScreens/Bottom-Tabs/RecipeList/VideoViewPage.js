@@ -13,9 +13,10 @@ const VideoViewPage = ({ route }) => {
   const { params } = route;
   const recipieName = params?.recipieName || 'Youtube'
   const recipieUrl = params?.recipieUrl || 'https://www.youtube.com/watch?v=22IEnKGVuUY';
+  const [onReady,setOnReady]=useState(false)
   const [playing, setPlaying] = useState(false);
   const navigation = useNavigation();
-  const [spinnerBool, setSpinnerbool] = useState(false)
+  const [spinnerBool, setSpinnerbool] = useState(true)
 
 
   const [videoID, setVideoID] = useState();
@@ -35,6 +36,12 @@ const VideoViewPage = ({ route }) => {
     setPlaying((prev) => !prev);
   }, []);
 
+  useEffect(()=>{
+    if(onReady){
+      setSpinnerbool(false)
+    }
+  },[onReady])
+
   return (
     <>
       <Loader1
@@ -49,13 +56,19 @@ const VideoViewPage = ({ route }) => {
             <CustomToolKitHeader componentName={"Job Postings"} textDecorationLine={'underline'} />
           </View> */}
           <View style={{ flex: 0.32 }}>
-            <YoutubePlayer
+           <YoutubePlayer
               // width={200}
               height={300}
               play={playing}
               videoId={videoID}
               onChangeState={onStateChange}
+              onReady={()=>{
+                
+                console.log("loading done .,....")
+                setOnReady(true)
+              }}
             />
+            
           </View>
 
           <View style={{ flex: 0.5 }}>

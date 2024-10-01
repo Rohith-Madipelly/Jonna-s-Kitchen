@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TERMS_AND_CONDITIONS_API } from '../../../../Utils/ApiCalls'
 import Loader1 from '../../../../Utils/Loader1'
@@ -10,6 +10,14 @@ const TermsandConditions = () => {
   let tokenn = useSelector((state) => state.login.token)
   const [termsText, setTermsandConditions] = useState()
   const dispatch = useDispatch()
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getTermandCondition()
+  
+  }, []);
 
 
   const getTermandCondition = async () => {
@@ -60,6 +68,7 @@ const TermsandConditions = () => {
     }
     finally {
       setSpinnerbool(false)
+      setRefreshing(false);
     }
 
   }
@@ -78,7 +87,14 @@ const TermsandConditions = () => {
         <View style={{ marginTop: 15, alignItems: 'center', paddingHorizontal: 20 }}>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 20, textDecorationLine: 'underline' }}>Terms and conditions</Text>
         </View>
-        <ScrollView style={{ marginTop: 15, paddingHorizontal: 20 }} >
+        <ScrollView style={{ marginTop: 15, paddingHorizontal: 20 }}  
+  refreshControl={
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+    />
+  }
+>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 16, color: '#FE7B07' }}>Note</Text>
           <Text style={{
             fontFamily: 'BalooTamma2', fontSize: 16, fontWeight: 600, color: 'black',

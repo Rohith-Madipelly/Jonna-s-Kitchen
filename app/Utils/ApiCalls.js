@@ -270,6 +270,16 @@ export const GET_USER_DEATILS_API = async (token) => {
 }
 
 
+
+export const GET_CHAT_USER_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getChatUser`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
 export const PREVIOUS_CHAT_API = async (param1, param2, token) => {
   return await axios.get(`${GUEST_URL}/api/message/getChatByUserAndEmployee/${param1}/${param2}`, {
     headers: {

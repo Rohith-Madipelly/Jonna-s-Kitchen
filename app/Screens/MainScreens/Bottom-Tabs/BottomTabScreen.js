@@ -14,6 +14,7 @@ import Profile from './Profile.js';
 
 import { useNavigation } from '@react-navigation/native';
 import WelcomeCopy from '../WelcomeCopy.js';
+import Metrics from '../../../Utils/ResposivesUtils/Metrics.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -56,7 +57,7 @@ const BottomTabScreen = ({ route }) => {
                 {/* <Text>Profile</Text> */}
                 {focused ? <Image source={require('../../../assets/Images/TabIcons/Home.png')} style={{ width: 36, height: 36 }} /> : <Image source={require('../../../assets/Images/TabIcons/HomeD.png')} style={{ width: 36, height: 36 }} />}
                 {/* {focused ? <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "black" }}>Home</Text> : <Text style={{ fontSize: 12, marginTop: 5, color: focused ? "#FE7B07" : "black" }}></Text>} */}
-                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555" }}>Home</Text>
+                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555",width:Metrics.rfv(50),textAlign:'center' }}>Home</Text>
               </View>)
 
           }
@@ -66,7 +67,7 @@ const BottomTabScreen = ({ route }) => {
             colour = focused ? "Black" : "White";
             return (
               <View style={{
-                flexDirection: 'column', alignItems: 'center', paddingTop: 5,
+                flexDirection: 'column', alignItems: 'center',  paddingTop:Metrics.rfv(5),
                 width: '100%', height: '100%',
                 //  backgroundColor: focused ? "rgba(74, 58, 255, 0.14)" : "", 
                 //   borderTopWidth: focused ? 2 : 0, borderColor: 'rgba(74, 58, 255, 1)' 
@@ -75,7 +76,7 @@ const BottomTabScreen = ({ route }) => {
                 {/* <Text>Profile</Text> */}
                 {focused ? <Image source={require('../../../assets/Images/TabIcons/RecipeD.png')} style={{ width: 36, height: 36 }} /> : <Image source={require('../../../assets/Images/TabIcons/Recipe.png')} style={{ width: 36, height: 36 }} />}
                 {/* {focused ? <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "black" }}>Recipe</Text> : <Text style={{ fontSize: 12, marginTop: 5, color: focused ? "#FE7B07" : "black" }}></Text>} */}
-                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555" }}>Recipe</Text>
+                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555",width:Metrics.rfv(50),textAlign:'center'  }}>Recipe</Text>
               </View>)
           }
 
@@ -85,7 +86,7 @@ const BottomTabScreen = ({ route }) => {
             colour = focused ? "Black" : "White";
             return (
               <View style={{
-                flexDirection: 'column', alignItems: 'center', paddingTop: 5,
+                flexDirection: 'column', alignItems: 'center', paddingTop:Metrics.rfv(5),
                 width: '100%', height: '100%',
                 //  backgroundColor: focused ? "rgba(74, 58, 255, 0.14)" : "", 
                 //   borderTopWidth: focused ? 2 : 0, borderColor: 'rgba(74, 58, 255, 1)' 
@@ -94,7 +95,7 @@ const BottomTabScreen = ({ route }) => {
                 {/* <Text>Profile</Text> */}
                 {focused ? <Image source={require('../../../assets/Images/TabIcons/ChatD.png')} style={{ width: 36, height: 36 }} /> : <Image source={require('../../../assets/Images/TabIcons/Chat.png')} style={{ width: 36, height: 36 }} />}
                 {/* {focused ? <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "black" }}>Recipe</Text> : <Text style={{ fontSize: 12, marginTop: 5, color: focused ? "#FE7B07" : "black" }}></Text>} */}
-                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555" }}>Chat</Text>
+                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555",width:Metrics.rfv(50),textAlign:'center'  }}>Chat</Text>
               </View>)
           }
           else if (route.name === "More") {
@@ -103,7 +104,7 @@ const BottomTabScreen = ({ route }) => {
             colour = focused ? "Black" : "White";
             return (
               <View style={{
-                flexDirection: 'column', alignItems: 'center', paddingTop: 5,
+                flexDirection: 'column', alignItems: 'center',  paddingTop:Metrics.rfv(5),
                 width: '100%', height: '100%',
                 // backgroundColor: focused ? "rgba(74, 58, 255, 0.14)" : "",
                 //  borderTopWidth: focused ? 2 : 0, borderColor: 'rgba(74, 58, 255, 1)'
@@ -112,7 +113,7 @@ const BottomTabScreen = ({ route }) => {
                 {/* <Text>Profile</Text> */}
                 {focused ? <Image source={require('../../../assets/Images/TabIcons/MoreD.png')} style={{ width: 36, height: 36 }} /> : <Image source={require('../../../assets/Images/TabIcons/More.png')} style={{ width: 36, height: 36 }} />}
                 {/* {focused ? <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "black" }}>More</Text> : <Text style={{ fontSize: 12, marginTop: 5, color: focused ? "#FE7B07" : "black" }}></Text>} */}
-                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555" }}>More</Text>
+                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555",width:Metrics.rfv(50),textAlign:'center'  }}>More</Text>
               </View>)
           }
 
@@ -122,7 +123,7 @@ const BottomTabScreen = ({ route }) => {
             colour = focused ? "Black" : "White";
             return (
               <View style={{
-                flexDirection: 'column', alignItems: 'center', paddingTop: 5,
+                flexDirection: 'column', alignItems: 'center', paddingTop:Metrics.rfv(5),
                 width: '100%', height: '100%',
                 // backgroundColor: focused ? "rgba(74, 58, 255, 0.14)" : "", 
                 // borderTopWidth: focused ? 2 : 0, borderColor: 'rgba(74, 58, 255, 1)' 
@@ -131,7 +132,7 @@ const BottomTabScreen = ({ route }) => {
                 {/* <Text>Profile</Text> */}
                 {focused ? <Image source={require('../../../assets/Images/TabIcons/ProfileD.png')} style={{ width: 36, height: 36 }} /> : <Image source={require('../../../assets/Images/TabIcons/Profile.png')} style={{ width: 36, height: 36 }} />}
                 {/* {focused ? <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "black" }}>Profile</Text> : <Text style={{ fontSize: 12, marginTop: 5, color: focused ? "#FE7B07" : "black" }}></Text>} */}
-                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555" }}>Profile</Text>
+                <Text style={{ fontSize: 12, marginBottom: 7, color: focused ? "#FE7B07" : "#555555",width:Metrics.rfv(50),textAlign:'center'  }}>Profile</Text>
               </View>)
           }
 

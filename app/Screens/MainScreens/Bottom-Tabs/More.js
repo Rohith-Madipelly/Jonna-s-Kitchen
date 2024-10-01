@@ -9,8 +9,9 @@ import FAQ from './MoreRelated/FAQ';
 import Article from './MoreRelated/Article';
 import Job from './MoreRelated/Job';
 import ArticlesList from './MoreRelated/ArticlesList';
-import Healthylifestyleprograms2 from './MoreRelated/reuse/ProgramViewers/Healthylifestyleprograms2';
-import TestingUI from './MoreRelated/TestingUI';
+import WelcomeCopy from '../WelcomeCopy';
+import Test from './MoreRelated/Test';
+
 
 const More = () => {
 
@@ -45,13 +46,13 @@ const More = () => {
       <Stack.Screen name="MorePage" component={MorePage} />
       <Stack.Screen name="AboutUs" component={AboutUs} />
       <Stack.Screen name="Healthylifestyleprograms" component={Healthylifestyleprograms} />
+      {/* <Stack.Screen name="Healthylifestyleprograms" component={WelcomeCopy} /> */}
+      <Stack.Screen name="Test" component={Test} />
       <Stack.Screen name="Testimonials" component={Testimonials} />
       <Stack.Screen name="FAQ" component={FAQ} />
       <Stack.Screen name="ArticlesList" component={ArticlesList} />
       <Stack.Screen name="Article" component={Article} />
       <Stack.Screen name="Job" component={Job} />
-      {/* <Stack.Screen name="HealthylifestyleprogramsTest" component={Healthylifestyleprograms2} /> */}
-      <Stack.Screen name="HealthylifestyleprogramsTest" component={TestingUI} />
 
     </Stack.Navigator>
   )

@@ -1,5 +1,5 @@
-import { Alert, StyleSheet, Text, View } from 'react-native' 
-import React, { useEffect, useState } from 'react'
+import { Alert, RefreshControl, StyleSheet, Text, View } from 'react-native' 
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PRIVACY_POLICY_API } from '../../../../Utils/ApiCalls'
 import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError'
@@ -13,6 +13,14 @@ const PrivacyPolicy = () => {
   let tokenn = useSelector((state) => state.login.token)
   const [PrivacyText, setPrivacyPolicy] = useState()
   const dispatch = useDispatch()
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getPrivacyPolicy()
+  
+  }, []);
 
   const getPrivacyPolicy = async () => {
     setSpinnerbool(true)
@@ -61,6 +69,7 @@ const PrivacyPolicy = () => {
 
     } finally {
       setSpinnerbool(false)
+      setRefreshing(false);
     }
 
   }
@@ -78,7 +87,15 @@ const PrivacyPolicy = () => {
         <View style={{ marginTop: 15, alignItems: 'center', paddingHorizontal: 20 }}>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 20, textDecorationLine: 'underline' }}>Privacy Policy</Text>
         </View>
-        <ScrollView style={{ marginTop: 15, paddingHorizontal: 20 }}>
+        <ScrollView style={{ marginTop: 15, paddingHorizontal: 20 }}
+        
+  refreshControl={
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+    />
+  }
+>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 16, color: '#FE7B07' }}>Note</Text>
           <Text style={{
             fontFamily: 'BalooTamma2', fontSize: 16, fontWeight: 600, color: 'black',

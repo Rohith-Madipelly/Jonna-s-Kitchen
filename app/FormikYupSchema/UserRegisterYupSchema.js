@@ -34,7 +34,7 @@ const UserRegisterYupSchema = Yup.object().shape({
   .matches(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email")
   .test(
     "single-tld",
-    "Email address is required and cannot be empty. Please provide a valid email address",
+    "Please provide a valid email address",
     (value) => {
       return !/\.[a-zA-Z]{2,}\./.test(value);
     }

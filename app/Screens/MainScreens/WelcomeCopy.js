@@ -1,8 +1,8 @@
-import { Button, Dimensions, Image, ImageBackground, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity, Alert } from "react-native";
+import { Button, Dimensions, Image, ImageBackground, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity, Alert, RefreshControl } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { GetAllProgramsAPI } from "../../Utils/ApiCalls";
 import { StatusBar } from "expo-status-bar";
 import ProgramDeatils from "../ShareScreens/ProgramDeatils";
 import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
+import Wapper from "../../Components/UI/Wapper";
 
 
 const { width } = Dimensions.get('screen');
@@ -31,8 +32,22 @@ const WelcomeCopy = () => {
     const dispatch = useDispatch();
     const scrollViewRef = useRef(null);
 
+    const [isConnected, setIsConnected] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      if (isConnected) {
+        // HomeData()
+        ProgramsAPICaller()
+  
+      }
+  
+    }, []);
+
     const [expanded, setExpanded] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
+
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -126,11 +141,10 @@ const WelcomeCopy = () => {
                 else {
                   console.log("Error in Setting up the Request.", error)
                 }
-
-            setSpinnerbool(false)
         }
         finally {
             setSpinnerbool(false)
+            setRefreshing(false);
         }
     }
 
@@ -160,6 +174,8 @@ const WelcomeCopy = () => {
 
     return (
         <>
+          <Wapper>
+
             <Loader1
                 visible={spinnerBool}
             />
@@ -184,6 +200,13 @@ const WelcomeCopy = () => {
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
                         ref={scrollViewRef}
+
+                        refreshControl={
+                            <RefreshControl
+                              refreshing={refreshing}
+                              onRefresh={onRefresh}
+                            />
+                          }
                     >
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                             <KeyboardAvoidingView
@@ -354,6 +377,8 @@ const WelcomeCopy = () => {
 
 
             </View>
+
+            </Wapper>
 
         </>
 

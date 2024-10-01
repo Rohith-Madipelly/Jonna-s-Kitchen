@@ -24,7 +24,7 @@ import { BASE_URL } from '../../../Enviornment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
 import Loader1 from '../../../Utils/Loader1';
-import { GET_USER_DEATILS_API, PREVIOUS_CHAT_API } from '../../../Utils/ApiCalls';
+import { GET_CHAT_USER_API, GET_USER_DEATILS_API, PREVIOUS_CHAT_API } from '../../../Utils/ApiCalls';
 import UploadModel from '../../../ModelsAlerts/UploadModel';
 import LoadingImage from '../../../Components/UI/ImageConatiners/LoadingImage';
 import ImagePreviewerModel from '../../../Components/UI/ImagePreviewer';
@@ -96,7 +96,9 @@ const Chat = () => {
     const getUserDeatils = async () => {
         setSpinnerbool(true)
         try {
-            const res = await GET_USER_DEATILS_API(tokenn)
+            // const res = await GET_USER_DEATILS_API(tokenn)
+            const res = await GET_CHAT_USER_API(tokenn)
+            console.log("dsw", res.data)
             setUserData(res.data)
             // setTimeout(() => {
             //     return new Promise((resolve) => {
@@ -172,7 +174,7 @@ const Chat = () => {
                     resolve(); // Resolve once messages are set
                     console.log("hgc")
                     setSpinnerbool(false)
-                    scrollToEnd();
+                    // scrollToEnd();
 
                 });
             }, 2000)
@@ -185,7 +187,7 @@ const Chat = () => {
                 }
                 else if (error.response.status === 401) {
                     console.log("Error With 401.", error.response.data)
-                    ServerTokenError_Logout(undefined, undefined, dispatch)
+                    // ServerTokenError_Logout(undefined, undefined, dispatch)
                 }
                 else if (error.response.status === 403) {
                     console.log("error.response.status login", error.response.data.message)
@@ -227,13 +229,13 @@ const Chat = () => {
     // // For previous code end
 
 
-    useEffect(() => {
-        // scrollToEnd();
+    // useEffect(() => {
+    //     // scrollToEnd();
 
-        if (messages.length > 0) {
-            scrollToEnd();
-        }
-    }, [messages])
+    //     if (messages.length > 0) {
+    //         scrollToEnd();
+    //     }
+    // }, [messages])
 
 
     // useEffect(() => {
@@ -509,13 +511,22 @@ const Chat = () => {
                             <View style={{ flex: 0.08 }}>
                                 <CustomToolKitHeader componentName="Chat"
                                     rightIcon={(
-                                        <TouchableOpacity onPress={()=>{console.log("mshjbdj")}} style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:"center"}}>
+                                        <TouchableOpacity onPress={() => { }} style={{ width: 30, height: 30, borderRadius: 15, justifyContent: 'center', alignItems: "center" }}>
                                             <Feather name="phone-call" size={24} color="black" />
                                         </TouchableOpacity>
                                     )}
                                 />
                             </View>
-                            <ImagePreviewerModel
+                            <TouchableOpacity style={{justifyContent:'center',alignItems:'center',opacity:1}} onPress={()=>{
+                                getPreviousChat()
+                                console.log("get chat old");
+
+                            }}>
+                                <Text numberOfLines={1} 
+                                style={{backgroundColor:"#FF6500",paddingVertical:5,paddingHorizontal:7,borderRadius:10,color:'white',fontSize:10}}
+                                >Get previous chat</Text> 
+                            </TouchableOpacity>
+                            <ImagePreviewerModel 
                                 visible={PreViewerModel}
                                 title="Image Previewer"
                                 data={ImagePreviewerData}
@@ -544,13 +555,15 @@ const Chat = () => {
                                             value={newMessage}
                                             onChangeText={setNewMessage}
                                             rightIcon={
-                                                <TouchableOpacity
-                                                    onPress={showAlert}
-                                                // onPress={() => Alert.alert('Camera functionality', 'Under development')}
-                                                >
-                                                    {/* <FontAwesome name="camera" size={24} color="black" /> */}
-                                                    <Entypo name="attachment" size={24} color="black" />
-                                                </TouchableOpacity>
+                                                <>
+                                                    {/* {UserData.registered ? */}
+                                                    <TouchableOpacity
+                                                        onPress={showAlert}>
+                                                        {/* <FontAwesome name="camera" size={24} color="black" /> */}
+                                                        <Entypo name="attachment" size={24} color="black" />
+                                                    </TouchableOpacity>
+                                                    {/* :""} */}
+                                                </>
                                             }
                                         />
                                     </View>

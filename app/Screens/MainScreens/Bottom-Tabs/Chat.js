@@ -24,11 +24,12 @@ import { BASE_URL } from '../../../Enviornment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
 import Loader1 from '../../../Utils/Loader1';
-import { GET_CHAT_USER_API, GET_USER_DEATILS_API, PREVIOUS_CHAT_API } from '../../../Utils/ApiCalls';
+import { GET_CHAT_USER_API, GET_USER_DEATILS_API, PREVIOUS_CHAT_API, Send_Call_Request_API } from '../../../Utils/ApiCalls';
 import UploadModel from '../../../ModelsAlerts/UploadModel';
 import LoadingImage from '../../../Components/UI/ImageConatiners/LoadingImage';
 import ImagePreviewerModel from '../../../Components/UI/ImagePreviewer';
 import Wapper from '../../../Components/UI/Wapper';
+import { CustomAlerts_Continue } from '../../../Utils/CustomReuseAlerts';
 
 const Chat = () => {
     const [stompClient, setStompClient] = useState(null);
@@ -93,28 +94,22 @@ const Chat = () => {
     }, []);
 
 
-    const getUserDeatils = async () => {
-        setSpinnerbool(true)
+
+    const MakeACallRequest = async () => {
+        // Alert.alert("Rise a call request",`Do you want to send a call request ${UserData.employeeName}`)
+        CustomAlerts_Continue("Rise a call request", `Do you want to send a call request to ${UserData.employeeName}`, () => { sendCallRequest(); console.log("sjh") })
+        
+    }
+
+
+    const sendCallRequest = async () => {
         try {
-            // const res = await GET_USER_DEATILS_API(tokenn)
-            const res = await GET_CHAT_USER_API(tokenn)
-            console.log("dsw", res.data)
-            setUserData(res.data)
-            // setTimeout(() => {
-            //     return new Promise((resolve) => {
-            //         // setMessages(newMessages);
-            //         setMessages((prevMessages) => [...previousChatData, ...prevMessages]);
-            //         resolve(); // Resolve once messages are set
-            //         setSpinnerbool(false)
-            //         scrollToEnd();
-
-            //     });
-            // }, 2000)
-
-
-            // setTimeout(()=>{
-            //     getPreviousChat()
-            // },2000)
+            const res = await Send_Call_Request_API(`${UserData.employeeId}`, tokenn)
+            if(res.data)
+            {
+                console.log("res", res)
+                Alert.alert("Dishciu","cs")
+            }
 
         } catch (error) {
             console.log("Error ..", error)
@@ -159,14 +154,81 @@ const Chat = () => {
         }
     }
 
+    const getUserDeatils = async () => {
+        setSpinnerbool(true)
+        try {
+            // const res = await GET_USER_DEATILS_API(tokenn)
+            const res = await GET_CHAT_USER_API(tokenn)
+            console.log("dsw", res.data)
+            setUserData(res.data)
+            // setTimeout(() => {
+            //     return new Promise((resolve) => {
+            //         // setMessages(newMessages);
+            //         setMessages((prevMessages) => [...previousChatData, ...prevMessages]);
+            //         resolve(); // Resolve once messages are set
+            //         setSpinnerbool(false)
+            //         scrollToEnd();
+
+            //     });
+            // }, 2000)
+
+
+            // setTimeout(()=>{
+            //     getPreviousChat()
+            // },2000)
+
+        } catch (error) {
+            console.log("Error ..", error)
+            if (error.response) {
+                if (error.response.status === 400) {
+                    console.log("Error With 400.", error.response.data)
+                }
+                else if (error.response.status === 401) {
+                    console.log("Error With 401.", error.response.data)
+                }
+                else if (error.response.status === 403) {
+                    console.log("error.response.status login", error.response.data.message)
+                }
+                else if (error.response.status === 404) {
+                    console.log("error.response.status login", error.response)
+
+                    // ServerTokenError_Logout(undefined, undefined, dispatch)
+                }
+                else if (error.response.status >= 500) {
+                    console.log("Error >>>", error.response.status,)
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                }
+                else {
+                    console.log("An error occurred response.>>", error)
+                }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.")
+                if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
+
+        } finally {
+            setSpinnerbool(false)
+        }
+    }
+
 
     const getPreviousChat = async () => {
         setSpinnerbool(true)
         try {
             const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, tokenn)
             setPreviousChatData(res.data)
-            defaultMessager("Start your chatting now ")
-            defaultMessager("Welcome Dear ")
+            // defaultMessager("Start your chatting now ")
+            // defaultMessager("Welcome Dear ")
             setTimeout(() => {
                 return new Promise((resolve) => {
                     // setMessages(newMessages);
@@ -196,6 +258,7 @@ const Chat = () => {
                     console.log("error.response.status login", error.response)
                 }
                 else if (error.response.status >= 500) {
+                    console.log("sdcjgj")
                     // console.log("Internal Server Error", error.message)
                     ServerError(undefined, `${error.message}`)
                 }
@@ -217,7 +280,7 @@ const Chat = () => {
             }
 
         } finally {
-            // setSpinnerbool(false)
+            setSpinnerbool(false)
         }
 
     }
@@ -483,7 +546,41 @@ const Chat = () => {
         )
     }
 
+    console.log(UserData)
 
+
+    if (!UserData.employeeEmail) {
+        console.log(UserData.employeeEmail)
+        return (
+            <ImageBackground
+                source={require('../../../assets/Images/Background1.png')}
+                style={styles.container}
+            >
+                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <LoadingImage
+                            // source={item.recipieImage}
+                            source={require('../../../assets/Images/NoFiles.png')}
+                            style={{
+                                width: '80%', // Take up the full width of the parent
+                                height: '80%',
+                                borderRadius: 15,
+
+                                resizeMode: 'contain', // Maintain aspect ratio without stretching
+                                //   resizeMode: 'cover', // Maintain aspect ratio without stretching
+                            }}
+                        />
+                     
+                        <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 18,marginTop:-70 }}>
+                            No user as assiged to chat
+                        </Text>
+                   
+                 
+
+
+                </View>
+            </ImageBackground>
+        )
+    }
 
     return (
         <>
@@ -511,22 +608,22 @@ const Chat = () => {
                             <View style={{ flex: 0.08 }}>
                                 <CustomToolKitHeader componentName="Chat"
                                     rightIcon={(
-                                        <TouchableOpacity onPress={() => { }} style={{ width: 30, height: 30, borderRadius: 15, justifyContent: 'center', alignItems: "center" }}>
+                                        <TouchableOpacity onPress={() => { MakeACallRequest() }} style={{ width: 30, height: 30, borderRadius: 15, justifyContent: 'center', alignItems: "center" }}>
                                             <Feather name="phone-call" size={24} color="black" />
                                         </TouchableOpacity>
                                     )}
                                 />
                             </View>
-                            <TouchableOpacity style={{justifyContent:'center',alignItems:'center',opacity:1}} onPress={()=>{
+                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', opacity: 1 }} onPress={() => {
                                 getPreviousChat()
                                 console.log("get chat old");
 
                             }}>
-                                <Text numberOfLines={1} 
-                                style={{backgroundColor:"#FF6500",paddingVertical:5,paddingHorizontal:7,borderRadius:10,color:'white',fontSize:10}}
-                                >Get previous chat</Text> 
+                                <Text numberOfLines={1}
+                                    style={{ backgroundColor: "#FF6500", paddingVertical: 5, paddingHorizontal: 7, borderRadius: 10, color: 'white', fontSize: 10 }}
+                                >Get previous chat</Text>
                             </TouchableOpacity>
-                            <ImagePreviewerModel 
+                            <ImagePreviewerModel
                                 visible={PreViewerModel}
                                 title="Image Previewer"
                                 data={ImagePreviewerData}

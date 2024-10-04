@@ -1,4 +1,4 @@
-import { Button, Image, FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Button, Image, FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View, Alert } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +18,7 @@ import Programs2Test from "./reuse/Programs2Test";
 
 const Healthylifestyleprograms = () => {
   const navigation = useNavigation();
-  
+
   const [spinnerBool, setSpinnerbool] = useState(false)
 
   const [errorFormAPI, seterrorFormAPI] = useState("")
@@ -30,83 +30,71 @@ const Healthylifestyleprograms = () => {
 
 
   const HealthyProgramsData = [
-    {
-      title: "Program 01",
-      image: require("../../../../assets/Images/Home/BannerBack01.png")
-    },
-    {
-      title: "Program 02",
-      image: require("../../../../assets/Images/Home/BannerBack02.png")
-    },
-    {
-      title: "Program 03",
-      image: require("../../../../assets/Images/Home/BannerBack01.png")
-    }
   ]
   let tokenn = useSelector((state) => state.login.token);
 
-    const ProgramsAPICaller = async () => {
-        seterrorFormAPI() //Clear's All API errors
-        try {
-            setSpinnerbool(true)
-            const res = await GetAllProgramsAPI(tokenn)
-            if (res) {
-              console.log("csmnb><><>")
-                setApiCallData(res.data)
-            }
+  const ProgramsAPICaller = async () => {
+    seterrorFormAPI() //Clear's All API errors
+    try {
+      setSpinnerbool(true)
+      const res = await GetAllProgramsAPI(tokenn)
+      if (res) {
+        console.log("csmnb><><>")
+        setApiCallData(res.data)
+      }
 
-        } catch (error) {
-            console.log("ds",error)
-            if (error.response) {
-                if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 401) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                }
-                else if (error.response.status === 404) {
-                    console.log("cvd",error.response.data)
-                    ServerTokenError_Logout(undefined,undefined,dispatch)
-                }
-                else if (error.response.status >= 500) {
-                    // console.log("Internal Server Error", error.message)
-                    ServerError(undefined, `${error.message}`)
-                  }
-                  else {
-                    console.log("An error occurred response.>>", error.message)
-                  }
-                }
-                else if (error.code === 'ECONNABORTED') {
-                  console.log('Request timed out. Please try again later.');
-                }
-                else if (error.request) {
-                  console.log("No Response Received From the Server.", error.request);
-                  if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
-                    Alert.alert("Server Unreachable", "Please try again later.");
-                  } else if (error.request.status === 0) {
-                    Alert.alert("No Network Found", "Please check your internet connection.");
-                  }
-                }
-                else {
-                  console.log("Error in Setting up the Request.", error)
-                }
+    } catch (error) {
+      console.log("ds", error)
+      if (error.response) {
+        if (error.response.status === 400) {
+          console.log("Error With 400.", error.response.data)
+          seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
         }
-        finally {
-            setSpinnerbool(false)
-            // setRefreshing(false);
+        else if (error.response.status === 401) {
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
+        else if (error.response.status === 403) {
+          console.log("error.response.status login", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("cvd", error.response.data)
+          ServerTokenError_Logout(undefined, undefined, dispatch)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined, `${error.message}`)
+        }
+        else {
+          console.log("An error occurred response.>>", error.message)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.", error.request);
+        if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+          Alert.alert("Server Unreachable", "Please try again later.");
+        } else if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please check your internet connection.");
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.", error)
+      }
     }
+    finally {
+      setSpinnerbool(false)
+      // setRefreshing(false);
+    }
+  }
 
 
 
 
-    useEffect(() => {
-        ProgramsAPICaller()
-    }, [])
+  useEffect(() => {
+    ProgramsAPICaller()
+  }, [])
 
 
 
@@ -116,7 +104,7 @@ const Healthylifestyleprograms = () => {
       source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
       style={{
         flex: 1,
-        paddingTop:20,
+        paddingTop: 20,
         // backgroundColor:'pink'
       }}>
 
@@ -129,7 +117,7 @@ const Healthylifestyleprograms = () => {
 
         <View style={{ marginHorizontal: 20, flex: 1 }}>
 
-          <View style={{flex: 0.9 }}>
+          <View style={{ flex: 0.9 }}>
 
 
             <Text style={{
@@ -162,13 +150,22 @@ const Healthylifestyleprograms = () => {
             {APICallData && APICallData.map((item, index) => (
               <View key={index}>
                 {index % 2 === 0 ? (
-                  <ProgramsTest  data={APICallData[index]}/>
+                  <ProgramsTest data={APICallData[index]} />
                 ) : (
-                  <Programs2Test  data={APICallData[index]}/>
+                  <Programs2Test data={APICallData[index]} />
                 )}
               </View>
             ))}
 
+            {!APICallData ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+             <Text style={{
+              fontWeight: '400',
+              fontFamily: 'BalooTamma2-Bold', fontSize: 18,
+              
+            }}>No Programs found</Text>
+
+            </View> : ""}
             {/* <Programs /> */}
 
 

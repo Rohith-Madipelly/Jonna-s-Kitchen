@@ -74,12 +74,10 @@ const UserRegister = () => {
 
     } catch (error) {
       if (error.response) {
-        console.log(error.response.status)
-        console.log("dc", error.response)
+        console.log("Error in ",error.response)
         if (error.response.status === 400) {
-          // console.log("Error With 400.", error.response.data)
-          CustomToaster(error.response.data.message)
-          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          CustomToaster(error.response.data.userEmail)
+          seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
         }
         else if (error.response.status === 401) {
 
@@ -94,7 +92,6 @@ const UserRegister = () => {
           seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
         }
         else if (error.response.status >= 500) {
-          // console.log("Internal Server Error", error.message)
           ServerError(undefined, `${error.message}`)
         }
         else {
@@ -116,15 +113,6 @@ const UserRegister = () => {
         console.log("Error in Setting up the Request.", error)
       }
 
-
-      setSpinnerbool(false)
-
-      if (error) {
-
-        // message = error.message;
-        // seterrorFormAPI(message)
-        // "userEmail or Password does not match !"
-      }
     }
     finally {
       setSpinnerbool(false)

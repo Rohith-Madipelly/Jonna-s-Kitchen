@@ -46,10 +46,13 @@ const ArticlesList = ({ navigation }) => {
           console.log("Error With 400.", error.response.data)
         }
         else if (error.response.status === 401) {
+          console.log("cdsc")
         }
         else if (error.response.status === 403) {
         }
         else if (error.response.status === 404) {
+          console.log("cdsc 404")
+
         }
         else if (error.response.status >= 500) {
           // console.log("Internal Server Error", error.message)

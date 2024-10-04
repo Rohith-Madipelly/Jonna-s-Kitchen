@@ -20,7 +20,7 @@ const MorePage = () => {
         { title: 'FAQ', logo: require("../../../../assets/Images/MoreIcons/FAQ.png"), onPress: () => navigation.navigate('FAQ') },
         { title: 'Articles', logo: require("../../../../assets/Images/MoreIcons/Articles.png"), onPress: () => navigation.navigate('ArticlesList') },
         { title: 'Job', logo: require("../../../../assets/Images/MoreIcons/Job.png"), onPress: () => navigation.navigate('Job') },
-        { title: 'Test', logo: require("../../../../assets/Images/MoreIcons/Job.png"), onPress: () => navigation.navigate('Test') },
+        // { title: 'Test', logo: require("../../../../assets/Images/MoreIcons/Job.png"), onPress: () => navigation.navigate('Test') },
       ]
 
 

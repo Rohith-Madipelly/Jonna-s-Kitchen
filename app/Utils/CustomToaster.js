@@ -2,7 +2,7 @@ import { Platform, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React from 'react'
 import Toast from 'react-native-toast-message'
 
-const CustomToaster = (Message, descriptionMessage, type = "success") => {
+const CustomToaster = (Message="No Message", descriptionMessage, type = "success") => {
     if (Platform.OS === 'ios') {
         console.log("CustomToaster platform ios", Message)
         //props type of react-native-toast-message > success,info,error

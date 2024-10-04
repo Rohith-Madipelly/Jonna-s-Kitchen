@@ -14,13 +14,13 @@ const ProgramsTest = ({ data, }) => {
         <View style={{ borderRadius: 20, overflow: 'hidden', marginTop: 20, }}>
             <View style={styles.container}>
                 <View style={[styles.overlayContainer, styles.pinkBackground]}>
-                    <View style={[styles.topCenterImage]}>
+                    {/* <View style={[styles.topCenterImage]}>
                         <Image
                             style={{ width: '80%', height: '20%' }}
                             source={require("../../../../../assets/Images/Ellipse 1.png")}
                         // resizeMode="co"
                         />
-                    </View>
+                    </View> */}
                     <View style={styles.bottomLeftImage}>
                         <Image
                             style={styles.image2}
@@ -148,11 +148,12 @@ const styles = StyleSheet.create({
     },
     topCenterImage: {
         alignItems: 'center',
+        marginTop:-10
     },
     image: {
         width: '80%',
         height: 200,
-        borderRadius: 100,
+        // borderRadius: 100,
         marginVertical: 5
 
     },

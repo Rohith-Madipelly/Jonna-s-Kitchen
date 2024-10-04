@@ -89,7 +89,7 @@ const dispatch=useDispatch()
                     console.log("error.response.status login", error.response.data.message)
                 }
                 else if (error.response.status === 404) {
-                    console.log("error.response.status login", error.response.data.message)
+                    console.log("error.response.status login 404", error.response.data.message)
                 }
                 else if (error.response.status === 500) {
                     console.log("Internal Server Error", error.message)

@@ -4,10 +4,13 @@ import { useSelector } from 'react-redux';
 import { GetAllProgramsAPI, getSingleProgramAPI } from '../../Utils/ApiCalls';
 import CustomButton1 from '../../Components/UI/Buttons/CustomButton1';
 import { useNavigation } from '@react-navigation/native';
+import LoadingImage from '../../Components/UI/ImageConatiners/LoadingImage';
 // import CustomButton1 from '../Components/UI/Buttons/CustomButton1'
 // import BackTable2 from './BackTable2'
 
 const ProgramDeatils = ({ programId, data }) => {
+
+    console.log("Sd",data)
     const navigation = useNavigation();
 
     const [show, setShow] = useState()
@@ -32,7 +35,7 @@ const ProgramDeatils = ({ programId, data }) => {
 
 
     //             setTimeout(() => {
-                 
+
     //             }, 200);
 
     //         }
@@ -132,16 +135,26 @@ const ProgramDeatils = ({ programId, data }) => {
                 <View style={{ flex: 1 }}>
 
                     <View style={[styles.topCenterImage]}>
-                        <Image
+                        {/* <Image
                             style={styles.image}
                             source={require("../../assets/Images/Home/BannerBack01.png")}
                         // resizeMode="contain"
-                        />
+                        /> */}
                         {/* <Image
                             style={styles.image}
                             source={{ uri: data.programImage }}
                             resizeMode="contain"
                         /> */}
+
+
+                        <LoadingImage
+                            source={{ uri: data.programImage }}
+                            // source={{ uri: 'https://images.unsplash.com/photo-1542378151504-0361b8ec8f93?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+                            style={styles.image}
+
+                            // loaderColor="#ff0000"
+                            // resizeMode="contain"
+                        />
 
                     </View>
                     <Text style={{ textAlign: 'center', color: '#000000', fontFamily: 'BalooTamma2-Bold', fontWeight: 400, fontSize: 20 }}>{data.programName}</Text>
@@ -192,7 +205,7 @@ const ProgramDeatils = ({ programId, data }) => {
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <CustomButton1
                             boxWidth={'75%'}
-                            onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,processingFeeData:`${data.processingFee}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}
+                            onPress={() => { navigation.navigate("ProgramsForm", { programId: `${data.id}`, processingFeeData: `${data.processingFee}`, programPriceData: `${data.programPrice}`, programNameData: `${data.programName}`, processingFeeData: 40 }) }}
                             // onPress={handleSubmit}
                             textStyling={{ marginBottom: -5 }}
                             stylebtn={{ paddingVertical: 10 }}

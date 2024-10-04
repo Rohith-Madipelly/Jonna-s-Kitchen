@@ -381,3 +381,40 @@ export const GET_USER_BY_EMAIL_API = async (token) => {
     },
   });
 }
+
+
+
+
+
+//  Notifications List 
+export const GET_ALL_NOTIFICATIONS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getAllNotifications`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+//  Delete Notification
+export const DELETE_NOTIFICATION_BY_ID_API = async (notificationId,token) => {
+  console.log('sdcds',token)
+  return await axios.delete(`${GUEST_URL}/api/deleteNotification/${notificationId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
+
+
+
+//  RequestToContact 
+export const REQUEST_TO_CONTACT_API = async (values,token) => {
+
+  return await axios.post(`${GUEST_URL}/api/requestToContact`,values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}

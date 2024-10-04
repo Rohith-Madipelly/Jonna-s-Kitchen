@@ -1,5 +1,5 @@
 import { Alert, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, VirtualizedList } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome } from "@expo/vector-icons";
@@ -17,19 +17,33 @@ import CustomToolKitHeader2 from '../../../../Components/UI/CustomToolKitHeader2
 import { CustomAlerts_Continue } from '../../../../Utils/CustomReuseAlerts.js';
 import { openEmail } from '../../../../Utils/Linkings/OpenEmail.js';
 import { ContactUsEmail } from '../../../../Enviornment.js';
+import { REQUEST_TO_CONTACT_API } from '../../../../Utils/ApiCalls.js';
+import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError.js';
 
 
 
 const UserRegister = () => {
     const [errorFormAPI, seterrorFormAPI] = useState("")
-    const [show, setShow] = useState()
     const [spinnerBool, setSpinnerbool] = useState(false)
-    const navigation = useNavigation();
-    let userName = useSelector((state) => state.SetUserName.userName);
-
-    let userEmail = useSelector((state) => state.SetUserEmailReducer.userEmail);
-
+    const navigation = useNavigation()
     const dispatch = useDispatch();
+
+    const [notificationsList, setNotificationsList] = useState()
+    const [noData, setNodata] = useState()
+
+
+    let tokenn = useSelector((state) => state.login.token)
+
+
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getAllNotifications()
+
+    }, []);
+
 
     const { handleChange,
         handleBlur,
@@ -53,31 +67,79 @@ const UserRegister = () => {
         },
     });
 
-    const submitHandler = async (values) => {
-        CustomAlerts_Continue(
-            `You're leaving our app`,
-            `This action is attempting to open an external app. Would you like to continue ?`,
-            // `Applying for ${data.jobTitle}`,
-            // data.jobTitle,
-            () => {
-                openEmail(ContactUsEmail, `Customer support request for ${values.issue}`,
-                    `
-Customer Name : ${userName}
-Customer Email : ${userEmail}
+    //     const submitHandler = async (values) => {
+    // //         CustomAlerts_Continue(
+    // //             `You're leaving our app`,
+    // //             `This action is attempting to open an external app. Would you like to continue ?`,
+    // //             // `Applying for ${data.jobTitle}`,
+    // //             // data.jobTitle,
+    // //             () => {
+    // //                 openEmail(ContactUsEmail, `Customer support request for ${values.issue}`,
+    // //                     `
+    // // Customer Name : ${userName}
+    // // Customer Email : ${userEmail}
 
-Customer Description :${values.description}`
-                )
-                //   console.log("OK pressed for", data.jobTitle);
+    // // Customer Description :${values.description}`
+    // //                 )
+    // //             }
+    // //         )
+    //     }
+
+    const submitHandler = async (values) => {
+        setSpinnerbool(true)
+        try {
+            const res = await REQUEST_TO_CONTACT_API(values, tokenn)
+            if (res) {
+                console.log(res.data)
+                CustomToaster("Contact us request successfull sended" )
             }
-        )
+
+        } catch (error) {
+            console.log("Error ..", error)
+            if (error.response) {
+                if (error.response.status === 400) {
+                    console.log("Error With 400.", error.response.data)
+                }
+                else if (error.response.status === 401) {
+                    console.log("Error With 401.", error.response.data)
+                    ServerTokenError_Logout(undefined, undefined, dispatch)
+                }
+                else if (error.response.status === 403) {
+                    console.log("error.response.status login", error.response.data.message)
+                }
+                else if (error.response.status === 404) {
+                    console.log("error.response.status login", error.response)
+                }
+                else if (error.response.status >= 500) {
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                }
+                else {
+                    console.log("An error occurred response.>>", error)
+                }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.")
+                if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
+
+        } finally {
+            setSpinnerbool(false)
+        }
+
+
     }
 
-    // const submitHandler = async (values) => {
-    //   console.log("Nagive")
-    //   setTimeout(() => {
-    //     navigation.navigate("OtpScreen", { email: values.userEmail })
-    //   }, 500);
-    // }
+
+
 
 
     return (<>

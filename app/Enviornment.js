@@ -18,7 +18,7 @@ export const ContactUsEmail='madipellirohith.123@gmail.com'
 
 
 
-// Satya Local Server
+// // Satya Local Server
 export const GUEST_URL = "http://192.168.29.138:8080" 
 export const BASE_URL = "http://192.168.29.138:8080"
 

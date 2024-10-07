@@ -74,7 +74,7 @@ const UserRegister = () => {
 
     } catch (error) {
       if (error.response) {
-        console.log("Error in ",error.response)
+        console.log("Error in ", error.response)
         if (error.response.status === 400) {
           CustomToaster(error.response.data.userEmail)
           seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
@@ -191,7 +191,11 @@ const UserRegister = () => {
                           name='userName'
                           value={values.userName}
                           containerStyle={{ elevation: 10 }}
-                          onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
+                          onChangeText={(e) => {
+                            const trimmedText = e.trimStart(); // Remove leading spaces
+                            handleChange("userName")(trimmedText);
+                            seterrorFormAPI();
+                          }}
                           onBlur={handleBlur("userName")}
                           validate={handleBlur("userName")}
                           outlined
@@ -210,12 +214,13 @@ const UserRegister = () => {
                           name='userPhoneNumber'
                           value={values.userPhoneNumber}
                           onChangeText={(e) => {
-                            // Remove any non-numeric characters
                             const numericValue = e.replace(/[^0-9]/g, '');
+                            const limitedValue = numericValue.slice(0, 10);
                             // Update the state with the numeric value
-                            handleChange("userPhoneNumber")(numericValue);
+                            handleChange("userPhoneNumber")(limitedValue);
                             seterrorFormAPI();
                           }}
+
                           containerStyle={{ elevation: 10 }}
                           onBlur={handleBlur("userPhoneNumber")}
                           validate={handleBlur("userPhoneNumber")}

@@ -24,24 +24,6 @@ const Home = ({ navigation }) => {
   const [loadingComponent, setLoadingComponent] = useState(true)
   const [Data, setData] = useState("")
 
-  const DATA12 = [
-    {
-      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
-      onPress: () => { console.log("sd") }
-    },
-    {
-      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
-      onPress: () => { console.log("sd") }
-    },
-    {
-      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
-      onPress: () => { console.log("sd") }
-    },
-    {
-      "image": require('../../../assets/Images/Home/HomeBanner1.png'),
-      onPress: () => { console.log("sd") }
-    },
-  ];
 
   const HomeBanners = async () => {
     try {

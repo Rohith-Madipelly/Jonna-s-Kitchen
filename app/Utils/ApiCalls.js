@@ -290,8 +290,8 @@ export const Send_Call_Request_API = async (empId, token) => {
 }
 
 
-export const PREVIOUS_CHAT_API = async (param1, param2, token) => {
-  return await axios.get(`${GUEST_URL}/api/message/getChatByUserAndEmployee/${param1}/${param2}`, {
+export const PREVIOUS_CHAT_API = async (param1, param2,messageCount ,token) => {
+  return await axios.get(`${GUEST_URL}/api/message/getChatByUserAndEmployee/${param1}/${param2}/${messageCount}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     },

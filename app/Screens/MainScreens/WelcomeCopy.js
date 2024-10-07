@@ -47,7 +47,7 @@ const WelcomeCopy = () => {
 
     const [expanded, setExpanded] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
-
+    let userName = useSelector((state) => state.SetUserName.userName);
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -208,6 +208,32 @@ const WelcomeCopy = () => {
                             />
                           }
                     >
+                         <View style={[{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 15, marginTop:15}, styles.containerCard]}>
+                <View style={{ flex: 0.5 }}>
+                  <Text style={{ color: '#0A3118', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 16 }}>Hello</Text>
+                  <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 20 }} numberOfLines={1}>{userName}</Text>
+                </View>
+
+                <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: 'row' }}>
+                  <TouchableOpacity onPress={() => { navigation.navigate('Notification') }} style={{}}>
+                    <Image style={{ width: 24, height: 24, }}
+                      source={require('../../assets/Images/Home/Ball.png')}
+                      resizeMode={"contain"} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => { onShare(APP_LINK) }} style={{ marginLeft: 20 }}>
+                    <Image style={{ width: 24, height: 24, }}
+                      source={require('../../assets/Images/Home/Share.png')}
+                      resizeMode={"contain"} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+
+
+
+
+              
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                             <KeyboardAvoidingView
                                 behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -217,7 +243,7 @@ const WelcomeCopy = () => {
                             >
                                 <View style={{ flex: 1 }}>
                                     <View style={{ marginTop: 10, flex: 0.9 }}>
-                                        <View style={{ marginHorizontal: 20, }}>
+                                        <View style={{ marginHorizontal: 20 }}>
                                             <Text style={{
                                                 fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,
                                                 color: '#FE7B07',
@@ -319,6 +345,7 @@ const WelcomeCopy = () => {
                                                     onPress={() => {
                                                         // console.log("sdn")
                                                         handleButtonClick(index)
+                                                        scrollToBottom(scrollViewRef);
 
                                                     }}
                                                     btnContainerprops={{ borderRadius: 10, paddingHorizontal: 20 }}
@@ -361,9 +388,7 @@ const WelcomeCopy = () => {
                                 </Animated.View>}
 
 
-                                        <View style={{ height: 250 }}>
-
-                                        </View>
+                                     
                                     </View>
                                 </View>
 
@@ -407,4 +432,45 @@ const styles = StyleSheet.create({
     TextFamilyA2: {
         fontFamily: 'BalooTamma2-Bold'
     },
+
+    container: {
+        flex: 1
+      },
+      UpperBox: {
+        flex: 0.6
+      },
+      ContentBox: {
+        flex: 0.4,
+        backgroundColor: '#F6F8FE',
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        overflow: 'hidden',
+    
+    
+    
+        paddingTop: 36,
+        paddingHorizontal: 17
+      },
+      containerCard: {
+        padding: 10,
+    
+        backgroundColor: 'white',
+        borderRadius: 20,
+        paddingHorizontal: 20,
+    
+    
+        ...Platform.select({
+          ios: {
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+          },
+          android: {
+            elevation: 3,
+          },
+        }),
+    
+    
+      },
 })

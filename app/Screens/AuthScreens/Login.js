@@ -169,6 +169,16 @@ useEffect(() => {
   });
 
 
+  const handleRedirectToOtp=()=>{
+  
+    setTimeout(() => {
+      navigation.navigate("OtpScreen", { email: values.userEmail })
+    }, 100);
+  }
+
+
+
+
 
   const submitHandler = async (values) => {
 
@@ -230,6 +240,7 @@ useEffect(() => {
       }
 
     } catch (error) {
+      // console.log(error.response.status)
       if (error.response) {
         if (error.response.status === 400) {
           console.log("Error With 400.", error.response.data)
@@ -242,7 +253,20 @@ useEffect(() => {
           console.log("error.response.status login", error.response.data.message)
         }
         else if (error.response.status === 404) {
-          seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          Alert.alert(`Incomplete Account Setup`,
+            `Please click "OK" to verify your OTP and create a password. You will be redirected to the OTP screen.`,
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () => handleRedirectToOtp(), // Call your method here
+              },
+            ],
+            { cancelable: false })
         }
         else if (error.response.status >= 500) {
           // console.log("Internal Server Error", error.message)
@@ -370,7 +394,7 @@ useEffect(() => {
                           />
 
                           <View style={{ justifyContent: 'flex-end', width: '100%', marginVertical: 16 }}>
-                            <TouchableOpacity onPress={() => { navigation.navigate("ForgetPassword") }} style={{}}>
+                            <TouchableOpacity onPress={() => { navigation.navigate("ForgetPassword");seterrorFormAPI() }} style={{}}>
                               <Text style={{ fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B', textAlign: 'right' }}>Forgot your password ? </Text>
                             </TouchableOpacity>
                           </View>
@@ -409,7 +433,7 @@ useEffect(() => {
             <View style={{ flex: 0.05, justifyContent: 'center', alignItems: 'center' }}>
               <View style={{ marginTop: 20, flex: 1, flexDirection: 'row' }}>
                 <Text style={[{ color: 'black', fontWeight: '400', fontSize: 12, }]}>Don't have an account? </Text>
-                <TouchableOpacity onPress={() => { navigation.navigate("UserRegister") }} style={{}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("UserRegister");seterrorFormAPI() }} style={{}}>
                   <Text style={[styles.paragraphy, { fontFamily: 'BalooTamma2-Bold', fontSize: 12, color: '#31A84B' }]}> Create an account</Text></TouchableOpacity>
               </View>
             </View>

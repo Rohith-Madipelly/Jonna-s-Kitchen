@@ -186,15 +186,25 @@ const Notification = () => {
             onRefresh={onRefresh}
           />
         }
+
+
+        ListEmptyComponent={
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: Metrics.rfv(700), }}>
+            <Text
+              style={{
+                fontFamily: 'BalooTamma2',
+                fontWeight: '500',
+                fontSize: 20,
+                color: '#00000080',
+                textAlign: 'center',
+                marginVertical: 20,
+              }}
+            >
+              No notification 
+            </Text>
+          </View>
+        }
       />
-      {/* } */}
-      {/* <FlatList
- data={} */}
-      {noData && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 20, color: '#00000080', textAlign: "center" }}>No Notification found</Text>
-
-      </View>}
-
 
     </View>
   )

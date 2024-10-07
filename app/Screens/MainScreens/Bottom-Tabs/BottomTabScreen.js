@@ -140,7 +140,7 @@ const BottomTabScreen = ({ route }) => {
       })}>
 
 
-      <Tab.Screen name="Home" component={Home} options={{
+      <Tab.Screen name="Home" component={WelcomeCopy} options={{
         headerShown: false, // Show the header
         // headerShown: false, // Show the header
         headerBackVisible: true, // Hide the back button

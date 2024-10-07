@@ -24,7 +24,7 @@ import { BASE_URL } from '../../../Enviornment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
 import Loader1 from '../../../Utils/Loader1';
-import { GET_CHAT_USER_API, GET_USER_DEATILS_API, PREVIOUS_CHAT_API, Send_Call_Request_API } from '../../../Utils/ApiCalls';
+import { GET_CHAT_USER_API, PREVIOUS_CHAT_API, Send_Call_Request_API } from '../../../Utils/ApiCalls';
 import UploadModel from '../../../ModelsAlerts/UploadModel';
 import LoadingImage from '../../../Components/UI/ImageConatiners/LoadingImage';
 import ImagePreviewerModel from '../../../Components/UI/ImagePreviewer';
@@ -85,7 +85,7 @@ const Chat = () => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-
+        getPreviousChat()
 
         setTimeout(() => {
             setRefreshing(false);
@@ -98,17 +98,17 @@ const Chat = () => {
     const MakeACallRequest = async () => {
         // Alert.alert("Rise a call request",`Do you want to send a call request ${UserData.employeeName}`)
         CustomAlerts_Continue("Rise a call request", `Do you want to send a call request to ${UserData.employeeName}`, () => { sendCallRequest(); console.log("sjh") })
-        
+
     }
 
 
     const sendCallRequest = async () => {
+        console.log("UserData.employeeId >",UserData.employeeId)
         try {
             const res = await Send_Call_Request_API(`${UserData.employeeId}`, tokenn)
-            if(res.data)
-            {
+            if (res.data) {
                 console.log("res", res)
-                Alert.alert("Dishciu","cs")
+                Alert.alert("Dishciu", "cs")
             }
 
         } catch (error) {
@@ -225,21 +225,24 @@ const Chat = () => {
     const getPreviousChat = async () => {
         setSpinnerbool(true)
         try {
-            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, tokenn)
+            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, messageCount = 1, tokenn)
             setPreviousChatData(res.data)
-            // defaultMessager("Start your chatting now ")
-            // defaultMessager("Welcome Dear ")
-            setTimeout(() => {
-                return new Promise((resolve) => {
-                    // setMessages(newMessages);
-                    setMessages((prevMessages) => [...previousChatData, ...prevMessages]);
-                    resolve(); // Resolve once messages are set
-                    console.log("hgc")
-                    setSpinnerbool(false)
-                    // scrollToEnd();
+            console.log(previousChatData)
+            setMessages((prevMessages) => [ ...res.data]);
 
-                });
-            }, 2000)
+            // defaultMessager("Start your chatting now ")
+            // defaultMessager("Welcome Dear ")r
+            // setTimeout(() => {
+            //     return new Promise((resolve) => {
+            //         // setMessages(newMessages);
+            //         setMessages((prevMessages) => [ ...prevMessages]);
+            //         resolve(); // Resolve once messages are set
+            //         console.log("hgc")
+            //         setSpinnerbool(false)
+            //         // scrollToEnd();
+
+            //     });
+            // }, 2000)
 
         } catch (error) {
             console.log("Error ..", error)
@@ -288,6 +291,9 @@ const Chat = () => {
 
     useEffect(() => {
         getUserDeatils()
+        setTimeout(() => {
+            getPreviousChat()
+        }, 200);
     }, [])
     // // For previous code end
 
@@ -323,6 +329,8 @@ const Chat = () => {
                 sendartype: 'user',
                 messageType: 'file',
                 weight: weight,
+                employeeEmail: `${UserData.employeeEmail}`,
+                userEmail: `${UserData.userEmail}`,
                 // fileimg:
 
             };
@@ -425,7 +433,9 @@ const Chat = () => {
                 exicutiveOrSalesId: `${UserData.employeeId}`,
                 message: newMessage,
                 sendartype: 'user',
-                messageType: 'pic'
+                messageType: 'pic',
+                employeeEmail: `${UserData.employeeEmail}`,
+                userEmail: `${UserData.userEmail}`,
             };
 
             stompClient.publish({
@@ -448,7 +458,6 @@ const Chat = () => {
     const defaultMessager = (messageDe = "Hello heyyy", sendartype = "user",) => {
 
 
-        console.log("sbjhbdc", messageDe)
         let msgData = {
             userName: `${UserData.userName}`,
             exicutiveOrSalesName: `${UserData.employeeName}`,
@@ -456,6 +465,8 @@ const Chat = () => {
             exicutiveOrSalesId: `${UserData.employeeId}`,
             message: messageDe,
             sendartype: 'user',
+            employeeEmail: `${UserData.employeeEmail}`,
+            userEmail: `${UserData.userEmail}`,
             // "date": "Tue Sep 17 19:38:56 IST 2024"
         }
         let converMes = JSON.stringify(msgData);
@@ -506,7 +517,7 @@ const Chat = () => {
                     }, { alignItems: isUserMessage ? 'flex-end' : 'flex-start' }]}>
 
                         {item.weight ? <Text style={{ justifyContent: 'flex-start', width: '100%' }}>{item.weight}</Text> : ""}
-                        <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('hh:mm A')}</Text>
+                        <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('DD MMM YYYY hh:mm A')}</Text>
                     </View>
                     {!isUserMessage && item.seen && <Text style={styles.seenText}>Seen</Text>}
                 </View>
@@ -530,7 +541,7 @@ const Chat = () => {
                     // alignItems: 'flex-end',
                 }, { alignItems: isUserMessage ? 'flex-end' : 'flex-start' }]}>
 
-                    <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('hh:mm A')}</Text>
+                    <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('DD MMM YYYY hh:mm A')}</Text>
                 </View>
                 {!isUserMessage && item.seen && <Text style={styles.seenText}>Seen</Text>}
             </View>
@@ -557,30 +568,38 @@ const Chat = () => {
                 style={styles.container}
             >
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <LoadingImage
-                            // source={item.recipieImage}
-                            source={require('../../../assets/Images/NoFiles.png')}
-                            style={{
-                                width: '80%', // Take up the full width of the parent
-                                height: '80%',
-                                borderRadius: 15,
+                    <LoadingImage
+                        // source={item.recipieImage}
+                        source={require('../../../assets/Images/ChatSupport2.png')}
+                        style={{
+                            width: '80%', // Take up the full width of the parent
+                            height: '80%',
+                            borderRadius: 15,
 
-                                resizeMode: 'contain', // Maintain aspect ratio without stretching
-                                //   resizeMode: 'cover', // Maintain aspect ratio without stretching
-                            }}
-                        />
-                     
-                        <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 18,marginTop:-70 }}>
-                            No user as assiged to chat
-                        </Text>
-                   
-                 
+                            resizeMode: 'contain', // Maintain aspect ratio without stretching
+                            //   resizeMode: 'cover', // Maintain aspect ratio without stretching
+                        }}
+                    />
+
+                    <Text style={{ color: '#FE7B07', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 18, marginTop: -70 }}>
+                        No user as assiged to chat
+                    </Text>
+
+                    <TouchableOpacity onPress={()=>{console.log("ds")}}>
+                        <Text>Reload</Text>
+                    </TouchableOpacity>
+
+
 
 
                 </View>
             </ImageBackground>
         )
     }
+
+
+
+
 
     return (
         <>

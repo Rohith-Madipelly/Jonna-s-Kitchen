@@ -30,6 +30,7 @@ import LoadingImage from '../../../Components/UI/ImageConatiners/LoadingImage';
 import ImagePreviewerModel from '../../../Components/UI/ImagePreviewer';
 import Wapper from '../../../Components/UI/Wapper';
 import { CustomAlerts_Continue } from '../../../Utils/CustomReuseAlerts';
+import CustomToaster from '../../../Utils/CustomToaster';
 
 const Chat = () => {
     const [stompClient, setStompClient] = useState(null);
@@ -40,8 +41,6 @@ const Chat = () => {
     const isReconnecting = useRef(false);
     const flatListRef = useRef();
     const [refreshing, setRefreshing] = useState(false);
-
-
     const webSocketUrl = `${BASE_URL}/jonnas-chat`;
 
 
@@ -60,6 +59,7 @@ const Chat = () => {
     const [spinnerBool, setSpinnerbool] = useState(false)
     let tokenn = useSelector((state) => state.login.token)
     const [previousChatData, setPreviousChatData] = useState([])
+    const [chatPage, setChatPage] = useState(1)
     const dispatch = useDispatch()
 
     const [UserData, setUserData] = useState()
@@ -83,9 +83,15 @@ const Chat = () => {
 
 
 
+    useEffect(() => {
+        getUserDeatils()
+    }, [])
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getPreviousChat()
+        // getPreviousChat()
+        getUserDeatils()
+
 
         setTimeout(() => {
             setRefreshing(false);
@@ -95,87 +101,25 @@ const Chat = () => {
 
 
 
-    const MakeACallRequest = async () => {
-        // Alert.alert("Rise a call request",`Do you want to send a call request ${UserData.employeeName}`)
-        CustomAlerts_Continue("Rise a call request", `Do you want to send a call request to ${UserData.employeeName}`, () => { sendCallRequest(); console.log("sjh") })
-
-    }
 
 
-    const sendCallRequest = async () => {
-        console.log("UserData.employeeId >",UserData.employeeId)
-        try {
-            const res = await Send_Call_Request_API(`${UserData.employeeId}`, tokenn)
-            if (res.data) {
-                console.log("res", res)
-                Alert.alert("Dishciu", "cs")
-            }
 
-        } catch (error) {
-            console.log("Error ..", error)
-            if (error.response) {
-                if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                }
-                else if (error.response.status === 401) {
-                    console.log("Error With 401.", error.response.data)
-                }
-                else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
-                }
-                else if (error.response.status === 404) {
-                    console.log("error.response.status login", error.response)
 
-                    // ServerTokenError_Logout(undefined, undefined, dispatch)
-                }
-                else if (error.response.status >= 500) {
-                    // console.log("Internal Server Error", error.message)
-                    ServerError(undefined, `${error.message}`)
-                }
-                else {
-                    console.log("An error occurred response.>>", error)
-                }
-            }
-            else if (error.code === 'ECONNABORTED') {
-                console.log('Request timed out. Please try again later.');
-            }
-            else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
-                }
-            }
-            else {
-                console.log("Error in Setting up the Request.", error)
-            }
 
-        } finally {
-            setSpinnerbool(false)
-        }
-    }
 
     const getUserDeatils = async () => {
-        setSpinnerbool(true)
+        // setSpinnerbool(true)
         try {
-            // const res = await GET_USER_DEATILS_API(tokenn)
             const res = await GET_CHAT_USER_API(tokenn)
             console.log("dsw", res.data)
-            setUserData(res.data)
-            // setTimeout(() => {
-            //     return new Promise((resolve) => {
-            //         // setMessages(newMessages);
-            //         setMessages((prevMessages) => [...previousChatData, ...prevMessages]);
-            //         resolve(); // Resolve once messages are set
-            //         setSpinnerbool(false)
-            //         scrollToEnd();
-
-            //     });
-            // }, 2000)
-
-
-            // setTimeout(()=>{
-            //     getPreviousChat()
-            // },2000)
+            if (res.data) {
+                setUserData(res.data)
+                setTimeout(() => {
+                    getPreviousChat(res.data,false)
+                }, 500);
+            }
+      
+ 
 
         } catch (error) {
             console.log("Error ..", error)
@@ -222,33 +166,25 @@ const Chat = () => {
     }
 
 
-    const getPreviousChat = async () => {
+    const getPreviousChat = async (UserData,chatPage,errorin404) => {
         setSpinnerbool(true)
+        console.log("UserData.userId, UserData.employeeId, page = 1, tokenn", UserData.userId, UserData.employeeId, page = chatPage, tokenn)
         try {
-            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, messageCount = 1, tokenn)
-            setPreviousChatData(res.data)
-            console.log(previousChatData)
-            setMessages((prevMessages) => [ ...res.data]);
-
-            // defaultMessager("Start your chatting now ")
-            // defaultMessager("Welcome Dear ")r
-            // setTimeout(() => {
-            //     return new Promise((resolve) => {
-            //         // setMessages(newMessages);
-            //         setMessages((prevMessages) => [ ...prevMessages]);
-            //         resolve(); // Resolve once messages are set
-            //         console.log("hgc")
-            //         setSpinnerbool(false)
-            //         // scrollToEnd();
-
-            //     });
-            // }, 2000)
-
+            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, chatPage?chatPage:1, tokenn)
+            if (res.data) {
+                setTimeout(() => {
+                    setMessages((prevMessages) => [...res.data]);
+                }, 1000);
+            }
         } catch (error) {
             console.log("Error ..", error)
             if (error.response) {
                 if (error.response.status === 400) {
                     console.log("Error With 400.", error.response.data)
+                    if(errorin404){
+                        
+                    Alert.alert(error.response.data.message)
+                    }
                 }
                 else if (error.response.status === 401) {
                     console.log("Error With 401.", error.response.data)
@@ -261,7 +197,94 @@ const Chat = () => {
                     console.log("error.response.status login", error.response)
                 }
                 else if (error.response.status >= 500) {
-                    console.log("sdcjgj")
+                    // console.log("Internal Server Error", error.message)
+                    ServerError(undefined, `${error.message}`)
+                }
+                else {
+                    console.log("An error occurred response.>>", error)
+                }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.")
+                if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
+
+        } finally {
+            setSpinnerbool(false)
+
+            setTimeout(() => {
+                setRefreshing(false);
+            }, 1000)
+
+
+        }
+    }
+
+
+
+    // // For previous code end
+
+
+    // useEffect(() => {
+    //     // scrollToEnd();
+
+    //     if (messages.length > 0) {
+    //         scrollToEnd();
+    //     }
+    // }, [messages])
+
+
+    // useEffect(() => {
+    //     if (listRef.current) {
+    //       listRef.current.measureAllRows(() => {
+    //         console.log('All items have been rendered');
+    //       });
+    //     }
+    //   }, [data]);
+
+
+
+    const MakeACallRequest = async () => {
+        CustomAlerts_Continue("Rise a call request", `Do you want to send a call request to ${UserData.employeeName}`, () => { sendCallRequest(); console.log("sjh") })
+
+    }
+
+
+    const sendCallRequest = async () => {
+        console.log("UserData.employeeId >", UserData.employeeId)
+        try {
+            const res = await Send_Call_Request_API(`${UserData.employeeId}`, tokenn)
+            if (res.data) {
+                console.log("res", res)
+                CustomToaster(res.data)
+            }
+// 
+        } catch (error) {
+            console.log("Error ..", error)
+            if (error.response) {
+                if (error.response.status === 400) {
+                    console.log("Error With 400.", error.response.data)
+                }
+                else if (error.response.status === 401) {
+                    console.log("Error With 401.", error.response.data)
+                }
+                else if (error.response.status === 403) {
+                    console.log("error.response.status login", error.response.data.message)
+                }
+                else if (error.response.status === 404) {
+                    console.log("error.response.status login", error.response)
+
+                    // ServerTokenError_Logout(undefined, undefined, dispatch)
+                }
+                else if (error.response.status >= 500) {
                     // console.log("Internal Server Error", error.message)
                     ServerError(undefined, `${error.message}`)
                 }
@@ -285,36 +308,7 @@ const Chat = () => {
         } finally {
             setSpinnerbool(false)
         }
-
     }
-
-
-    useEffect(() => {
-        getUserDeatils()
-        setTimeout(() => {
-            getPreviousChat()
-        }, 200);
-    }, [])
-    // // For previous code end
-
-
-    // useEffect(() => {
-    //     // scrollToEnd();
-
-    //     if (messages.length > 0) {
-    //         scrollToEnd();
-    //     }
-    // }, [messages])
-
-
-    // useEffect(() => {
-    //     if (listRef.current) {
-    //       listRef.current.measureAllRows(() => {
-    //         console.log('All items have been rendered');
-    //       });
-    //     }
-    //   }, [data]);
-
 
     const sendFile = async (newMessageData, weight) => {
         console.log("cs", newMessageData)
@@ -585,7 +579,7 @@ const Chat = () => {
                         No user as assiged to chat
                     </Text>
 
-                    <TouchableOpacity onPress={()=>{console.log("ds")}}>
+                    <TouchableOpacity onPress={() => { console.log("ds") }}>
                         <Text>Reload</Text>
                     </TouchableOpacity>
 
@@ -599,6 +593,14 @@ const Chat = () => {
 
 
 
+    const getPreviousChatbyPage=async(UserData)=>{
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",chatPage)
+
+        setChatPage((pre)=>pre+1)
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",chatPage)
+        // setMessages((prevMessages) => [converMes, ...prevMessages]);
+        await getPreviousChat(UserData,chatPage,true)
+    }
 
 
     return (
@@ -634,7 +636,8 @@ const Chat = () => {
                                 />
                             </View>
                             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', opacity: 1 }} onPress={() => {
-                                getPreviousChat()
+                                // getPreviousChat(UserData)
+                                getPreviousChatbyPage(UserData)
                                 console.log("get chat old");
 
                             }}>

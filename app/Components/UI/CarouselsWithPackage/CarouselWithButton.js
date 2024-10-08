@@ -49,7 +49,7 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                             }}
                         >
                       
-                            <TouchableOpacity style={[{ width: '95%',alignItems: 'center', justifyContent: 'center' }]} onPress={() => { console.log("Hello",) }}>
+                            <View style={[{ width: '95%',alignItems: 'center', justifyContent: 'center' }]} onPress={() => { console.log("Hello",) }}>
                                 <Image
                                     source={{uri:item.testimonialImg}}
                                     style={{
@@ -58,7 +58,7 @@ const CarouselWithButton = ({ DATA, autoPlay, scrollAnimationDuration }) => {
                                         resizeMode: 'contain', // Maintain aspect ratio without stretching
                                     }}
                                 />
-                            </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 )}

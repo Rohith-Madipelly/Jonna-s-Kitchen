@@ -93,9 +93,8 @@ const RecipeList = ({ navigation }) => {
             setDinnerRecipeData(res.data.catogeryRecipie.dinnerRecipe)
 
             setTimeout(() => {
-                // setData(['Item 1', 'Item 2', 'Item 3']);
                 setIsLoading(false);
-            }, 5000);
+            }, 1000);
         } catch (error) {
             console.log(error)
             console.log("dme")

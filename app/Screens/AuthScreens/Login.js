@@ -379,7 +379,7 @@ useEffect(() => {
                             }}
                             onBlur={handleBlur("password")}
                             rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
-                              {!show?.password ? (
+                              {show?.password ? (
                                 <Entypo name="eye-with-line" size={20} color="black" />) : (
                                 <Entypo name="eye" size={20} color="black" />)
                               }

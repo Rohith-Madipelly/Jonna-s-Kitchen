@@ -4,7 +4,16 @@ import * as Yup from "yup";
 const RegisterYupSchema = Yup.object().shape({
 
 
-  userName: Yup.string().required("User name is a required field "),
+  userName:Yup.string()
+  .required("Full name is a required field")
+  .matches(/^[a-zA-Z\s]+$/, 'Full name can only contain letters and spaces, no special characters.')
+  .min(3, 'Full name must be at least 3 characters long')
+  .max(50, 'Full name cannot be longer than 50 characters')
+  .test(
+    "no-trailing-spaces",
+    "Full name cannot start or end with a space",
+    (value) => value && value.trim() === value
+  ),
 
   phoneNumber: Yup.string()
     .trim()
@@ -22,49 +31,51 @@ const RegisterYupSchema = Yup.object().shape({
 
 
 
-
-
-  // email: Yup.string().email("Email must be a valid email").test(
-  //   "is-valid",
-  //   "Email must be a valid email",
-  //   (value) =>
-  //     Yup.string()
-  //       .email()
-  //       .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/)
-  //       .isValidSync(value) || /^\d{10}$/.test(value)
-  // ).required("Email is a required Field "),
-
-
-  email: Yup
-  .string()
-  .matches(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email")
+    email: Yup.string()
+  .matches(
+    /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    "Please enter a valid email address"
+  )
   .test(
-    "single-tld",
-    "Email address is required and cannot be empty. Please provide a valid email address",
+    "valid-domain",
+    "Please enter a valid email address",
     (value) => {
-      return !/\.[a-zA-Z]{2,}\./.test(value);
+      const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+      // const domainCheck = /^[^\s@]+\.[a-zA-Z]{2,3}$/;
+      return domainCheck.test(value?.split('@')[1] || '');
     }
   )
-  .required("Email is Required"),
+  .test(
+    "single-tld",
+    "Please provide a valid email address",
+    (value) => {
+      // Prevent double dots in TLD (like .com.com) but allow subdomains.
+      return !/\.[a-zA-Z]{2,}\./.test(value?.split('@')[1] || '');
+    }
+  )
+  .required("Email is required"),
 
-  gender: Yup.string().required("Gender is a required Field "),
 
-  userAge: Yup.string().required("Age is a required Field "),
+  gender: Yup.string().required("Gender is a required field "),
+
+  userAge: Yup.string()
+  .required("Age is a required field")
+  .matches(/^[1-4][0-9]$/, "Age must be less than 50"),
 
 
   heightUnits:Yup.string(),
   userHeight: Yup.number()
     .typeError('Height must be a number')  // Ensures it's a number
-    .min(50, 'Height must be at least 50 cm')
-    .max(300, 'Height must be less than 300 cm')
+    // .min(50, 'Height must be at least 50 cm')
+    // .max(300, 'Height must be less than 300 cm')
     .required('Height is required'),
 
 
   weightUnits: Yup.string(),
   currentWeight: Yup.number()
     .typeError('Weight must be a number')  // Ensures it's a valid number
-    .min(30, 'Weight must be at least 30 kg')
-    .max(300, 'Weight must be less than 300 kg')
+    // .min(30, 'Weight must be at least 30 kg')
+    // .max(300, 'Weight must be less than 300 kg')
     .required('Weight is required'),
 
   maritalStatus: Yup.string().required("Marital status is a required Field "),

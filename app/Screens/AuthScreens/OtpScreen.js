@@ -270,7 +270,7 @@ const OtpScreen = ({ route }) => {
                                         <View style={{ width: '70%' }}>
                                             <Text style={{ color: '#898989', textAlign: 'center', fontFamily: 'BalooTamma2-Bold', fontWeight: '500', fontSize: 14 }}>
                                                 We have sent a verification code to your <Text style={{ color: '#5655B9' }}>
-                                                    (Email ID: {userEmail} )</Text>
+                                                    (email address: {userEmail} )</Text>
                                             </Text>
                                         </View>
 

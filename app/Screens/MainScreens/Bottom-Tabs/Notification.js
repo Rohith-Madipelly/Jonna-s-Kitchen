@@ -145,7 +145,7 @@ const Notification = () => {
       <Loader1
         visible={spinnerBool}
       />
-      <View style={{ flexDirection: 'row', }}>
+      <View style={{ flexDirection: 'row',marginBottom:10 }}>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <TouchableOpacity onPress={() => { navigation.goBack() }}>
             <Image style={{ width: 27, height: 27, transform: [{ rotate: '180deg' }], }} source={require("../../../assets/Images/Arrow.png")} />
@@ -164,7 +164,7 @@ const Notification = () => {
           console.log("Sd")
 
           return (
-            <View style={{ height: Metrics.rfv(60), backgroundColor: 'white', marginVertical: 5, borderRadius: 10, padding: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
+            <View style={{ height: Metrics.rfv(60), backgroundColor: 'white', marginVertical: 5, borderRadius: 10, padding: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
               <View style={{}}>
                 <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 16, color: '#00000080', }}>{item.title}</Text>
                 <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 12, color: '#00000080', }}>{item.body}</Text>

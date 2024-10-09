@@ -208,7 +208,7 @@ const CreatePassword = ({ route }) => {
                         <CustomTextInput
                           boxWidth={'100%'}
                           placeholder={'Password'}
-                          label={'Type your new password'}
+                          label={'Type kl your new password'}
                           labelStyle={{ fontWeight: '700', marginTop: 20, color: '#002E59' }}
                           name='userPassword'
                           value={values.password}
@@ -222,7 +222,7 @@ const CreatePassword = ({ route }) => {
                           // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("password")(eToLowerCaseText); seterrorFormAPI(); }}
                           onBlur={handleBlur("password")}
                           rightIcon={<Pressable onPress={() => setShow({ ...setShow, password: !show?.password })}>
-                            {!show?.password ? (
+                            {show?.password ? (
                               <Entypo name="eye-with-line" size={20} color="black" />) : (
                               <Entypo name="eye" size={20} color="black" />)
                             }
@@ -256,7 +256,7 @@ const CreatePassword = ({ route }) => {
                           // onChangeText={(e) => { const eToLowerCaseText = e.toLowerCase(); handleChange("confirmPassword")(eToLowerCaseText); seterrorFormAPI(); }}
                           onBlur={handleBlur("confirmPassword")}
                           rightIcon={<Pressable onPress={() => setShow({ ...setShow, confirmPassword: !show?.confirmPassword })}>
-                            {!show?.confirmPassword ? (
+                            {show?.confirmPassword ? (
                               <Entypo name="eye-with-line" size={20} color="black" />) : (
                               <Entypo name="eye" size={20} color="black" />)
                             }

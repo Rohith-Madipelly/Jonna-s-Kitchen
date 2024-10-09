@@ -390,16 +390,17 @@ const ProgramForm = ({ route }) => {
                                         name='phoneNumber'
                                         value={values.phoneNumber}
                                         onChangeText={(e) => {
-                                            // Remove any non-numeric characters
+
                                             const numericValue = e.replace(/[^0-9]/g, '');
+                                            const limitedValue = numericValue.slice(0, 10);
                                             // Update the state with the numeric value
-                                            handleChange("phoneNumber")(numericValue);
+                                            handleChange("phoneNumber")(limitedValue);
                                             seterrorFormAPI();
                                         }}
                                         Note={'Please mention your whatsapp number'}
                                         onBlur={handleBlur("phoneNumber")}
                                         validate={handleBlur("phoneNumber")}
-
+                                        maxLength={10}
                                         keyboardType="numeric"
                                         outlined
                                         labelStyle={{ marginBottom: -2 }}
@@ -459,6 +460,7 @@ const ProgramForm = ({ route }) => {
                                                     handleChange("userAge")(numericValue);
                                                     seterrorFormAPI();
                                                 }}
+                                                maxLength={2}
                                                 onBlur={handleBlur("userAge")}
                                                 validate={handleBlur("userAge")}
                                                 keyboardType="numeric"
@@ -997,45 +999,45 @@ const ProgramForm = ({ route }) => {
 
 
 
-                                            <CustomDatePickerbyslots
-                                            label={'Slot date'}
-                                            labelStyle={{ marginBottom: -3,marginTop:-3 }}
-                                                boxWidth={'95%'}
-                                                handleChange={(e) => {
-                                                    getTimeSlotsBydate(e)
-                                                    handleChange("slotDate")(e);
-                                                }}
-                                                // borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
-                                                // errorMessavailableSlots={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
-                                                borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
-                                                errorMessage={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
-                                            />
+                                    <CustomDatePickerbyslots
+                                        label={'Slot date'}
+                                        labelStyle={{ marginBottom: -3, marginTop: -3 }}
+                                        boxWidth={'95%'}
+                                        handleChange={(e) => {
+                                            getTimeSlotsBydate(e)
+                                            handleChange("slotDate")(e);
+                                        }}
+                                        // borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
+                                        // errorMessavailableSlots={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
+                                        borderColor={`${(errors.slotDate && touched.slotDate) || (errorFormAPI && errorFormAPI.slotDateForm) ? "red" : "#ccc"}`}
+                                        errorMessage={`${(errors.slotDate && touched.slotDate) ? `${errors.slotDate}` : (errorFormAPI && errorFormAPI.slotDateForm) ? `${errorFormAPI.slotDateForm}` : ``}`}
+                                    />
 
 
 
 
-                                
 
 
-                                            <CustomDropdownError
-                                                boxWidth={'95%'}
-                                                label={"Available Slots"}
-                                                // placeholder={'Select'}
-                                                labelStyle={{ marginBottom: -3,marginTop:-3 }}
-                                                name='slotTime'
-                                                DropDownData={timeSlotArray}
-                                                // DropDownData={genderData}
-                                                DropDownHeigth={50}
-                                                value={values.slotTime}
-                                                onChange={(e) => {
-                                                    handleChange("slotTime")(e);
-                                                    seterrorFormAPI();
-                                                }}
-                                                outlined
-                                                borderColor={`${(errors.slotTime && touched.slotTime) || (errorFormAPI && errorFormAPI.availableSlotsForm) ? "red" : "#ccc"}`}
-                                                errorMessage={`${(errors.slotTime && touched.slotTime) ? `${errors.slotTime}` : (errorFormAPI && errorFormAPI.availableSlotsForm) ? `${errorFormAPI.availableSlotsForm}` : ``}`}
-                                            // errorColor='magenta'
-                                            />
+
+                                    <CustomDropdownError
+                                        boxWidth={'95%'}
+                                        label={"Available Slots"}
+                                        // placeholder={'Select'}
+                                        labelStyle={{ marginBottom: -3, marginTop: -3 }}
+                                        name='slotTime'
+                                        DropDownData={timeSlotArray}
+                                        // DropDownData={genderData}
+                                        DropDownHeigth={50}
+                                        value={values.slotTime}
+                                        onChange={(e) => {
+                                            handleChange("slotTime")(e);
+                                            seterrorFormAPI();
+                                        }}
+                                        outlined
+                                        borderColor={`${(errors.slotTime && touched.slotTime) || (errorFormAPI && errorFormAPI.availableSlotsForm) ? "red" : "#ccc"}`}
+                                        errorMessage={`${(errors.slotTime && touched.slotTime) ? `${errors.slotTime}` : (errorFormAPI && errorFormAPI.availableSlotsForm) ? `${errorFormAPI.availableSlotsForm}` : ``}`}
+                                    // errorColor='magenta'
+                                    />
 
 
 

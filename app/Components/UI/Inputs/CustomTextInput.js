@@ -50,7 +50,7 @@ const CustomTextInput = ({
                     autoComplete={autoComplete}
                     keyboardType={keyboardType}
                     autoCapitalize={autoCapitalize}
-
+                    maxLength={maxLength}
                     onChangeText={onChangeText}
 
                     onBlur={onBlur}

@@ -2,27 +2,28 @@ import * as Yup from "yup";
 
 
 const LoginYupSchema = Yup.object().shape({
-  // userEmail: Yup.string().email("Email must be a valid email").test(
-  //   "is-valid",
-  //   "Email must be a valid email",
-  //   (value) =>
-  //     Yup.string()
-  //       .email()
-  //       .matches(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/)
-  //       .isValidSync(value) || /^\d{10}$/.test(value)
-  // ).required("Email is a Required Field "),
-
-  userEmail: Yup
-      .string()
-      .matches(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email")
-      .test(
-        "single-tld",
-        "Email address is required and cannot be empty. Please provide a valid email address",
-        (value) => {
-          return !/\.[a-zA-Z]{2,}\./.test(value);
-        }
-      )
-      .required("Email is Required"),
+  userEmail: Yup.string()
+  .matches(
+    /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    "Please enter a valid email address"
+  )
+  .test(
+    "valid-domain",
+    "Please enter a valid email address",
+    (value) => {
+      const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return domainCheck.test(value?.split('@')[1] || '');
+    }
+  )
+  .test(
+    "single-tld",
+    "Please provide a valid email address",
+    (value) => {
+      // Prevent double dots in TLD (like .com.com) but allow subdomains.
+      return !/\.[a-zA-Z]{2,}\./.test(value?.split('@')[1] || '');
+    }
+  )
+  .required("Email is required"),
 
   fcmToken: Yup.string(),
   password: Yup.string()

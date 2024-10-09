@@ -119,6 +119,19 @@ export const GET_SLOTS_BY_DATE_API = async (date, token) => {
 }
 
 
+
+// MY DIET PLAN
+export const MY_DIET_PLAN_API = async (token) => {
+
+  return await axios.get(`${GUEST_URL}/api/getProgramByUser`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
+
+
+
 //  Get All Programs
 
 export const GetAllProgramsAPI = async (token) => {

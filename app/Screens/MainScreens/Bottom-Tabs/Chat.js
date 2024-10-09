@@ -59,7 +59,7 @@ const Chat = () => {
     const [spinnerBool, setSpinnerbool] = useState(false)
     let tokenn = useSelector((state) => state.login.token)
     const [previousChatData, setPreviousChatData] = useState([])
-    const [chatPage, setChatPage] = useState(1)
+    const [chatPage, setChatPage] = useState(0)
     const dispatch = useDispatch()
 
     const [UserData, setUserData] = useState()
@@ -167,10 +167,10 @@ const Chat = () => {
 
 
     const getPreviousChat = async (UserData,chatPage,errorin404) => {
-        setSpinnerbool(true)
+        // setSpinnerbool(true)
         console.log("UserData.userId, UserData.employeeId, page = 1, tokenn", UserData.userId, UserData.employeeId, page = chatPage, tokenn)
         try {
-            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, chatPage?chatPage:1, tokenn)
+            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, chatPage?chatPage:0, tokenn)
             if (res.data) {
                 setTimeout(() => {
                     setMessages((prevMessages) => [...res.data]);

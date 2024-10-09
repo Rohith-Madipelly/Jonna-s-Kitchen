@@ -18,13 +18,13 @@ const CustomToaster = (Message="No Message", descriptionMessage, type = "success
         },);
     }
     else if (Platform.OS === 'android') {
-        ToastAndroid.show(Message, ToastAndroid.SHORT)
+        // ToastAndroid.show(Message, ToastAndroid.SHORT)
 
-        // Toast.show({
-        //     type: type,
-        //     text1: Message,
-        //     text2: descriptionMessage,
-        // },);
+        Toast.show({
+            type: type,
+            text1: Message,
+            text2: descriptionMessage,
+        },);
     }
     else {
         console.log("CustomToaster platform other", Message)

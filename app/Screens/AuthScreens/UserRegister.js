@@ -77,6 +77,7 @@ const UserRegister = () => {
         console.log("Error in ", error.response)
         if (error.response.status === 400) {
           CustomToaster(error.response.data.userEmail)
+          console.log(error.response.data)
           seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
         }
         else if (error.response.status === 401) {
@@ -185,8 +186,8 @@ const UserRegister = () => {
 
                         <CustomTextInput
                           boxWidth={'100%'}
-                          placeholder={'Enter user name'}
-                          label={'Enter user name'}
+                          placeholder={'Enter full name'}
+                          label={'Enter full name'}
                           labelStyle={{ fontWeight: '700', marginBottom: 3 }}
                           name='userName'
                           value={values.userName}
@@ -213,6 +214,7 @@ const UserRegister = () => {
                           label={'Enter phone number'}
                           name='userPhoneNumber'
                           value={values.userPhoneNumber}
+                          maxLength={10}
                           onChangeText={(e) => {
                             const numericValue = e.replace(/[^0-9]/g, '');
                             const limitedValue = numericValue.slice(0, 10);
@@ -233,8 +235,8 @@ const UserRegister = () => {
 
                         <CustomTextInput
                           boxWidth={'100%'}
-                          placeholder={'Enter email id'}
-                          label={'Enter your email id'}
+                          placeholder={'Enter your email address'}
+                          label={'Enter your email address'}
                           labelStyle={{ fontWeight: '700', marginBottom: 3 }}
                           name='userEmail'
                           value={values.userEmail}

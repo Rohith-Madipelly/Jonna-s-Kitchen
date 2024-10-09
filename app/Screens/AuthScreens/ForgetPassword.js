@@ -14,9 +14,9 @@ import { UserForgotPassword } from '../../Utils/ApiCalls.js'
 import { StatusBar } from 'expo-status-bar';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
-import { UserRegisterYupSchema } from '../../FormikYupSchema/UserRegisterYupSchema.js';
 import CustomToolKitHeader2 from '../../Components/UI/CustomToolKitHeader2.js';
 import { ServerError } from '../../Utils/ServerError.js';
+import { ForgetPasswordYupSchema } from '../../FormikYupSchema/ForgetPasswordYupSchema.js';
 
 
 const ForgetPassword = ({ route }) => {
@@ -48,7 +48,7 @@ const ForgetPassword = ({ route }) => {
     onSubmit: values => {
       { submitHandler(values) }
     },
-    validationSchema: UserRegisterYupSchema,
+    validationSchema: ForgetPasswordYupSchema,
     validate: values => {
       const errors = {};
       return errors;
@@ -75,7 +75,7 @@ const ForgetPassword = ({ route }) => {
         const Message = res.data.message
         // const token = res.data.jwtTocken
 
-        // CustomToaster(Message)
+        CustomToaster(Message)
 
         setTimeout(() => {
           navigation.navigate("OtpScreenForgot", { email: values.userEmail })
@@ -186,8 +186,8 @@ const ForgetPassword = ({ route }) => {
 
                         <CustomTextInput
                           boxWidth={'100%'}
-                          placeholder={'Enter email id'}
-                          label={'Type your email id'}
+                          placeholder={'Enter email address'}
+                          label={'Type your email address'}
                           labelStyle={{ fontWeight: '700', marginBottom: 10 }}
                           name='userEmail'
                           value={values.userEmail}

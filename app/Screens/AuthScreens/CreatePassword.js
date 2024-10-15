@@ -208,7 +208,7 @@ const CreatePassword = ({ route }) => {
                         <CustomTextInput
                           boxWidth={'100%'}
                           placeholder={'Password'}
-                          label={'Type kl your new password'}
+                          label={'Type your new password'}
                           labelStyle={{ fontWeight: '700', marginTop: 20, color: '#002E59' }}
                           name='userPassword'
                           value={values.password}

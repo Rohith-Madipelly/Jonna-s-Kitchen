@@ -2,19 +2,19 @@ export const APP_NAME = "Jonna's_Kitchen"
 
 
 
-// export const GUEST_URL = "https://apiv2.jonnaskitchen.com"
-// export const BASE_URL = "https://apiv2.jonnaskitchen.com"
+export const GUEST_URL = "https://apiv2.jonnaskitchen.com"
+export const BASE_URL = "http://apiv2.jonnaskitchen.com"
 
 
 export const RAZORPAY_KEY='rzp_test_8QXQb8PwGSqwjE'
 
 
-export const ContactUsEmail='madipellirohith.123@gmail.com'
+export const ContactUsEmailbv='madipellirohith.123@gmail.com'
 
 
-// AWS Server
-export const GUEST_URL = "http://13.201.233.238:8080" 
-export const BASE_URL = "http://13.201.233.238:8080"
+// // AWS Server
+// export const GUEST_URL = "http://13.201.233.238:8080" 
+// export const BASE_URL = "http://13.201.233.238:8080"
 
 
 

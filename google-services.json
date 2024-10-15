@@ -7,9 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1020974236877:android:bac46a4fdc2f4c2d391584",
+        "mobilesdk_app_id": "1:1020974236877:android:041f83b23276da4e391584",
         "android_client_info": {
-          "package_name": "com.analogueitsolutions.Jonnas_Kitchen"
+          "package_name": "com.aits.jonnas_employee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz38qt16Wut7-3UPPPQ9v65pobnO-JL3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020974236877:android:5fda3c7989edd525391584",
+        "android_client_info": {
+          "package_name": "com.aits.jonnas_kitchen"
         }
       },
       "oauth_client": [],

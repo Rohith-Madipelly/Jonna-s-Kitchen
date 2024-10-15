@@ -42,6 +42,7 @@ const Chat = () => {
     const flatListRef = useRef();
     const [refreshing, setRefreshing] = useState(false);
     const webSocketUrl = `${BASE_URL}/jonnas-chat`;
+    // const webSocketUrl = `http://13.201.233.238:8080/jonnas-chat`;
 
 
 
@@ -89,8 +90,7 @@ const Chat = () => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        // getPreviousChat()
-        getUserDeatils()
+        // getUserDeatils()
 
 
         setTimeout(() => {
@@ -114,24 +114,28 @@ const Chat = () => {
             console.log("dsw", res.data)
             if (res.data) {
                 setUserData(res.data)
-                setTimeout(() => {
-                    getPreviousChat(res.data,false)
-                }, 500);
+
+                if(UserData.employeeEmail){
+                    setTimeout(() => {
+                        getPreviousChat(res.data, false)
+                    }, 500);
+                }
+                
             }
-      
- 
+
+
 
         } catch (error) {
-            console.log("Error ..", error)
+            console.log("Error .. getUserDeatils", error)
             if (error.response) {
                 if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
+                    console.log("Error With 400. ", error.response.data)
                 }
                 else if (error.response.status === 401) {
                     console.log("Error With 401.", error.response.data)
                 }
                 else if (error.response.status === 403) {
-                    console.log("error.response.status login", error.response.data.message)
+                    console.log("error.response.status login  getUserDeatils", error.response.data.message)
                 }
                 else if (error.response.status === 404) {
                     console.log("error.response.status login", error.response)
@@ -166,12 +170,13 @@ const Chat = () => {
     }
 
 
-    const getPreviousChat = async (UserData,chatPage,errorin404) => {
+    const getPreviousChat = async (UserData, chatPage, errorin404) => {
         // setSpinnerbool(true)
         console.log("UserData.userId, UserData.employeeId, page = 1, tokenn", UserData.userId, UserData.employeeId, page = chatPage, tokenn)
         try {
-            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, chatPage?chatPage:0, tokenn)
+            const res = await PREVIOUS_CHAT_API(UserData.userId, UserData.employeeId, chatPage ? chatPage : 0, tokenn)
             if (res.data) {
+                console.log(">>>>>>>>>>>>>>>>>>>??????????????????????????????", res.data)
                 setTimeout(() => {
                     setMessages((prevMessages) => [...res.data]);
                 }, 1000);
@@ -181,9 +186,9 @@ const Chat = () => {
             if (error.response) {
                 if (error.response.status === 400) {
                     console.log("Error With 400.", error.response.data)
-                    if(errorin404){
-                        
-                    Alert.alert(error.response.data.message)
+                    if (errorin404) {
+
+                        Alert.alert(error.response.data.message)
                     }
                 }
                 else if (error.response.status === 401) {
@@ -266,7 +271,7 @@ const Chat = () => {
                 console.log("res", res)
                 CustomToaster(res.data)
             }
-// 
+            // 
         } catch (error) {
             console.log("Error ..", error)
             if (error.response) {
@@ -342,7 +347,7 @@ const Chat = () => {
     }
 
     useEffect(() => {
-        if (UserData) {
+        if (UserData && UserData.employeeEmail) {
             console.log()
             connect();
 
@@ -387,6 +392,7 @@ const Chat = () => {
                 handleReconnect();
             },
             onStompError: (frame) => {
+                console.log("cf>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 console.error('Broker error:', frame.headers['message']);
                 console.error('Error details:', frame.body);
             },
@@ -554,7 +560,7 @@ const Chat = () => {
     console.log(UserData)
 
 
-    if (!UserData.employeeEmail) {
+    if (UserData && !UserData.employeeEmail) {
         console.log(UserData.employeeEmail)
         return (
             <ImageBackground
@@ -579,7 +585,7 @@ const Chat = () => {
                         No user as assiged to chat
                     </Text>
 
-                    <TouchableOpacity onPress={() => { console.log("ds") }}>
+                    <TouchableOpacity onPress={() => { getUserDeatils() }}>
                         <Text>Reload</Text>
                     </TouchableOpacity>
 
@@ -593,13 +599,21 @@ const Chat = () => {
 
 
 
-    const getPreviousChatbyPage=async(UserData)=>{
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",chatPage)
+    const getPreviousChatbyPage = async (UserData) => {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", chatPage)
+        if (chatPage) {
 
-        setChatPage((pre)=>pre+1)
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",chatPage)
+        } else {
+
+            setChatPage((pre) => pre + 1)
+        }
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", chatPage)
+
+        if(UserData && UserData.employeeEmail){
+            await getPreviousChat(UserData, chatPage, true)
+        }
         // setMessages((prevMessages) => [converMes, ...prevMessages]);
-        await getPreviousChat(UserData,chatPage,true)
+       
     }
 
 
@@ -644,6 +658,7 @@ const Chat = () => {
                                 <Text numberOfLines={1}
                                     style={{ backgroundColor: "#FF6500", paddingVertical: 5, paddingHorizontal: 7, borderRadius: 10, color: 'white', fontSize: 10 }}
                                 >Get previous chat</Text>
+
                             </TouchableOpacity>
                             <ImagePreviewerModel
                                 visible={PreViewerModel}

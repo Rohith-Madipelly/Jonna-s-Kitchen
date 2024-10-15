@@ -159,6 +159,7 @@ export const DateHelper = {
     const oneDay = 1000 * 60 * 60 * 24; // Milliseconds in one dayrc
     const diffTime = (futureDate - today) / oneDay; // Time difference in days
     return Math.ceil(diffTime); // Round up to the nearest day
+    // return diffTime // Round up to the nearest day
   },
 
   getDaysBtwDates(dateStart, dateEnd) {

@@ -4,7 +4,9 @@ import LoadingImage from '../../../../../Components/UI/ImageConatiners/LoadingIm
 import CustomButton1 from '../../../../../Components/UI/Buttons/CustomButton1'
 import { useNavigation } from '@react-navigation/native'
 
-const ProgramsTest = ({ data, }) => {
+const ProgramsTest = ({ data,RegisterBtn=true }) => {
+
+
 
 
     const [arrayLength, setArrayLength] = useState(data.programDetails.length)
@@ -83,7 +85,7 @@ const ProgramsTest = ({ data, }) => {
                         </View>
                     </View>
 
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  {RegisterBtn? <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <CustomButton1
                             boxWidth={'75%'}
                             onPress={() => { navigation.navigate("ProgramsForm",{programId:`${data.id}`,processingFeeData:`${data.processingFee}`,   programPriceData:`${data.programPrice}`,  programNameData:`${data.programName}`, processingFeeData:40}) }}
@@ -99,7 +101,7 @@ const ProgramsTest = ({ data, }) => {
                         >Register Now</CustomButton1>
 
 
-                    </View>
+                    </View>:""}
 
                     <View style={{ height: 20 }}>
 

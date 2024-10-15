@@ -13,6 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "plugins": [
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf",
       [
         "expo-image-picker",
         {
@@ -29,7 +31,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.analogueitsolutions.Jonnas_Kitchen"
+      "package": "com.aits.jonnas_kitchen"
     },
     "web": {
       "favicon": "./assets/favicon.png"

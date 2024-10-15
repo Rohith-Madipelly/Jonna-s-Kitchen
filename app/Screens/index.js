@@ -38,6 +38,8 @@ import { SetUserPhoneNumber } from '../redux/actions/SetUserPhoneNumber.jsx';
 import { SetUserEmail } from '../redux/actions/SetUserEmail.jsx';
 import OfflineScreen from './ShareScreens/OfflineScreen.js';
 import NetInfo from '@react-native-community/netinfo'; 
+import PdfReader from './MainScreens/PdfReader.js';
+import { StatusBar } from 'expo-status-bar';
 
 // import BottomTabScreen from './MainScreens/Bottom-Tabs/BottomTabScreen.js';
 const Screen = () => {
@@ -220,8 +222,13 @@ if (!isConnected) {
 
   return (
     <SafeAreaView style={GlobalStyles.androidSafeArea}>
+
       {/* <NavigationContainer> */}
       <ErrorBoundary FallbackComponent={CustomFallbackUI}>
+
+
+
+      <StatusBar style="dark"/>
 
 
         <Stack.Navigator
@@ -244,6 +251,7 @@ if (!isConnected) {
               <Stack.Screen name="ProgramsForm" component={ProgramForm} />  */}
               <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
               <Stack.Screen name="Notification" component={Notification} />
+              <Stack.Screen name="PdfReader" component={PdfReader} />
               <Stack.Screen name="ProgramsForm" component={ProgramForm} />
             </>) : (<>
               <Stack.Screen name="Login" component={Login} />

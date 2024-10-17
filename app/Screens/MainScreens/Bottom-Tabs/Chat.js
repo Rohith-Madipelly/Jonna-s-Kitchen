@@ -19,7 +19,7 @@ import moment from 'moment';
 
 import CustomToolKitHeader from '../../../Components/UI/CustomToolKitHeader';
 import CustomTextInput from '../../../Components/UI/Inputs/CustomTextInput';
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { BASE_URL } from '../../../Enviornment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ServerError, ServerTokenError_Logout } from '../../../Utils/ServerError';
@@ -31,6 +31,8 @@ import ImagePreviewerModel from '../../../Components/UI/ImagePreviewer';
 import Wapper from '../../../Components/UI/Wapper';
 import { CustomAlerts_Continue } from '../../../Utils/CustomReuseAlerts';
 import CustomToaster from '../../../Utils/CustomToaster';
+import { useNavigation } from '@react-navigation/native';
+import Metrics from '../../../Utils/ResposivesUtils/Metrics';
 
 const Chat = () => {
     const [stompClient, setStompClient] = useState(null);
@@ -43,7 +45,7 @@ const Chat = () => {
     const [refreshing, setRefreshing] = useState(false);
     const webSocketUrl = `${BASE_URL}/jonnas-chat`;
     // const webSocketUrl = `http://13.201.233.238:8080/jonnas-chat`;
-
+const navigation=useNavigation()
 
 
     const [alertVisible, setAlertVisible] = useState(false);
@@ -486,7 +488,7 @@ const Chat = () => {
     const messageDisplayer = ({ item }) => {
 
 
-        if (item.messageType == 'file') {
+        if (item.messageType == 'file' && item.mimeType != "DOC") {
             const isUserMessage = item.sendartype === 'user';
 
             return (
@@ -519,6 +521,51 @@ const Chat = () => {
 
                         {item.weight ? <Text style={{ justifyContent: 'flex-start', width: '100%' }}>{item.weight}</Text> : ""}
                         <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('DD MMM YYYY hh:mm A')}</Text>
+                    </View>
+                    {!isUserMessage && item.seen && <Text style={styles.seenText}>Seen</Text>}
+                </View>
+            );
+        }
+
+
+        if (item.mimeType === "DOC") {
+            const isUserMessage = item.sendartype === 'user';
+            return (
+                <View
+                    style={[
+                        styles.messageContainer,
+                        isUserMessage ? styles.sender : styles.receiver,
+                        { alignSelf: isUserMessage ? 'flex-end' : 'flex-start', marginHorizontal: 10 },
+                    ]}
+                >
+                    {/* <Text style={styles.messageText}>{item.message}</Text> */}
+
+
+                    {/* <Image source={require('../../../assets/Images/Food/Food1.png')} style={{width:200,height:200}}/> */}
+                    {/* <Image source={{ uri: item.message }} style={{ width: 200, height: 200 }} /> */}
+                    <TouchableOpacity onPress={() => {
+                        // showAlertPreViewerModel(`${item.message}`)
+                        // console.log(`${item.message}`)
+                        navigation.navigate('PdfReader', { pdfURL: `${item.message}` })
+
+                    }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
+                            <View style={{ marginRight: Metrics.rfv(20) }}>
+                                <FontAwesome5 name="file-pdf" size={30} color="red" />
+                            </View>
+                            <View>
+                                <Text>Sharing Pdf</Text>
+                            </View>
+
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[{
+                        flexDirection: 'column',
+                        // alignItems: 'flex-end',
+                    }, { alignItems: isUserMessage ? 'flex-end' : 'flex-start' }]}>
+
+                        {item.weight ? <Text style={{ justifyContent: 'flex-start', width: '100%' }}>{item.weight}</Text> : ""}
+                        <Text style={[styles.timestampText,]}>{moment(item.timestamp).format('hh:mm A')}</Text>
                     </View>
                     {!isUserMessage && item.seen && <Text style={styles.seenText}>Seen</Text>}
                 </View>

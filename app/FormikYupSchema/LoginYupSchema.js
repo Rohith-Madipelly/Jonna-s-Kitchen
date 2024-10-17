@@ -25,7 +25,7 @@ const LoginYupSchema = Yup.object().shape({
   )
   .required("Email is required"),
 
-  fcmToken: Yup.string(),
+  fcmToken: Yup.string().nullable(),
   password: Yup.string()
     .min(8, "Password length is short")
     .max(225, "Password length is too Long")

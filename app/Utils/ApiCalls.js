@@ -16,6 +16,7 @@ export const Bank_Details_on_IFSC = async (IFSC_CODE) => {
 
 // Login API
 export const UserLoginApi = async (loginFormReq) => {
+  console.log("loh",loginFormReq)
   return await axios.post(`${GUEST_URL}/api/login`, loginFormReq,)
 }
 

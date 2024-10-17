@@ -90,9 +90,11 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+      // alert('Failed to get push token for push notification!');
       return;
     }
+
+
     // Learn more about projectId:
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
     // EAS projectId is used here.
@@ -127,12 +129,18 @@ async function registerForPushNotificationsAsync() {
 }
 
 
-useEffect(() => {
+useEffect(() =>{
+
   registerForPushNotificationsAsync()
     .then(token => {
       console.log(token)
       token && setExpoPushToken(token)
-      setFieldValue('fcmToken',token)
+      if(token){
+
+        setFieldValue('fcmToken', token)
+      }else{
+        setFieldValue('fcmToken', null)
+      }
       // console.log(">>>",expoPushToken)
     })
     .catch((err) => { console.log(err) })

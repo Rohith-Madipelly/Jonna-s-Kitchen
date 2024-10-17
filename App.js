@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Notifications from 'expo-notifications';
-import Data from './Data';
+
 const Stack = createNativeStackNavigator();
 function App() {
 

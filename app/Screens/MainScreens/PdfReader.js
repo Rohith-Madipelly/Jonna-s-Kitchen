@@ -1,16 +1,24 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React, { useRef } from 'react'
+import { Dimensions, StyleSheet, View } from 'react-native';
+import React, { useRef, useState } from 'react';
 import Pdf from 'react-native-pdf';
-// import { cache } from 'npm'
+import CustomToaster from '../../Utils/CustomToaster';
 
-const PdfReader = ({PdfURL}) => {
-  const PdfResource={uri:'https://pdfobject.com/pdf/sample.pdf',cache:true}
+const PdfReader = ({ route }) => {
+  const { params } = route;
+  const initialPdfURL = params?.pdfURL || 'https://gbihr.org/images/docs/test.pdf';
+  
+  // State to manage the current PDF URL
+  const [pdfURL, setPdfURL] = useState(initialPdfURL);
   const pdfRef = useRef();
+
+  // Resource object for the PDF
+  const PdfResource = { uri: pdfURL, cache: true };
+
   return (
     <View style={styles.container}>
       <Pdf
         trustAllCerts={false}
-        ref={pdfRef} 
+        ref={pdfRef}
         source={PdfResource}
         onLoadComplete={(numberOfPages, filePath) => {
           console.log(`Number of pages: ${numberOfPages}`);
@@ -19,7 +27,10 @@ const PdfReader = ({PdfURL}) => {
           console.log(`Current page: ${page}`);
         }}
         onError={(error) => {
-          console.log(error);
+          console.log(error)
+          CustomToaster(error.message)
+          // On error, set a new PDF URL to open a different PDF
+          // setPdfURL('https://gbihr.org/images/docs/test.pdf'); // Replace with your fallback PDF URL
         }}
         onPressLink={(uri) => {
           console.log(`Link pressed: ${uri}`);
@@ -27,18 +38,18 @@ const PdfReader = ({PdfURL}) => {
         style={styles.pdf}
       />
     </View>
-  )
-}
+  );
+};
 
-export default PdfReader
+export default PdfReader;
 
 const styles = StyleSheet.create({
-  container:{
-    flex:0.8
+  container: {
+    flex: 0.95,
   },
-  pdf:{
-    flex:1,
-    width:Dimensions.get('window').width,
-    height:Dimensions.get('window').height,
-  }
-})
+  pdf: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+});

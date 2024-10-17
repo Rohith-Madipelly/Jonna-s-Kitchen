@@ -30,7 +30,7 @@ const OtpScreen = ({ route }) => {
     const userEmail = params?.email || 'nan';
     console.log("userEmail >", userEmail)
 
-
+    const [clearOtp, setClearOtp] = useState(false);
 
     const [errorFormAPI, seterrorFormAPI] = useState("")
     const [show, setShow] = useState()
@@ -87,10 +87,16 @@ const OtpScreen = ({ route }) => {
                 CustomToaster(Message)
                 setTimeout(() => {
                     navigation.navigate("CreatePassword", { email: userEmail })
+                    setClearOtp(true);
+                    // Reset clearOtp after clearing
+                    setTimeout(() => setClearOtp(false), 100); 
                 }, 500);
             }
 
         } catch (error) {
+            setClearOtp(true);
+            // Reset clearOtp after clearing
+            setTimeout(() => setClearOtp(false), 100);
             console.log("error>", error)
             if (error.response) {
                 if (error.response.status === 400) {
@@ -159,17 +165,23 @@ const OtpScreen = ({ route }) => {
             setSpinnerbool(true)
             const res = await UserRegisterOTPApi(userEmail)
             if (res) {
-                console.log(res.data)
+                console.log(">>>>>>".res.data)
                 const Message = res.data.message
                 // // const token = res.data.jwtTocken
                 console.log(Message)
                 CustomToaster(Message)
                 setTimeout(() => {
                     navigation.navigate("OtpScreen", { email: values.userEmail })
+                    setClearOtp(true);
+                    // Reset clearOtp after clearing
+                    setTimeout(() => setClearOtp(false), 100);
                 }, 500);
             }
 
         } catch (error) {
+            setClearOtp(true);
+            // Reset clearOtp after clearing
+            setTimeout(() => setClearOtp(false), 100);
             console.log("sdbmh", error)
             if (error.response) {
                 if (error.response.status === 400) {
@@ -177,7 +189,7 @@ const OtpScreen = ({ route }) => {
                     // CustomToaster(error.response.data.message)
                 }
                 else if (error.response.status === 401) {
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
+                    // seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
                 }
                 else if (error.response.status === 403) {
                     console.log("error.response.status login", error.response.data.message)
@@ -244,6 +256,7 @@ const OtpScreen = ({ route }) => {
             }}>
 
                 <ScrollView
+                 keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>
@@ -292,7 +305,7 @@ const OtpScreen = ({ route }) => {
                                                 errorMessage={`${(errors.otp && touched.otp) ? `${errors.otp}` : (errorFormAPI && errorFormAPI.otp) ? `${errorFormAPI.otp}` : ``}`}
 
                                                 errorBoxid={errorFormAPI ? [0, 1, 2, 3,] : ""}
-                                                onClear={true}
+                                                onClear={clearOtp}
                                             />
 
                                             <TouchableOpacity style={{ alignItems: 'flex-end' }} onPress={() => { ResendOTP() }}>
@@ -313,21 +326,8 @@ const OtpScreen = ({ route }) => {
                                             style={{ marginTop: 50 }}>Verify OTP</CustomButton1>
                                     </View>
                                 </View>
-
-
-
-
-
-
-
-
-
-
                             </View>
-
                         </View>
-
-
                     </ImageBackground>
 
 

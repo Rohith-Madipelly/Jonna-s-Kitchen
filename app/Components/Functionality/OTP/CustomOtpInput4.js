@@ -26,34 +26,29 @@ const CustomOtpInput4 = ({
     }
   }, []);
 
-
-
-
   const clearValues = async () => {
-    setOtp(new Array(length).fill(""));
+    setOtp(new Array(length).fill("")); // Clear OTP fields
     setErrorInput([]); // Clear error highlighting
     setSelectedInput(0);
-    inputRefs.current[0].focus();
+    inputRefs.current[0].focus(); // Refocus on the first input
   };
 
-
   useEffect(() => {
-    if (value.length > 1) {
-      clearValues()
+    if (onClear) {
+      clearValues(); // Trigger clear when onClear is true
     }
-  }, [errorBoxid])
+  }, [onClear]);
 
   const handleChange = (index, value) => {
     if (isNaN(value)) return;
 
     const newOtp = [...otp];
-    // allow only one input
+    // Allow only one input
     newOtp[index] = value.substring(value.length - 1);
     setOtp(newOtp);
 
-    // submit trigger
+    // Submit trigger
     const combinedOtp = newOtp.join("");
-    // if (combinedOtp.length === length) 
     onOtpSubmit(combinedOtp);
 
     // Move to next input if current field is filled
@@ -66,7 +61,6 @@ const CustomOtpInput4 = ({
     setSelectedInput(index);
   };
 
-
   const handleKeyPress = (index, { key }) => {
     if (key === 'Backspace' && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
       // Move focus to the previous input field on backspace
@@ -74,27 +68,21 @@ const CustomOtpInput4 = ({
     }
   };
 
-
-
   return (
-    <View style={{}}>
-
-      <View style={{ flexDirection: 'row',justifyContent:'center' }}>
+    <View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         {otp.map((value, index) => (
           <TextInput
             key={index}
             ref={(input) => (inputRefs.current[index] = input)}
             value={value}
-            // keyboardType="numeric"
             autoComplete={autoComplete}
             secureTextEntry={secure}
             keyboardType={keyboardType}
-            // autoCapitalize={autoCapitalize}
-            // onChangeText={onChangeText}
             onBlur={onBlur}
             onChangeText={(value) => {
               handleChange(index, value);
-              onChangeText(index, value)
+              onChangeText(index, value);
             }}
             onFocus={() => handleFocus(index)}
             onKeyPress={({ nativeEvent }) => handleKeyPress(index, nativeEvent)}
@@ -111,7 +99,6 @@ const CustomOtpInput4 = ({
       <View style={{ alignItems: 'center', marginVertical: 10 }}>
         <Text style={{ color: errorColor }}>{errorMessage}</Text>
       </View>
-      {/* <Button title='Clear' onPress={()=>{clearValues()}}></Button> */}
     </View>
   );
 };
@@ -132,7 +119,6 @@ const styles = StyleSheet.create({
   },
   selectedInput: {
     borderColor: 'blue',
-    // borderColor: 'red',
   },
   ErrorInput: {
     borderColor: 'red',

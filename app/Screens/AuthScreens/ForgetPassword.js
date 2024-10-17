@@ -79,6 +79,7 @@ const ForgetPassword = ({ route }) => {
 
         setTimeout(() => {
           navigation.navigate("OtpScreenForgot", { email: values.userEmail })
+          resetForm()
         }, 500);
 
       }
@@ -158,6 +159,7 @@ const ForgetPassword = ({ route }) => {
         />
 
         <ScrollView
+         keyboardShouldPersistTaps="handled" 
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -175,13 +177,15 @@ const ForgetPassword = ({ route }) => {
                 <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                      <KeyboardAvoidingView
+                    {/* <TouchableWithoutFeedback 
+                    // onPress={Keyboard.dismiss}
+                    > */}
+                      {/* <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         // behavior={Platform.OS === "ios" ? 100:0}
                         // keyboardVerticalOffset={5000}
                         style={{ width: '100%', alignItems: 'center' }}
-                      >
+                      > */}
 
 
                         <CustomTextInput
@@ -223,10 +227,10 @@ const ForgetPassword = ({ route }) => {
                           //   name={'login'} size={18} color={'white'} />}
                           bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                           // bgColor={"rgba(220, 142, 128, 0.9)"}
-                          style={{ marginTop: 50 }}>Send</CustomButton1>
-                      </KeyboardAvoidingView>
+                          style={{ marginTop: 50 }}>Send </CustomButton1>
+                      {/* </KeyboardAvoidingView> */}
 
-                    </TouchableWithoutFeedback>
+                    {/* </TouchableWithoutFeedback> */}
 
                   </View>
                 </View>

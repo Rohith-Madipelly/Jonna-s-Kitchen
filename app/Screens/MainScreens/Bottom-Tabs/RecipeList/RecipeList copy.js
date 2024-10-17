@@ -48,7 +48,7 @@ const RecipeList = ({ navigation }) => {
                         </View>
 
 
-                        <ScrollView style={{ flex: 0.95, marginTop: 20 }}>
+                        <ScrollView   keyboardShouldPersistTaps="handled" style={{ flex: 0.95, marginTop: 20 }}>
 
 
                             <View style={{ flex: 0.2, paddingHorizontal: 22 }}>

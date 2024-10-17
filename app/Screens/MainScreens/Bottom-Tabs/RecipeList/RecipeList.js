@@ -207,6 +207,7 @@ const RecipeList = ({ navigation }) => {
                             <CustomToolKitHeader componentName={"Recipe’s"} />
                         </View>
                         <ScrollView 
+                         keyboardShouldPersistTaps="handled" 
                         style={{ flex: 0.95, marginTop: 20 }}
                         refreshControl={
                             <RefreshControl

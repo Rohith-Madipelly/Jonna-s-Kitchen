@@ -79,6 +79,7 @@ const ContactUs = () => {
                     <CustomToolKitHeader componentName={"Contact us"} />
                 </View>
                 <ScrollView
+                  keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>

@@ -1,8 +1,8 @@
-import { Alert, Button, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Button, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormik } from "formik";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,7 @@ import { Entypo } from "@expo/vector-icons";
 import { setAccountPage } from "../../redux/actions/AccountSetUpAction";
 import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
 import CustomDatePickerbyslots from "../../Components/UI/Inputs/CustomDatePickerbyslots";
+import CustomToaster from "../../Utils/CustomToaster";
 
 
 
@@ -32,6 +33,8 @@ const ProgramForm = ({ route }) => {
         currentWeightUnit: "",
     });
     const { params } = route;
+
+    console.log("params.processingFeeData",params.processingFeeData)
     const programId = params.programId || 'Error in getting programId';
     const programPricex = params.programPrice || 'Error in getting programPricex';
     const processingFeeData = params.processingFeeData || "Error in getting processingFee"
@@ -39,6 +42,10 @@ const ProgramForm = ({ route }) => {
     const [timeSlotArray, setTimeSlotArray] = useState([])
     const navigation = useNavigation();
     const [spinnerBool, setSpinnerbool] = useState(false)
+
+    let userNameRedux = useSelector((state) => state.SetUserName.userName);
+    let userPhoneNumberRedux = useSelector((state) => state.SetUserPhoneReducer.UserPhoneNumber);
+    let userEmailRedux = useSelector((state) => state.SetUserEmailReducer.userEmail);
 
     const dispatch = useDispatch()
 
@@ -55,29 +62,30 @@ const ProgramForm = ({ route }) => {
     } = useFormik({
 
         initialValues: {
-            userName: "Rohith Madipelly", phoneNumber: "9951072005", email: "madipellyrohith@gmail.com",
-            userAge: "22", gender: "",
+            userName: "", phoneNumber: "", email: "",
+            userAge: "", gender: "",
 
 
             weightUnits: "Kgs",
-            currentWeight: "86",
+            currentWeight: "",
 
             heightUnits: "Ft",
-            userHeight: "176",
+            userHeight: '',
 
             maritalStatus: "", foodType: "",
-            meal: "Chapathi",
+            meal: "",
             medicalCondition: "",
             otherMedicalCondition: "",
-            medication: "Test",
-            physicalActivity: "yes",
+            medication: "",
+            physicalActivity: "",
 
-            address: "Warangal",
-            state: "TG",
+            address: "",
+            state: "",
             programName: params.programNameData,
             programId: params.programId,
             programAmount: params.programPriceData,
-            processingFee: `${processingFeeData}`,
+            processingFee:  params.processingFeeData,
+            // processingFee: `${processingFeeData}`,
             slotDate: "",
             slotTime: "",
 
@@ -133,7 +141,19 @@ const ProgramForm = ({ route }) => {
 
 
 
-
+    useEffect(() => {
+        if (userNameRedux) {
+            const timer = setTimeout(() => {
+                setValues({
+                    ...values,
+                    userName: `${userNameRedux}`,
+                    email: `${userEmailRedux}`,
+                    phoneNumber: `${userPhoneNumberRedux}`,
+                });
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [userNameRedux]);
 
     let tokenn = useSelector((state) => state.login.token);
 
@@ -166,6 +186,7 @@ const ProgramForm = ({ route }) => {
                 else if (error.response.status === 404) {
                     console.log("error.response.status login", error.response)
                 }
+            
                 else if (error.response.status >= 500) {
                     // console.log("Internal Server Error", error.message)
                     ServerError(undefined, `${error.message}`)
@@ -274,6 +295,10 @@ const ProgramForm = ({ route }) => {
                 else if (error.response.status === 404) {
                     console.log("error.response.status login", error.response)
                 }
+                else if (error.response.status === 409) {
+                    CustomToaster(error.response.data.message,undefined,"error")
+                            
+                        }
                 else if (error.response.status >= 500) {
                     // console.log("Internal Server Error", error.message)
                     ServerError(undefined, `${error.message}`)
@@ -322,7 +347,16 @@ const ProgramForm = ({ route }) => {
 
 
 
+    const [refreshing, setRefreshing] = useState(false);
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        if (isConnected) {
+         
+
+        }
+
+    }, []);
     return (
         <>
 
@@ -343,9 +377,17 @@ const ProgramForm = ({ route }) => {
                     // backgroundColor:'pink'
                 }}>
                 <ScrollView
+                 keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
+
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                         <KeyboardAwareScrollView style={{ width: '100%', flex: 1 }}>
@@ -449,7 +491,7 @@ const ProgramForm = ({ route }) => {
                                         <View style={{ flex: 0.7, justifyContent: 'center', }}>
                                             <CustomTextInput3
                                                 boxWidth={'100%'}
-                                                placeholder={'Enter your userAge'}
+                                                placeholder={'Enter your user age'}
                                                 Note={'Max Age Limit is: 50'}
                                                 name='userAge'
                                                 value={values.userAge}
@@ -536,10 +578,10 @@ const ProgramForm = ({ route }) => {
                                         <View style={{ flex: 0.7 }}>
                                             <CustomTextInput3
                                                 boxWidth={'100%'}
-                                                placeholder={'Enter your current weight'}
+                                                placeholder={'Enter your current height'}
                                                 // label={'userHeight'}
                                                 name='userHeight'
-                                                value={`${values.userHeight}`}
+                                                value={values.userHeight}
                                                 // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                                 // bgColor='#e1f3f8'
                                                 // bgColor="#B1B1B0"
@@ -826,7 +868,7 @@ const ProgramForm = ({ route }) => {
                                         placeholder={'Others medical conditions'}
                                         label={'Others medical conditions'}
                                         name='otherMedicalCondition'
-                                        // value={values.otherMedicalCondition}
+                                        value={values.otherMedicalCondition}
                                         // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
                                         // bgColor='#e1f3f8'
                                         // bgColor="#B1B1B0"
@@ -845,7 +887,7 @@ const ProgramForm = ({ route }) => {
                                         labelStyle={{ marginBottom: -2 }}
 
                                         borderColor={`${(errors.otherMedicalCondition && touched.otherMedicalCondition) || (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? "red" : "#ccc"}`}
-
+                                        Note={'If you have no medical condition, please mention NO'}
                                         errorMessage={`${(errors.otherMedicalCondition && touched.otherMedicalCondition) ? `${errors.otherMedicalCondition}` : (errorFormAPI && errorFormAPI.othermedicalConditionsForm) ? `${errorFormAPI.othermedicalConditionsForm}` : ``}`}
                                     // errorColor='magenta'
                                     />
@@ -853,37 +895,31 @@ const ProgramForm = ({ route }) => {
                                     {/* Others Medical Conditions*/}
 
 
-
-
-                                    {/* medication */}
-                                    <CustomTextInput3
-                                        boxWidth={'95%'}
-                                        placeholder={'Medication'}
-                                        label={'Medication'}
-                                        name='medication'
-                                        value={values.medication}
-                                        // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
-                                        // bgColor='#e1f3f8'
-                                        // bgColor="#B1B1B0"
-
-                                        onChangeText={(e) => { handleChange("medication")(e); seterrorFormAPI(); }}
-                                        onBlur={handleBlur("medication")}
-
-                                        // validate={() => {
-                                        //     if (!values?.first) { setError({ ...error, first: 'Please enter your name' }) }
-                                        //     else { setError({ ...error, first: null }) }
-                                        // }}
-
-                                        validate={handleBlur("medication")}
-
-                                        outlined
-                                        labelStyle={{ marginBottom: -2 }}
-
-                                        borderColor={`${(errors.medication && touched.medication) || (errorFormAPI && errorFormAPI.medicationForm) ? "red" : "#ccc"}`}
-
-                                        errorMessage={`${(errors.medication && touched.medication) ? `${errors.medication}` : (errorFormAPI && errorFormAPI.medicationForm) ? `${errorFormAPI.medicationForm}` : ``}`}
-                                    // errorColor='magenta'
-                                    />
+                                    {(values.otherMedicalCondition && 
+   (values.otherMedicalCondition === "NO" || 
+    values.otherMedicalCondition === "No" || 
+    values.otherMedicalCondition === "no" || 
+    values.otherMedicalCondition === "nO")) 
+   ? null 
+   : (
+    <CustomTextInput3
+        boxWidth={'95%'}
+        placeholder={'Medication'}
+        label={'Medication'}
+        name='medication'
+        value={values.medication}
+        onChangeText={(e) => { 
+            handleChange("medication")(e); 
+            seterrorFormAPI(); 
+        }}
+        onBlur={handleBlur("medication")}
+        validate={handleBlur("medication")}
+        outlined
+        labelStyle={{ marginBottom: -2 }}
+        borderColor={`${(errors.medication && touched.medication) || (errorFormAPI && errorFormAPI.medicationForm) ? "red" : "#ccc"}`}
+        errorMessage={`${(errors.medication && touched.medication) ? `${errors.medication}` : (errorFormAPI && errorFormAPI.medicationForm) ? `${errorFormAPI.medicationForm}` : ``}`}
+    />
+)}
 
                                     {/* physicalActivity */}
                                     <CustomTextInput3

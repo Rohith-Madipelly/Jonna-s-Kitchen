@@ -93,10 +93,26 @@ const RegisterYupSchema = Yup.object().shape({
   medicalCondition: Yup.string().required("medicalCondition is a required Field ")
     .max(50, "Please make sure your input is between 1 and 50 characters."),
 
-  otherMedicalCondition: Yup.string().required("medicalCondition is a required Field "),
+    otherMedicalCondition: Yup.string()
+    .required("medicalCondition is a required field"),
+  
+  // medication: Yup.string().when('otherMedicalCondition', {
+  //   is: (value) => value !== "NO" && value !== "No" && value !== "no" && value !== "nO",
+  //   then: Yup.string().required("Medication is a required Field ").max(50, "Please make sure your input is between 1 and 50 characters."),
+  //   otherwise: Yup.string().nullable(),
+  // }),
 
-  medication: Yup.string().required("medication is a required Field ")
-    .max(50, "Please make sure your input is between 1 and 50 characters."),
+  medication: Yup.string()
+  .when(['otherMedicalCondition'],([otherMedicalCondition],schema)=> {
+    if (otherMedicalCondition === "medication")
+        return schema
+    .required("medication is a required Field ")
+    .max(50, "Please make sure your input is between 1 and 50 characters.")
+    return
+}),
+
+  // medication: Yup.string().required("medication is a required Field ")
+  //   .max(50, "Please make sure your input is between 1 and 50 characters."),
 
   slotDate: Yup.string().required("Slot date is a required Field "),
   physicalActivity: Yup.string().required("Physical activity is a required Field ")

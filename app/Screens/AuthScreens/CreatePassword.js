@@ -89,6 +89,7 @@ const CreatePassword = ({ route }) => {
 
         setTimeout(() => {
           navigation.navigate("SuccessScreen", { Status: Message })
+          resetForm()
         }, 500);
 
       }
@@ -170,6 +171,7 @@ const CreatePassword = ({ route }) => {
         />
 
         <ScrollView
+         keyboardShouldPersistTaps="handled" 
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -195,7 +197,9 @@ const CreatePassword = ({ route }) => {
                 <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <TouchableWithoutFeedback 
+                    // onPress={Keyboard.dismiss}
+                    >
                       <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         // behavior={Platform.OS === "ios" ? 100:0}
@@ -241,7 +245,7 @@ const CreatePassword = ({ route }) => {
 
                         <CustomTextInput
                           boxWidth={'100%'}
-                          placeholder={'confirmPassword'}
+                          placeholder={'Confirm Password'}
                           label={'Confirm password'}
                           labelStyle={{ fontWeight: '700', color: '#002E59' }}
                           name='userconfirmPassword'

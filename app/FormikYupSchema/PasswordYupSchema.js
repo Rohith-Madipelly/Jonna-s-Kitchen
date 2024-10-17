@@ -14,7 +14,7 @@ const PasswordYupSchema = Yup.object().shape({
   .required('New password is required'),
 
   confirmPassword: Yup.string()
-  .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  .oneOf([Yup.ref('password'), null], 'Confirm password is required.')
   .min(8, 'confirm password must be at least 8 characters')
   .matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])(?=.*[^\w\d\s]).+$/,

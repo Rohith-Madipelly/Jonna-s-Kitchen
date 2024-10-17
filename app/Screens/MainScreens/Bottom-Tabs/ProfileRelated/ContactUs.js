@@ -156,7 +156,7 @@ const UserRegister = () => {
                 </View>
                 <View style={{ flex: 0.92 }}>
 
-                    <ScrollView
+                    <ScrollView  keyboardShouldPersistTaps="handled" 
                         contentContainerStyle={{ flexGrow: 1 }}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}>

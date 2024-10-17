@@ -76,6 +76,7 @@ const SuccessScreen = ({ route }) => {
                 />
 
                 <ScrollView
+                 keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>

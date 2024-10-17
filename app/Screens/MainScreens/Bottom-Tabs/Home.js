@@ -104,7 +104,7 @@ const Home = ({ navigation }) => {
 
         <View style={{ flex: 1 }}>
 
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView  keyboardShouldPersistTaps="handled"  style={{ flex: 1 }}>
             <ImageBackground
               source={require('../../../assets/Images/Background2.png')} // Replace with the actual path to your image
               style={[styles.container, {

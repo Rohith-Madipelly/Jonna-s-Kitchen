@@ -99,7 +99,7 @@ const MorePage = ({ navigation }) => {
             <CustomToolKitHeader componentName={"Job Postings"} textDecorationLine={'underline'} />
           </View>
 
-          <ScrollView style={{ flex: 1, paddingHorizontal: 18, }}>
+          <ScrollView  keyboardShouldPersistTaps="handled"  style={{ flex: 1, paddingHorizontal: 18, }}>
             {/* <Image style={{ width: '100%', height: 300 }} source={require("../../../../assets/Images/NoOpenings.png")} resizeMode="contain" /> */}
 
             {jobOpeningsData.map((data, index) => (

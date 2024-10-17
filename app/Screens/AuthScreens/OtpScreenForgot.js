@@ -19,7 +19,7 @@ import CustomButton1 from '../../Components/UI/Buttons/CustomButton1.js';
 import CustomTextInput from '../../Components/UI/Inputs/CustomTextInput.js';
 import { otpValidationSchema } from '../../FormikYupSchema/OtpValidationSchema.js';
 import CustomOtpInput4 from '../../Components/Functionality/OTP/CustomOtpInput4.js';
-import { UserRegisterOTPApi, verifyOTPAPI,verifyOTPScreenForgotAPI } from '../../Utils/ApiCalls.js';
+import { UserForgotPassword, UserRegisterOTPApi, verifyOTPAPI, verifyOTPScreenForgotAPI } from '../../Utils/ApiCalls.js';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import { StatusBar } from 'expo-status-bar';
 import { ServerError } from '../../Utils/ServerError.js';
@@ -35,7 +35,7 @@ const OtpScreenForgot = ({ route }) => {
     const [show, setShow] = useState()
     const [spinnerBool, setSpinnerbool] = useState(false)
     const navigation = useNavigation();
-
+    const [clearOtp, setClearOtp] = useState(false);
     const dispatch = useDispatch();
 
     const { handleChange,
@@ -87,6 +87,10 @@ const OtpScreenForgot = ({ route }) => {
                 // CustomToaster(Message)
                 setTimeout(() => {
                     navigation.navigate("ResetPassword", { email: userEmail })
+             
+                setClearOtp(true);
+                // Reset clearOtp after clearing
+                setTimeout(() => setClearOtp(false), 100); 
                 }, 500);
             }
 
@@ -114,25 +118,25 @@ const OtpScreenForgot = ({ route }) => {
                 }
                 else if (error.response.status >= 500) {
                     ServerError(undefined, `${error.message}`)
-                  }
-                  else {
-                    console.log("An error occurred response.>>", error.message)
-                  }
-                }
-                else if (error.code === 'ECONNABORTED') {
-                  console.log('Request timed out. Please try again later.');
-                }
-                else if (error.request) {
-                  console.log("No Response Received From the Server.", error.request);
-                  if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
-                    Alert.alert("Server Unreachable", "Please try again later.");
-                  } else if (error.request.status === 0) {
-                    Alert.alert("No Network Found", "Please check your internet connection.");
-                  }
                 }
                 else {
-                  console.log("Error in Setting up the Request.", error)
+                    console.log("An error occurred response.>>", error.message)
                 }
+            }
+            else if (error.code === 'ECONNABORTED') {
+                console.log('Request timed out. Please try again later.');
+            }
+            else if (error.request) {
+                console.log("No Response Received From the Server.", error.request);
+                if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+                    Alert.alert("Server Unreachable", "Please try again later.");
+                } else if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please check your internet connection.");
+                }
+            }
+            else {
+                console.log("Error in Setting up the Request.", error)
+            }
 
             setSpinnerbool(false)
 
@@ -151,63 +155,67 @@ const OtpScreenForgot = ({ route }) => {
 
 
     const ResendOTP = async () => {
+        console.log("axhga..............................")
         seterrorFormAPI() //Clear's All API errors
+        const dataForm = {
+            userEmail: userEmail
+        }
         try {
             setSpinnerbool(true)
-            const res = await UserRegisterOTPApi(userEmail)
+            const res = await UserForgotPassword(dataForm)
             if (res) {
-                console.log(res.data)
+                console.log("hbhsa..............", res.data)
                 const Message = res.data.message
-                // // const token = res.data.jwtTocken
-                console.log(Message)
+
                 CustomToaster(Message)
-                setTimeout(() => {
-                    navigation.navigate("OtpScreen", { email: values.userEmail })
-                }, 500);
+
+
+                resetForm()
+                setClearOtp(true);
+                // Reset clearOtp after clearing
+                setTimeout(() => setClearOtp(false), 100); 
+
+
             }
 
         } catch (error) {
-            console.log("sdbmh",error)
+            console.log(error.response.status)
             if (error.response) {
                 if (error.response.status === 400) {
-                    console.log("Error With 400.", error.response.data)
-                    // CustomToaster(error.response.data.message)
+                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
                 }
                 else if (error.response.status === 401) {
-                    seterrorFormAPI({ passwordForm: `${error.response.data.message}` })
                 }
                 else if (error.response.status === 403) {
                     console.log("error.response.status login", error.response.data.message)
                 }
                 else if (error.response.status === 404) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
                 }
+
                 else if (error.response.status === 409) {
-                    seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+                    console.log("jbsfdjh", error.response)
                 }
-                else if (error.response.status === 500) {
-                    console.log("Internal Server Error", error.message)
+                else if (error.response.status >= 500) {
+                    ServerError(undefined, `${error.message}`)
                 }
                 else {
-                    console.log("An error occurred response.>>")
-                    // ErrorResPrinter(`${error.message}`)
+                    console.log("An error occurred response.>>", error.message)
                 }
             }
             else if (error.code === 'ECONNABORTED') {
                 console.log('Request timed out. Please try again later.');
             }
             else if (error.request) {
-                console.log("No Response Received From the Server.")
-                if (error.request.status === 0) {
-                    // console.log("error in request ",error.request.status)
-                    Alert.alert("No Network Found", "Please Check your Internet Connection")
+                console.log("No Response Received From the Server.", error.request);
+                if (error.request.status === 0 && error.request._response.includes('Unable to parse TLS packet header')) {
+                    Alert.alert("Server Unreachable", "Please try again later.");
+                } else if (error.request.status === 0) {
+                    Alert.alert("No Network Found", "Please check your internet connection.");
                 }
             }
-
             else {
-                console.log("Error in Setting up the Request.")
+                console.log("Error in Setting up the Request.", error)
             }
-
             setSpinnerbool(false)
 
             if (error) {
@@ -241,6 +249,7 @@ const OtpScreenForgot = ({ route }) => {
             }}>
 
                 <ScrollView
+                 keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>
@@ -360,7 +369,7 @@ const OtpScreenForgot = ({ route }) => {
                                                 errorMessage={`${(errors.otp && touched.otp) ? `${errors.otp}` : (errorFormAPI && errorFormAPI.otp) ? `${errorFormAPI.otp}` : ``}`}
 
                                                 errorBoxid={errorFormAPI ? [0, 1, 2, 3,] : ""}
-                                                onClear={true}
+                                                onClear={clearOtp}
                                             />
 
                                             <TouchableOpacity style={{ alignItems: 'flex-end' }} onPress={() => { ResendOTP() }}>
@@ -379,6 +388,9 @@ const OtpScreenForgot = ({ route }) => {
                                             bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                             // bgColor={"rgba(220, 142, 128, 0.9)"}
                                             style={{ marginTop: 50 }}>Verify OTP</CustomButton1>
+
+
+                            
                                     </View>
                                 </View>
 

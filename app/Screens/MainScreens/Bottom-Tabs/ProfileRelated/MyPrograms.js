@@ -119,7 +119,7 @@ const MyPrograms = () => {
                 <View style={{ marginTop: 15, alignItems: 'center', paddingHorizontal: 20 }}>
                     <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 20, textDecorationLine: 'underline' }}>My Diet Plan</Text>
                 </View>
-                <ScrollView style={{ marginTop: 15, paddingHorizontal: 20}}
+                <ScrollView   keyboardShouldPersistTaps="handled"  style={{ marginTop: 15, paddingHorizontal: 20}}
 
                     refreshControl={
                         <RefreshControl

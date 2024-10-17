@@ -62,12 +62,25 @@ const CustomDropdownError = ({
                     );
                 }}
                 renderItem={(item, index, isSelected) => {
+
+                    console.log(item, "dwaf")
                     // return item.startTime === '' && item.endTime === 'No data available' ? (
                     //     <View style={styles.noDataItemStyle}>
                     //         <Text style={styles.noDataTextStyle}>No slot available</Text>
                     //     </View>
                     // ) : (
-                    return(
+
+
+                    if (item.endTime == "No data available") {
+                        return (
+                            <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
+                            {/* {item.image ? <Image source={item.image} style={{ width: 40, height: 35, resizeMode: 'center' }} /> : <View style={{ height: 35 }} />} */}
+                            <Text style={[styles.dropdownItemTxtStyle]}>{item.endTime}</Text>
+                            {/* <Image source={isSelected ? require('./selected.png') : require('./unselected.png')} style={{ width: 25, height: 25 }} /> */}
+                        </View>
+                        )
+                    }
+                    return (
                         <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
                             {/* {item.image ? <Image source={item.image} style={{ width: 40, height: 35, resizeMode: 'center' }} /> : <View style={{ height: 35 }} />} */}
                             <Text style={[styles.dropdownItemTxtStyle]}>{item.slotTimeStartToEnd}</Text>
@@ -164,7 +177,7 @@ const styles = StyleSheet.create({
     },
     noDataItemStyle: {
         padding: 10,
-        height:75,
+        height: 75,
         justifyContent: 'center',
         alignItems: 'center',
     },

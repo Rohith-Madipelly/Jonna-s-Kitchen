@@ -105,7 +105,7 @@ const Article = ({ navigation, route }) => {
             </View>
 
 
-            <ScrollView style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
+            <ScrollView  keyboardShouldPersistTaps="handled"  style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
               {ArticleData?<Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>{ArticleData.title}</Text>:""}
               <ImageBackground
                 // source={} // Replace with the actual path to your image

@@ -115,7 +115,8 @@ const Chat = () => {
             if (res.data) {
                 setUserData(res.data)
 
-                if(UserData.employeeEmail){
+                if(res.data.employeeEmail){
+                    console.log("cdshjh")
                     setTimeout(() => {
                         getPreviousChat(res.data, false)
                     }, 500);

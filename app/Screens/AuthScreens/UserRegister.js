@@ -64,11 +64,12 @@ const UserRegister = () => {
       if (res) {
         console.log(res.data)
         const Message = res.data.message
-        // // const token = res.data.jwtTocken
-        // console.log(Message)
+
         CustomToaster(Message)
         setTimeout(() => {
+         
           navigation.navigate("OtpScreen", { email: values.userEmail })
+          resetForm()
         }, 500);
       }
 
@@ -76,9 +77,10 @@ const UserRegister = () => {
       if (error.response) {
         console.log("Error in ", error.response)
         if (error.response.status === 400) {
-          CustomToaster(error.response.data.userEmail)
+          CustomToaster(error.response.data.message)
           console.log(error.response.data)
-          seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
+          seterrorFormAPI({ userEmailForm: `${error.response.data.message}` })
+          // seterrorFormAPI({ userEmailForm: `${error.response.data.userEmail}` })
         }
         else if (error.response.status === 401) {
 
@@ -152,6 +154,7 @@ const UserRegister = () => {
         />
 
         <ScrollView
+         keyboardShouldPersistTaps="handled" 
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -175,7 +178,9 @@ const UserRegister = () => {
                 <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    {/* <TouchableWithoutFeedback 
+                    // onPress={Keyboard.dismiss}
+                    > */}
                       <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         // behavior={Platform.OS === "ios" ? 100:0}
@@ -262,9 +267,13 @@ const UserRegister = () => {
                           bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                           // bgColor={"rgba(220, 142, 128, 0.9)"}
                           style={{ marginTop: 50 }}>Send OTP</CustomButton1>
+
+
+
+
                       </KeyboardAvoidingView>
 
-                    </TouchableWithoutFeedback>
+                    {/* </TouchableWithoutFeedback> */}
 
                   </View>
                 </View>

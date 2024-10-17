@@ -116,7 +116,9 @@ const Testimonials = ({ navigation }) => {
             </View>
 
 
-            <ScrollView style={{ flex: 0.95, marginTop: 20 }}
+            <ScrollView
+              keyboardShouldPersistTaps="handled" 
+               style={{ flex: 0.95, marginTop: 20 }}
              refreshControl={
               <RefreshControl
                 refreshing={refreshing}

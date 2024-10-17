@@ -19,6 +19,8 @@ import ProgramDeatils from "../ShareScreens/ProgramDeatils";
 import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
 import Wapper from "../../Components/UI/Wapper";
 import Metrics from "../../Utils/ResposivesUtils/Metrics";
+import onShare from "../../Utils/ShareBtn";
+import { APP_LINK } from "../../Enviornment";
 
 
 const { width } = Dimensions.get('screen');
@@ -244,6 +246,7 @@ const WelcomeCopy = () => {
 
 
                         <ScrollView
+                         keyboardShouldPersistTaps="handled" 
                             contentContainerStyle={{ flexGrow: 1 }}
                             showsVerticalScrollIndicator={false}
                             showsHorizontalScrollIndicator={false}

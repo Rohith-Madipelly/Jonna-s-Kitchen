@@ -170,7 +170,7 @@ useEffect(() => {
 
 
   const handleRedirectToOtp=()=>{
-  
+    seterrorFormAPI() 
     setTimeout(() => {
       navigation.navigate("OtpScreen", { email: values.userEmail })
     }, 100);
@@ -212,7 +212,7 @@ useEffect(() => {
         })
 
         console.log(USERPHONEAPP, "user phoen number")
-        ASO.setTokenJWT("userPhoneNumber12", JSON.stringify(USERPHONEAPP), function (res, status) {
+        ASO.setTokenJWT("userPhoneNumber", JSON.stringify(USERPHONEAPP), function (res, status) {
           if (status) {
             console.log(USERPHONEAPP, "user phoen number >>>>>>>>>")
             dispatch(SetUserPhoneNumber(USERPHONEAPP));
@@ -237,6 +237,7 @@ useEffect(() => {
             dispatch(setAccountPage(programRegistered));
           }
         })
+        resetForm()
       }
 
     } catch (error) {
@@ -317,6 +318,7 @@ useEffect(() => {
         />
 
         <ScrollView
+         keyboardShouldPersistTaps="handled" 
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -342,7 +344,9 @@ useEffect(() => {
                   <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                      <TouchableWithoutFeedback 
+                      // onPress={Keyboard.dismiss}
+                      >
                         <KeyboardAvoidingView
                           behavior={Platform.OS === "ios" ? "padding" : "height"}
                           // behavior={Platform.OS === "ios" ? 100:0}

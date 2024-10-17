@@ -71,7 +71,7 @@ const FAQ = ({ navigation }) => {
           })} */}
 
 
-          {Data3 ? <ScrollView style={{ flex: 0.8 }}
+          {Data3 ? <ScrollView  keyboardShouldPersistTaps="handled"  style={{ flex: 0.8 }}
            refreshControl={
             <RefreshControl
               refreshing={refreshing}

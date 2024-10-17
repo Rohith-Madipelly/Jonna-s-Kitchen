@@ -87,6 +87,7 @@ const ResetPassword = ({ route }) => {
 
         setTimeout(() => {
           navigation.navigate("SuccessScreen",{email:userEmail})
+          resetForm()
         }, 500);
 
       }
@@ -168,6 +169,7 @@ const ResetPassword = ({ route }) => {
         />
 
         <ScrollView
+         keyboardShouldPersistTaps="handled" 
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -193,7 +195,9 @@ const ResetPassword = ({ route }) => {
                 <View style={{ marginTop: 20, marginHorizontal: 15 }}>
 
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <TouchableWithoutFeedback 
+                    // onPress={Keyboard.dismiss}
+                    >
                       <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         // behavior={Platform.OS === "ios" ? 100:0}

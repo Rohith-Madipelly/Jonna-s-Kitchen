@@ -162,9 +162,10 @@ const BookDatePickerModel = ({ visible, title, message, onClose, onSubmit }) => 
         const updatedMapping = {};
         PrivacyText.forEach((item) => {
             console.log("<><><><><><><><><><><><><><><><><><><><")
-            console.log(item)
+            console.log(">>>>>>>",item)
             console.log("<><><><><><><><><><><><><><><><><><><><")
             const formattedDate = convertDateFormat(item.slotDate);
+
             updatedMapping[formattedDate] = item.slotTimeArray.length; // Count of slots
         });
         setDateTextMapping(updatedMapping);
@@ -193,6 +194,7 @@ const BookDatePickerModel = ({ visible, title, message, onClose, onSubmit }) => 
                                 // Customize the day component to display custom text
                                 dayComponent={({ date, state }) => {
                                     const slotCount = dateTextMapping[date.dateString]; // Get slot count
+                                    console.log("cs",slotCount)
                                     const isDateEnabled = slotCount !== undefined && date.dateString !== todayDate; // Disable today
 
                                     const displayText = isDateEnabled ? `${slotCount} ${slotCount > 1 ? 'slots' : 'slot'}` : '';
@@ -213,7 +215,7 @@ const BookDatePickerModel = ({ visible, title, message, onClose, onSubmit }) => 
                                             </Text>
                                             {displayText ? (
                                                 <Text style={[styles.customText, { color: slotColor }]}>
-                                                    {displayText}
+                                                    {displayText} 
                                                 </Text>
                                             ) : null}
                                         </TouchableOpacity>

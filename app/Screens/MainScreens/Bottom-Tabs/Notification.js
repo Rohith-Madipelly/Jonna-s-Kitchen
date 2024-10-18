@@ -32,7 +32,12 @@ const Notification = () => {
     setSpinnerbool(true)
     try {
       const res = await GET_ALL_NOTIFICATIONS_API(tokenn)
-      setNotificationsList(res.data)
+      if(res){
+        setNotificationsList(res.data)
+
+        console.log("Res >",res.data)
+      }
+      
 
     } catch (error) {
       console.log("Error ..", error)

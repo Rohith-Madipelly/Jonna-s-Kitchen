@@ -91,7 +91,7 @@ const CustomDropdown = ({
                 // showsVerticalScrollIndicator={false}
                 dropdownStyle={styles.dropdownMenuStyle}
             />
-            <Text style={{ color: errorColor, marginLeft: 15 }}>{errorMessage}</Text>
+            <Text style={{ color: errorColor, marginLeft: 15,fontSize: 12, }}>{errorMessage}</Text>
         </View>
     );
 };

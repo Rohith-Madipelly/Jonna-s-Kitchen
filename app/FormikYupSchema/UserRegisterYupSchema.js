@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 
+const emailRegExp = /^(?!.*\.\.)([a-zA-Z0-9._%+-]+)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 
 const UserRegisterYupSchema = Yup.object().shape({
 
@@ -29,7 +31,6 @@ const UserRegisterYupSchema = Yup.object().shape({
 
 
 
-
     userEmail: Yup.string()
     .matches(
       /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -39,8 +40,7 @@ const UserRegisterYupSchema = Yup.object().shape({
       "valid-domain",
       "Please enter a valid email address",
       (value) => {
-        const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-        // const domainCheck = /^[^\s@]+\.[a-zA-Z]{2,3}$/;
+        const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/; // Extended to 2-63 characters
         return domainCheck.test(value?.split('@')[1] || '');
       }
     )
@@ -48,11 +48,18 @@ const UserRegisterYupSchema = Yup.object().shape({
       "single-tld",
       "Please provide a valid email address",
       (value) => {
-        // Prevent double dots in TLD (like .com.com) but allow subdomains.
         return !/\.[a-zA-Z]{2,}\./.test(value?.split('@')[1] || '');
       }
     )
-    .required("Email is required")
+    .test(
+      "no-double-dots",
+      "Email address cannot contain consecutive dots",
+      (value) => {
+        return /^(?!.*\.\.)([a-zA-Z0-9._%+-]+)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value || '');
+      }
+    )
+    .required("Email is required"),
+
   
   
   

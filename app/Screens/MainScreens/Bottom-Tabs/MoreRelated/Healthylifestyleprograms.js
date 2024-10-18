@@ -40,7 +40,7 @@ const Healthylifestyleprograms = () => {
       setSpinnerbool(true)
       const res = await GetAllProgramsAPI(tokenn)
       if (res) {
-        console.log("csmnb><><>")
+        console.log("csmnb><><>",res.data[1])
         setApiCallData(res.data)
       }
 

@@ -20,47 +20,55 @@ const RegisterYupSchema = Yup.object().shape({
     // .matches(phoneRegExp, 'Phone number must start with 6, 7, 8, or 9 and have at least 6 digits')
     .test(
       'valid-start',
-      'Mobile number must start with 6, 7, 8, or 9',
+      'Phone number must start with 6, 7, 8, or 9',
       (value) => {
         if (!value) return false; // Handles the case when value is null or undefined.
         return /^[6-9]/.test(value); // Checks if the first digit is 6, 7, 8, or 9.
       }
     )
-    .required("Mobile number is a required field")
-    .matches(/^[0-9]{10}$/, "Mobile number must be a 10-digit number"),
+    .required("Phone number is a required field")
+    .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number"),
 
 
 
     email: Yup.string()
-  .matches(
-    /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    "Please enter a valid email address"
-  )
-  .test(
-    "valid-domain",
-    "Please enter a valid email address",
-    (value) => {
-      const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-      // const domainCheck = /^[^\s@]+\.[a-zA-Z]{2,3}$/;
-      return domainCheck.test(value?.split('@')[1] || '');
-    }
-  )
-  .test(
-    "single-tld",
-    "Please provide a valid email address",
-    (value) => {
-      // Prevent double dots in TLD (like .com.com) but allow subdomains.
-      return !/\.[a-zA-Z]{2,}\./.test(value?.split('@')[1] || '');
-    }
-  )
-  .required("Email is required"),
+    .matches(
+      /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "Please enter a valid email address"
+    )
+    .test(
+      "valid-domain",
+      "Please enter a valid email address",
+      (value) => {
+        const domainCheck = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/; // Extended to 2-63 characters
+        return domainCheck.test(value?.split('@')[1] || '');
+      }
+    )
+    .test(
+      "single-tld",
+      "Please provide a valid email address",
+      (value) => {
+        return !/\.[a-zA-Z]{2,}\./.test(value?.split('@')[1] || '');
+      }
+    )
+    .test(
+      "no-double-dots",
+      "Email address cannot contain consecutive dots",
+      (value) => {
+        return /^(?!.*\.\.)([a-zA-Z0-9._%+-]+)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value || '');
+      }
+    )
+    .required("Email is required"),
 
 
   gender: Yup.string().required("Gender is a required field "),
 
-  userAge: Yup.string()
+  userAge: Yup.number()
+  .typeError("Age must be a number")
   .required("Age is a required field")
-  .matches(/^[1-4][0-9]$/, "Age must be less than 50"),
+  .min(1, "Age must be at least 1") // You can set the minimum age if needed
+  .max(50, "Age must be 50 or below"),
+  
 
 
   heightUnits:Yup.string(),
@@ -86,15 +94,15 @@ const RegisterYupSchema = Yup.object().shape({
     // .max(50, "Your food cannot be more than 50 characters"),
     .max(50, "Please make sure your input is between 1 and 50 characters."),
 
-  address: Yup.string().required("Address is a required Field "),
+  address: Yup.string().required("City is a required Field "),
 
   state: Yup.string().required("State is a required Field "),
 
-  medicalCondition: Yup.string().required("medicalCondition is a required Field ")
+  medicalCondition: Yup.string().required("Medical condition is a required Field ")
     .max(50, "Please make sure your input is between 1 and 50 characters."),
 
     otherMedicalCondition: Yup.string()
-    .required("medicalCondition is a required field"),
+    .required("Other medical condition is a required field"),
   
   // medication: Yup.string().when('otherMedicalCondition', {
   //   is: (value) => value !== "NO" && value !== "No" && value !== "no" && value !== "nO",
@@ -106,7 +114,7 @@ const RegisterYupSchema = Yup.object().shape({
   .when(['otherMedicalCondition'],([otherMedicalCondition],schema)=> {
     if (otherMedicalCondition === "medication")
         return schema
-    .required("medication is a required Field ")
+    .required("Medication is a required Field ")
     .max(50, "Please make sure your input is between 1 and 50 characters.")
     return
 }),

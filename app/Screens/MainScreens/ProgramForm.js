@@ -24,6 +24,7 @@ import { setAccountPage } from "../../redux/actions/AccountSetUpAction";
 import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
 import CustomDatePickerbyslots from "../../Components/UI/Inputs/CustomDatePickerbyslots";
 import CustomToaster from "../../Utils/CustomToaster";
+import { SettingStyleing } from "../../Components/UI/GlobalStylesCss";
 
 
 
@@ -333,7 +334,7 @@ const ProgramForm = ({ route }) => {
             setSpinnerbool(true)
             const res = await GET_SLOTS_BY_DATE_API(date, tokenn)
             if (res) {
-                console.log(res.data.slotTimeArray)
+                console.log("Date of ",date,">>>>>",res.data.slotTimeArray)
                 setTimeSlotArray(res.data.slotTimeArray)
             }
         } catch (error) {
@@ -350,12 +351,7 @@ const ProgramForm = ({ route }) => {
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        if (isConnected) {
-         
-
-        }
-
+        setRefreshing(false)
     }, []);
     return (
         <>
@@ -372,10 +368,14 @@ const ProgramForm = ({ route }) => {
 
             <ImageBackground
                 source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                style={{
+             
+
+                style={[{
                     flex: 1,
                     // backgroundColor:'pink'
-                }}>
+                },SettingStyleing.ImageBackgroundSettings]}
+                
+                >
                 <ScrollView
                  keyboardShouldPersistTaps="handled" 
                     contentContainerStyle={{ flexGrow: 1 }}
@@ -410,7 +410,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Enter full name'}
-                                        label={'Full name'}
+                                        label={'Full Name'}
                                         name='userName'
                                         value={values.userName}
                                         onChangeText={(e) => { handleChange("userName")(e); seterrorFormAPI(); }}
@@ -428,7 +428,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Enter phone number'}
-                                        label={'Phone number'}
+                                        label={'Phone Number'}
                                         name='phoneNumber'
                                         value={values.phoneNumber}
                                         onChangeText={(e) => {
@@ -439,7 +439,7 @@ const ProgramForm = ({ route }) => {
                                             handleChange("phoneNumber")(limitedValue);
                                             seterrorFormAPI();
                                         }}
-                                        Note={'Please mention your whatsapp number'}
+                                        Note={'Please mention your WhatsApp number'}
                                         onBlur={handleBlur("phoneNumber")}
                                         validate={handleBlur("phoneNumber")}
                                         maxLength={10}
@@ -491,7 +491,7 @@ const ProgramForm = ({ route }) => {
                                         <View style={{ flex: 0.7, justifyContent: 'center', }}>
                                             <CustomTextInput3
                                                 boxWidth={'100%'}
-                                                placeholder={'Enter your user age'}
+                                                placeholder={'Enter age'}
                                                 Note={'Max Age Limit is: 50'}
                                                 name='userAge'
                                                 value={values.userAge}
@@ -587,7 +587,7 @@ const ProgramForm = ({ route }) => {
                                                 // bgColor="#B1B1B0"
 
                                                 rightIcon={<Pressable onPress={() => {
-                                                    handleChange("heightUnits")(show?.HeightUnitsShow ? "Ft" : "cm");
+                                                    handleChange("heightUnits")(show?.HeightUnitsShow ? "Ft" : "Cm");
                                                     setShow((prevShow) => ({
                                                         ...prevShow,
                                                         HeightUnitsShow: !prevShow.HeightUnitsShow,
@@ -604,7 +604,7 @@ const ProgramForm = ({ route }) => {
                                                         //   <Entypo name="eye-with-line" size={20} color="black" />
                                                     ) : (
                                                         <View>
-                                                            <Text style={{ fontWeight: 700 }}>cm</Text>
+                                                            <Text style={{ fontWeight: 700 }}>Cm</Text>
                                                         </View>
                                                         //   <Entypo name="eye" size={20} color="black" />
                                                     )
@@ -672,7 +672,7 @@ const ProgramForm = ({ route }) => {
                                                         ...prevShow,
                                                         currentWeightUnit: !prevShow.currentWeightUnit,
                                                     }));
-                                                    handleChange("weightUnits")(show?.currentWeightUnit ? "Kgs" : "LBS")
+                                                    handleChange("weightUnits")(show?.currentWeightUnit ? "Kgs" : "Lbs")
 
                                                 }}
 
@@ -684,7 +684,7 @@ const ProgramForm = ({ route }) => {
                                                         //   <Entypo name="eye-with-line" size={20} color="black" />
                                                     ) : (
                                                         <View>
-                                                            <Text style={{ fontWeight: 700 }}>LBS</Text>
+                                                            <Text style={{ fontWeight: 700 }}>Lbs</Text>
                                                         </View>
                                                         //   <Entypo name="eye" size={20} color="black" />
                                                     )
@@ -775,7 +775,7 @@ const ProgramForm = ({ route }) => {
                                                 fontSize: 14,
                                                 marginLeft: 4
 
-                                            }}>Veg or Non-veg</Text>
+                                            }}>Veg or Non-Veg</Text>
                                         </View>
 
 
@@ -812,8 +812,8 @@ const ProgramForm = ({ route }) => {
                                     {/* What you eat every day */}
                                     <CustomTextInput3
                                         boxWidth={'95%'}
-                                        placeholder={'What you eat every day'}
-                                        label={'What you eat every day'}
+                                        placeholder={'What Do You Eat Every Day ?'}
+                                        label={'What Do You Eat Every Day ?'}
                                         name='meal'
                                         value={values.meal}
                                         // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
@@ -843,7 +843,7 @@ const ProgramForm = ({ route }) => {
 
                                     <CustomDropdown
                                         boxWidth={'95%'}
-                                        label={"Medical conditions"}
+                                        label={"Medical Conditions"}
                                         placeholder={'Select'}
                                         name='maritalStatus'
                                         DropDownData={healthConditionsData}
@@ -866,7 +866,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Others medical conditions'}
-                                        label={'Others medical conditions'}
+                                        label={'Others Medical Conditions'}
                                         name='otherMedicalCondition'
                                         value={values.otherMedicalCondition}
                                         // leftIcon={<FontAwesome name="envelope" size={20} color="black" />}
@@ -925,7 +925,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Physical activity'}
-                                        label={'Physical activity'}
+                                        label={'Physical Activity'}
                                         name='physicalActivity'
                                         value={values.physicalActivity}
                                         onChangeText={(e) => { handleChange("physicalActivity")(e); seterrorFormAPI(); }}
@@ -957,7 +957,7 @@ const ProgramForm = ({ route }) => {
                                     {/* state */}
                                     <CustomTextInput3
                                         boxWidth={'95%'}
-                                        placeholder={'Enter  your state'}
+                                        placeholder={'Enter your state'}
                                         label={'State'}
                                         name='state'
                                         value={values.state}
@@ -999,7 +999,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Program fee'}
-                                        label={'Program fee'}
+                                        label={'Program Fee'}
                                         name='programAmount'
                                         value={values.programAmount}
                                         onChangeText={(e) => { handleChange("programAmount")(e); seterrorFormAPI(); }}
@@ -1018,7 +1018,7 @@ const ProgramForm = ({ route }) => {
                                     <CustomTextInput3
                                         boxWidth={'95%'}
                                         placeholder={'Processing fee'}
-                                        label={'Processing fee'}
+                                        label={'Processing Fee'}
                                         name='processingFee'
                                         value={values.processingFee}
                                         onChangeText={(e) => { handleChange("processingFee")(e); seterrorFormAPI(); }}
@@ -1036,7 +1036,7 @@ const ProgramForm = ({ route }) => {
 
 
                                     <CustomDatePickerbyslots
-                                        label={'Slot date'}
+                                        label={'Slot Date'}
                                         labelStyle={{ marginBottom: -3, marginTop: -3 }}
                                         boxWidth={'95%'}
                                         handleChange={(e) => {

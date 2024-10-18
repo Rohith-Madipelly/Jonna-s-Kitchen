@@ -194,7 +194,7 @@ const WelcomeCopy = () => {
                     />
                     <ImageBackground
                         source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                        style={[SettingStyleing.ImageBackgroundSettings]}
+                        style={[SettingStyleing.ImageBackgroundSettings,{marginBottom: Platform.OS === "ios" ? 85 : 85,}]}
                         >
 
 
@@ -220,7 +220,7 @@ const WelcomeCopy = () => {
                         </View> */}
 
 
-                        <View style={{ height: Metrics.rfv(95) }}>
+                        <View style={{ height: Metrics.rfv(90) }}>
                             <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 15, marginTop: 15 }, styles.containerCard]}>
                                 <View style={{ flex: 0.5 }}>
                                     <Text style={{ color: '#0A3118', fontFamily: 'BalooTamma2-Bold', fontWeight: 700, fontSize: 16 }}>Hello</Text>
@@ -268,14 +268,14 @@ const WelcomeCopy = () => {
                                     keyboardVerticalOffset={5000}
                                     style={{ width: '100%', flex: 1 }}
                                 >
-                                    <View style={{ flex: 1 }}>
-                                        <View style={{ marginTop: 10, flex: 0.9 }}>
+                                    <View style={{ }}>
+                                        <View style={{ marginTop: 10, flex: 0.9, }}>
                                             <View style={{ marginHorizontal: 20 }}>
                                                 <Text style={{
                                                     fontWeight: '400', fontFamily: 'BalooTamma2-Bold', fontSize: 24,
                                                     color: '#FE7B07',
                                                     marginBottom: -10
-                                                }}>Jonnas Kitchen</Text>
+                                                }}>Jonna's Kitchen</Text>
 
                                                 <Text style={{
                                                     fontWeight: '400',
@@ -330,7 +330,7 @@ const WelcomeCopy = () => {
                                         </View>
 
 
-                                        <View style={{ flex: 0.1, alignItems: 'center', marginHorizontal: 20, }}>
+                                        <View style={{alignItems: 'center', marginHorizontal: 20, }}>
                                             <CustomButton1
                                                 boxWidth={'92%'}
                                                 // onPress={item.onPress}
@@ -353,7 +353,7 @@ const WelcomeCopy = () => {
 
 
 
-                                            {APICallData ? APICallData.map((data, index) => (
+                                            {APICallData && expanded  ? APICallData.map((data, index) => (
 
                                                 <Animated.View
                                                     style={[
@@ -389,12 +389,7 @@ const WelcomeCopy = () => {
                                                         bgColor={"#FE7B07"}
                                                         style={{ marginTop: 50 }}>{data.programName}</CustomButton1>
 
-                                                    {/* {visibleIndex === index && <View style={{ flex: 0.4, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <View style={{ flex: 1, width: '92%', backgroundColor: 'pink', borderRadius: 20, paddingLeft: 32, paddingRight: 24 }}>
-                                                        <Text>Hel;lojsdjkghkdsj </Text>
-                                                    </View>
-
-                                                </View>} */}
+                                                
 
 
 
@@ -417,13 +412,8 @@ const WelcomeCopy = () => {
 
 
                                         </View>
-                                        <View style={{height:20}}>
-
-                                        </View>
+                             
                                     </View>
-
-
-
                                 </KeyboardAvoidingView>
                             </TouchableWithoutFeedback>
 

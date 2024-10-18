@@ -6,6 +6,7 @@ import { GET_USER_BY_EMAIL_API } from '../../../../Utils/ApiCalls'
 import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError'
 import { DateHelper } from '../../../../Utils/DateHelper'
 import { useNavigation } from '@react-navigation/native'
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss'
 
 const ProgramStatus = () => {
 
@@ -107,7 +108,7 @@ const navigation=useNavigation()
       <Loader1
         visible={spinnerBool}
       />
-      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+      <View style={[{ flex: 1, paddingHorizontal: 20 },SettingStyleing.ImageBackgroundSettings]}>
         <View style={{ marginTop: 15, alignItems: 'center' }}>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 20, textDecorationLine: 'underline' }}>Program Status</Text>
         </View>

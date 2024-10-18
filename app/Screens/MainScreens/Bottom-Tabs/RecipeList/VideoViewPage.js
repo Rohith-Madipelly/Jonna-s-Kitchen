@@ -7,6 +7,7 @@ import { YoutubeURL_Id_getIdUrl } from '../../../../Utils/YoutubeURL_Id_getIdUrl
 import Loader1 from '../../../../Utils/Loader1';
 import CustomToolKitHeader from '../../../../Components/UI/CustomToolKitHeader';
 import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 
 const VideoViewPage = ({ route }) => {
@@ -50,7 +51,7 @@ const VideoViewPage = ({ route }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={styles.container}
+          style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
         >
           {/* <View style={{ flex: 0.08 }}>
             <CustomToolKitHeader componentName={"Job Postings"} textDecorationLine={'underline'} />

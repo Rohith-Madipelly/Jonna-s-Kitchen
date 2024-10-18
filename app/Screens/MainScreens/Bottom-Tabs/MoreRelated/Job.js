@@ -16,6 +16,7 @@ import { Alert } from 'react-native';
 
 import { CustomAlerts_Continue } from '../../../../Utils/CustomReuseAlerts';
 import { openEmail } from '../../../../Utils/Linkings/OpenEmail';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const MorePage = ({ navigation }) => {
 
@@ -93,7 +94,7 @@ const MorePage = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={styles.container}
+          style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
         >
           <View style={{ flex: 0.08 }}>
             <CustomToolKitHeader componentName={"Job Postings"} textDecorationLine={'underline'} />

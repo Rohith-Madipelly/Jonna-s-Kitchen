@@ -33,6 +33,7 @@ import { CustomAlerts_Continue } from '../../../Utils/CustomReuseAlerts';
 import CustomToaster from '../../../Utils/CustomToaster';
 import { useNavigation } from '@react-navigation/native';
 import Metrics from '../../../Utils/ResposivesUtils/Metrics';
+import { SettingStyleing } from '../../../Components/UI/GlobalStylesCss';
 
 const Chat = () => {
     const [stompClient, setStompClient] = useState(null);
@@ -605,15 +606,12 @@ const navigation=useNavigation()
         )
     }
 
-    console.log(UserData)
-
-
     if (UserData && !UserData.employeeEmail) {
         console.log(UserData.employeeEmail)
         return (
             <ImageBackground
                 source={require('../../../assets/Images/Background1.png')}
-                style={styles.container}
+                style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
             >
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <LoadingImage
@@ -685,7 +683,7 @@ const navigation=useNavigation()
                 <View style={{ flex: 1 }}>
                     <ImageBackground
                         source={require('../../../assets/Images/Background1.png')}
-                        style={styles.container}
+                        style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
                     >
                         <View style={{ flex: 1 }}>
                             <View style={{ flex: 0.08 }}>

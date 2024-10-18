@@ -24,6 +24,7 @@ import { UserRegisterOTPApi, verifyOTPAPI } from '../../Utils/ApiCalls.js';
 import CustomToaster from '../../Utils/CustomToaster.js';
 import { StatusBar } from 'expo-status-bar';
 import { ServerError } from '../../Utils/ServerError.js';
+import { SettingStyleing } from '../../Components/UI/GlobalStylesCss.js';
 
 const OtpScreen = ({ route }) => {
     const { params } = route;
@@ -263,7 +264,7 @@ const OtpScreen = ({ route }) => {
 
                     <ImageBackground
                         source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                        style={styles.container}
+                        style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
                     >
                         <View style={{ flex: 0.6, justifyContent: 'center', alignItems: 'center' }}>
                             <Image

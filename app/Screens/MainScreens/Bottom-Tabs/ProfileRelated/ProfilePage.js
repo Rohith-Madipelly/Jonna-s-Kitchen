@@ -6,6 +6,7 @@ import { logoutValidation } from '../../../../Utils/LogOut';
 import { OpenDialer } from '../../../../Utils/OpenDialer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestInAppReview } from '../../../../Utils/InAppStoreReview';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 
 const ListItem = ({ leftIcon, ItemName, routeTo }) => {
@@ -65,9 +66,9 @@ const ProfilePage = () => {
 
   // console.log(menuItems[0].subItems)
   return (
-    <View style={{ flex: 1}}>
+    <View style={[{ flex: 1 },SettingStyleing.ImageBackgroundSettings]}>
       <View style={{ flex: 0.15 }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 32, justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 30, justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={()=>navigation.navigate('ProgramStatus')} style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#FFFFFF', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 32 }}>{userName[0]}</Text>
           </TouchableOpacity>

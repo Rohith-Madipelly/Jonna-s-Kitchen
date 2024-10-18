@@ -14,6 +14,7 @@ import Loader1 from '../../../../Utils/Loader1';
 import { useSelector } from 'react-redux';
 import { Get_Articles_BY_ID_API } from '../../../../Utils/ApiCalls';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const Article = ({ navigation, route }) => {
 
@@ -95,7 +96,7 @@ const Article = ({ navigation, route }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={styles.container}
+          style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
         >
 
           <View style={{ flex: 1 }}>
@@ -107,7 +108,7 @@ const Article = ({ navigation, route }) => {
 
             <ScrollView  keyboardShouldPersistTaps="handled"  style={{ flex: 0.95, paddingHorizontal: 18, marginTop: 20 }}>
               {ArticleData?<Text style={{ color: '#000000', fontSize: 20, fontWeight: 700, fontFamily: 'BalooTamma2-Bold', textDecorationLine: 'underline', lineHeight: 20 }}>{ArticleData.title}</Text>:""}
-              <ImageBackground
+              <View
                 // source={} // Replace with the actual path to your image
                 // source={require('../../../../assets/Images/thinkBox.png')} // Replace with the actual path to your image
                 style={[styles.container, { width: '100%', height: 250 }]} resizeMode="contain"
@@ -131,7 +132,7 @@ const Article = ({ navigation, route }) => {
                   />:""}
                 </View>
 
-              </ImageBackground>
+              </View>
 
               {ArticleData?<ScrollView style={{ backgroundColor: '#000000', borderRadius: 20, padding: 15, marginTop: 20 }}>
                <Text style={{ color: 'white', fontSize: 14, fontWeight: 500, fontFamily: 'BalooTamma2', lineHeight: 20 }}>

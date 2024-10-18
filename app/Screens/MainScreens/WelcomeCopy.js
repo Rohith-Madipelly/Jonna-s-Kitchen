@@ -21,6 +21,7 @@ import Wapper from "../../Components/UI/Wapper";
 import Metrics from "../../Utils/ResposivesUtils/Metrics";
 import onShare from "../../Utils/ShareBtn";
 import { APP_LINK } from "../../Enviornment";
+import { SettingStyleing } from "../../Components/UI/GlobalStylesCss";
 
 
 const { width } = Dimensions.get('screen');
@@ -193,10 +194,8 @@ const WelcomeCopy = () => {
                     />
                     <ImageBackground
                         source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                        style={{
-                            flex: 1,
-                            // backgroundColor:'pink'
-                        }}>
+                        style={[SettingStyleing.ImageBackgroundSettings]}
+                        >
 
 
                         {/* <View style={[{ flex: 0.9,height:20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 15, marginTop: 15 }, styles.containerCard]}>
@@ -416,6 +415,9 @@ const WelcomeCopy = () => {
                                                 </Animated.View>}
 
 
+
+                                        </View>
+                                        <View style={{height:20}}>
 
                                         </View>
                                     </View>

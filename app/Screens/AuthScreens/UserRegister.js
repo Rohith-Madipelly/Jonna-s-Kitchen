@@ -24,6 +24,7 @@ import CustomToaster from '../../Utils/CustomToaster.js';
 import Loader1 from '../../Utils/Loader1.js';
 import { UserRegisterYupSchema } from '../../FormikYupSchema/UserRegisterYupSchema.js';
 import { ServerError } from '../../Utils/ServerError.js';
+import { SettingStyleing } from '../../Components/UI/GlobalStylesCss.js';
 
 
 const UserRegister = () => {
@@ -161,7 +162,7 @@ const UserRegister = () => {
 
           <ImageBackground
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-            style={styles.container}
+            style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
           >
             <View style={{ flex: 0.6, justifyContent: 'center', alignItems: 'center' }}>
               <Image

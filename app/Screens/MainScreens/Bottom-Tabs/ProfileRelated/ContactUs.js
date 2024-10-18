@@ -19,6 +19,7 @@ import { openEmail } from '../../../../Utils/Linkings/OpenEmail.js';
 import { ContactUsEmail } from '../../../../Enviornment.js';
 import { REQUEST_TO_CONTACT_API } from '../../../../Utils/ApiCalls.js';
 import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError.js';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss.js';
 
 
 
@@ -149,7 +150,7 @@ const UserRegister = () => {
         <View style={{ flex: 1 }}>
             <ImageBackground
                 source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                style={{ flex: 1 }}
+                style={[{flex:1},SettingStyleing.ImageBackgroundSettings]}
             >
                 <View style={{ flex: 0.08 }}>
                     <CustomToolKitHeader componentName={"Contact us"} textDecorationLine={'underline'} />

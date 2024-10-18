@@ -1,4 +1,4 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import CustomButton1 from '../../../../Components/UI/Buttons/CustomButton1';
 import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const MorePage = () => {
 
@@ -37,19 +38,18 @@ const MorePage = () => {
         />
             <View style={{
                 flex: 1,
-              
-                // backgroundColor:'pink'
             }}>
 
                 <ImageBackground
                     source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                    style={styles.container}
+                    style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
                 >
-                    <View style={{ flex: 1, alignItems: 'center', marginTop: 25 }}>
+                    <View style={{ flex: 1, alignItems: 'center', marginTop: 25,justifyContent:'center' }}>
                         <FlatList
                             data={MorePageBtns}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
+                                <View style={{alignItems:'center'}}>
                                 <CustomButton1
                                     boxWidth={'92%'}
                                     onPress={item.onPress}
@@ -64,7 +64,8 @@ const MorePage = () => {
                                     resizeMode={"contain"} />}
                                     // bgColor={`${!isValid ? "#026F3B" : "#38B14D"}`}
                                     bgColor={"#FE7B07"}
-                                    style={{ marginTop: 50 }}>{item.title}</CustomButton1>
+                                    style={{ }}>{item.title}</CustomButton1>
+                                    </View>
                             )}
                         />
                     </View>

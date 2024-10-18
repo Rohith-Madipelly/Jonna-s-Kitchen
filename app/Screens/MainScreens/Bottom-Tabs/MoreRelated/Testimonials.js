@@ -13,6 +13,7 @@ import CarouselWithButton from '../../../../Components/UI/CarouselsWithPackage/C
 import { GET_ALL_TESTIMONIALS } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 
 const Testimonials = ({ navigation }) => {
@@ -106,7 +107,7 @@ const Testimonials = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={styles.container}
+          style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
         >
 
           <View style={{ flex: 1 }}>

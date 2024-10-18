@@ -10,6 +10,7 @@ import { DELETE_NOTIFICATION_BY_ID_API, GET_ALL_NOTIFICATIONS_API } from '../../
 import Metrics from '../../../Utils/ResposivesUtils/Metrics'
 
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { SettingStyleing } from '../../../Components/UI/GlobalStylesCss'
 
 const Notification = () => {
   const navigation = useNavigation()
@@ -141,7 +142,7 @@ const Notification = () => {
 
 
   return (
-    <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
+    <View style={[{ flex: 1, paddingHorizontal: 20,marginTop:5 },SettingStyleing.ImageBackgroundSettings]}>
       <Loader1
         visible={spinnerBool}
       />
@@ -162,18 +163,20 @@ const Notification = () => {
         data={notificationsList}
         renderItem={({ item, index }) => {
           return (
-            <View style={{ height: Metrics.rfv(60), backgroundColor: 'white', marginVertical: 5, borderRadius: 10, padding: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
-              <View style={{}}>
+            <TouchableOpacity             
+            onPress={()=>{console.log("sdan")}} 
+            style={{ minHeight: Metrics.rfv(60), backgroundColor: 'white', marginVertical: 5, borderRadius: 10, padding: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
+              <View style={{width:"90%"}}
+              >
                 <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 16, color: '#00000080', }}>{item.title}</Text>
-                <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 12, color: '#00000080', }}>{item.body}</Text>
+                <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 500, fontSize: 12, color: '#00000080', }} numberOfLines={2}>{item.body}</Text>
               </View>
-              <TouchableOpacity style={{ justifyContent: 'center' }} onPress={() => {
-                console.log("Hello", item.notificationId);
+              <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {
                 DeleteNotifications(item.notificationId)
               }}>
                 <AntDesign name="close" size={20} color="black" />
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
 
           )
         }}

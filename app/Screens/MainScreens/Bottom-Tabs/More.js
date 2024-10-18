@@ -10,7 +10,7 @@ import Article from './MoreRelated/Article';
 import Job from './MoreRelated/Job';
 import ArticlesList from './MoreRelated/ArticlesList';
 import WelcomeCopy from '../WelcomeCopy';
-import Test from './MoreRelated/Test';
+
 
 
 const More = () => {
@@ -47,7 +47,7 @@ const More = () => {
       <Stack.Screen name="AboutUs" component={AboutUs} />
       <Stack.Screen name="Healthylifestyleprograms" component={Healthylifestyleprograms} />
       {/* <Stack.Screen name="Healthylifestyleprograms" component={WelcomeCopy} /> */}
-      <Stack.Screen name="Test" component={Test} />
+
       <Stack.Screen name="Testimonials" component={Testimonials} />
       <Stack.Screen name="FAQ" component={FAQ} />
       <Stack.Screen name="ArticlesList" component={ArticlesList} />

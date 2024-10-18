@@ -33,6 +33,7 @@ import { SetUserEmail } from '../../redux/actions/SetUserEmail.jsx';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import { SettingStyleing } from '../../Components/UI/GlobalStylesCss.js';
 
 
 const Login = () => {
@@ -333,7 +334,7 @@ useEffect(() =>{
 
           <ImageBackground
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-            style={styles.container}
+            style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
           >
             <View style={{ flex: 0.95 }}>
 

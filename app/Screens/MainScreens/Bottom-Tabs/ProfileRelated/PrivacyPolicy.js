@@ -5,6 +5,7 @@ import { PRIVACY_POLICY_API } from '../../../../Utils/ApiCalls'
 import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError'
 import { ScrollView } from 'react-native'
 import Loader1 from '../../../../Utils/Loader1'
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss'
 
 const PrivacyPolicy = () => {
 
@@ -83,7 +84,7 @@ const PrivacyPolicy = () => {
       <Loader1
         visible={spinnerBool}
       />
-      <View style={{ flex: 1 }}>
+      <View style={[{ flex: 1 },SettingStyleing.ImageBackgroundSettings]}>
         <View style={{ marginTop: 15, alignItems: 'center', paddingHorizontal: 20 }}>
           <Text style={{ fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 20, textDecorationLine: 'underline' }}>Privacy Policy</Text>
         </View>

@@ -413,7 +413,6 @@ export const GET_ALL_NOTIFICATIONS_API = async (token) => {
 
 //  Delete Notification
 export const DELETE_NOTIFICATION_BY_ID_API = async (notificationId,token) => {
-  console.log('sdcds',token)
   return await axios.delete(`${GUEST_URL}/api/deleteNotification/${notificationId}`, {
     headers: {
       'Authorization': `Bearer ${token}`

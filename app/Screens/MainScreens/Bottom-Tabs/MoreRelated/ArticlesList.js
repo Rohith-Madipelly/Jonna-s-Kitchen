@@ -13,6 +13,7 @@ import { ServerError } from '../../../../Utils/ServerError';
 import { Get_Articles_API } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const ArticlesList = ({ navigation }) => {
 
@@ -106,7 +107,7 @@ const ArticlesList = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={styles.container}
+          style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
         >
           <View style={{ flex: 0.08 }}>
             <CustomToolKitHeader componentName={"Articles List"} textDecorationLine={'underline'} />

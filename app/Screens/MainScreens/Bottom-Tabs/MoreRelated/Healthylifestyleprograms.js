@@ -13,6 +13,7 @@ import Programs2 from "./reuse/Programs2";
 import ProgramsTest from "./reuse/ProgramsTest";
 import { GetAllProgramsAPI } from "../../../../Utils/ApiCalls";
 import Programs2Test from "./reuse/Programs2Test";
+import { SettingStyleing } from "../../../../Components/UI/GlobalStylesCss";
 
 
 
@@ -102,11 +103,9 @@ const Healthylifestyleprograms = () => {
   return (
     <ImageBackground
       source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-      style={{
-        flex: 1,
-        paddingTop: 20,
-        // backgroundColor:'pink'
-      }}>
+
+      style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
+      >
 
       <ScrollView
        keyboardShouldPersistTaps="handled" 

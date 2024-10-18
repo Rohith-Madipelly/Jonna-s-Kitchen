@@ -17,6 +17,7 @@ import { get_all_recipies_by_category_API, getAllRecipieServiceByKeyWord22, getR
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoadingImage from '../../../../Components/UI/ImageConatiners/LoadingImage';
 import { ServerError, ServerTokenError_Logout } from '../../../../Utils/ServerError';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const RecipeList = ({ navigation }) => {
 
@@ -198,7 +199,7 @@ const RecipeList = ({ navigation }) => {
             <View style={{ flex: 1 }}>
                 <ImageBackground
                     source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-                    style={styles.container}
+                    style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
                 >
 
                     <View style={{ flex: 1 }}>

@@ -17,6 +17,7 @@ import Loader1 from '../../Utils/Loader1.js';
 import CustomToolKitHeader2 from '../../Components/UI/CustomToolKitHeader2.js';
 import { ServerError } from '../../Utils/ServerError.js';
 import { ForgetPasswordYupSchema } from '../../FormikYupSchema/ForgetPasswordYupSchema.js';
+import { SettingStyleing } from '../../Components/UI/GlobalStylesCss.js';
 
 
 const ForgetPassword = ({ route }) => {
@@ -166,7 +167,7 @@ const ForgetPassword = ({ route }) => {
 
           <ImageBackground
             source={require('../../assets/Images/Background1.png')} // Replace with the actual path to your image
-            style={styles.container}
+            style={[styles.container,SettingStyleing.ImageBackgroundSettings]}
           >
             <View style={{ flex: 0.45, justifyContent: 'flex-start', alignItems: 'center' }}>
               <CustomToolKitHeader2 componentName={'Forgot password?'} tagLine={'Hello there, Login to your account'} />

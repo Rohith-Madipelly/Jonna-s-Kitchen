@@ -7,6 +7,7 @@ import { Get_FAQs_API } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
 import { StatusBar } from 'expo-status-bar';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const FAQ = ({ navigation }) => {
   let tokenn = useSelector((state) => state.login.token)
@@ -56,7 +57,7 @@ const FAQ = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-          style={{ flex: 1 }}
+          style={[{flex:1},SettingStyleing.ImageBackgroundSettings]}
         >
           <View style={{ flex: 0.08 }}>
             <CustomToolKitHeader componentName={"FAQ"} textDecorationLine={'underline'} />

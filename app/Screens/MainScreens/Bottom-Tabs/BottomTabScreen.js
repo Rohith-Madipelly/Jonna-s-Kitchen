@@ -5,6 +5,7 @@ import { Entypo, Feather, AntDesign, } from "@expo/vector-icons";
 
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import Home from './Home.js';
+import WelcomeCopy from '../WelcomeCopy.js';
 import Chat from './Chat.js';
 import Recipe from './Recipe.js';
 import More from './More.js';
@@ -13,7 +14,6 @@ import Profile from './Profile.js';
 
 
 import { useNavigation } from '@react-navigation/native';
-import WelcomeCopy from '../WelcomeCopy.js';
 import Metrics from '../../../Utils/ResposivesUtils/Metrics.js';
 
 

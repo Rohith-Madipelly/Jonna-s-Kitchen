@@ -11,6 +11,7 @@ import { ServerTokenError_Logout } from '../../../../Utils/ServerError';
 import { ABOUT_US_API, GET_ALL_BANNERS_API } from '../../../../Utils/ApiCalls';
 import { useSelector } from 'react-redux';
 import Loader1 from '../../../../Utils/Loader1';
+import { SettingStyleing } from '../../../../Components/UI/GlobalStylesCss';
 
 const { width } = Dimensions.get('screen');
 
@@ -173,7 +174,7 @@ const AboutUS = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <ImageBackground
         source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
-        style={{ flex: 1 }}
+        style={[{flex:1},SettingStyleing.ImageBackgroundSettings]}
       >
         <View style={{ flex: 0.08 }}>
           <CustomToolKitHeader componentName={"ABOUT JONNA’S KITCHEN"} textDecorationLine={'underline'} />
@@ -220,9 +221,7 @@ const AboutUS = ({ navigation }) => {
 
           // contentContainerStyle={{ paddingHorizontal: 18 }}
           />:""}
-          <View style={{height:20}}>
 
-          </View>
         </View>
       </ImageBackground>
     </View>

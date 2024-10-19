@@ -28,7 +28,6 @@ const Home = ({ navigation }) => {
   const HomeBanners = async () => {
     try {
       const res = await GET_ALL_BANNERS_API(tokenn)
-
       if (res) {
         setData(res.data)
       }
@@ -76,8 +75,6 @@ const Home = ({ navigation }) => {
       }, 2000);
     }
   }
-
-
 
   useEffect(() => {
     HomeBanners()

@@ -149,7 +149,7 @@ const UserRegister = () => {
         />
         <View style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
+                source={require('../../../../assets/Images/Background2.png')} // Replace with the actual path to your image
                 style={[{flex:1},SettingStyleing.ImageBackgroundSettings]}
             >
                 <View style={{ flex: 0.08 }}>

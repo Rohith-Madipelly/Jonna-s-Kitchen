@@ -6,6 +6,7 @@ import { Entypo, Feather, AntDesign, } from "@expo/vector-icons";
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import Home from './Home.js';
 import WelcomeCopy from '../WelcomeCopy.js';
+// import WelcomeCopy from './Home.js';
 import Chat from './Chat.js';
 import Recipe from './Recipe.js';
 import More from './More.js';

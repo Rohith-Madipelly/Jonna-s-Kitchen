@@ -10,7 +10,7 @@ import LoadingImage from '../../Components/UI/ImageConatiners/LoadingImage';
 
 const ProgramDeatils = ({ programId, data }) => {
 
-    console.log("Sd",data)
+    // console.log("Sd",data)
     const navigation = useNavigation();
 
     const [show, setShow] = useState()
@@ -57,8 +57,8 @@ const ProgramDeatils = ({ programId, data }) => {
                             // source={{ uri: 'https://images.unsplash.com/photo-1542378151504-0361b8ec8f93?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
                             style={styles.image}
 
-                            // loaderColor="#ff0000"
-                            // resizeMode="contain"
+                        // loaderColor="#ff0000"
+                        // resizeMode="contain"
                         />
 
                     </View>
@@ -107,25 +107,66 @@ const ProgramDeatils = ({ programId, data }) => {
                     </View>
 
 
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <CustomButton1
-                            boxWidth={'75%'}
-                            onPress={() => { navigation.navigate("ProgramsForm", { programId: `${data.id}`, processingFeeData: `${data.processingFee}`, programPriceData: `${data.programPrice}`, programNameData: `${data.programName}`, processingFeeData: `${data.processingFee}` }) }}
-                            // onPress={handleSubmit}
-                            textStyling={{ marginBottom: -5 }}
-                            stylebtn={{ paddingVertical: 10 }}
-                            // leftIcon={<Entypo
-                            //   // style={styles.icon}
-                            //   name={'login'} size={18} color={'white'} />}
-                            // bgColor={`${!isValid ? "#38B14D" : "#38B14D"}`}
-                            bgColor={"green"}
+                    {data.programRegistrationEligible ? (
+                        data.registered ? (
 
-                        >Register Now</CustomButton1>
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                {/* <Text>data.programRegistrationEligible {data.programRegistrationEligible ? "true" : "fal"} > {data.registered ? "true" : "fal"}</Text>
+
+                                <Text>Already registered</Text> */}
+                                <CustomButton1
+                                    boxWidth={'75%'}
+                                    // onPress={() => { navigation.navigate("ProgramsForm", { programId: `${data.id}`, processingFeeData: `${data.processingFee}`, programPriceData: `${data.programPrice}`, programNameData: `${data.programName}`, processingFeeData: `${data.processingFee}` }) }}
+                                    // onPress={handleSubmit}
+                                    textStyling={{ marginBottom: -5 }}
+                                    stylebtn={{ paddingVertical: 10 }}
+                                    // leftIcon={<Entypo
+                                    //   // style={styles.icon}
+                                    //   name={'login'} size={18} color={'white'} />}
+                                    // bgColor={`${!isValid ? "#38B14D" : "#38B14D"}`}
+                                    bgColor={"green"}
+
+                                >Already registered</CustomButton1>
+                            </View>
+
+                        ) : (
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                {/* <Text>data.programRegistrationEligible {data.programRegistrationEligible ? "true" : "fal"} > {data.registered ? "true" : "fal"}</Text> */}
+                                <CustomButton1
+                                    boxWidth={'75%'}
+                                    onPress={() => { navigation.navigate("ProgramsForm", { programId: `${data.id}`, processingFeeData: `${data.processingFee}`, programPriceData: `${data.programPrice}`, programNameData: `${data.programName}`, processingFeeData: `${data.processingFee}` }) }}
+                                    textStyling={{ marginBottom: -5 }}
+                                    stylebtn={{ paddingVertical: 10 }}
+                                    bgColor={"green"}
+
+                                >Register Now</CustomButton1>
+                            </View>
+                        )
+                    ) : (
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            {/* <Text>data.programRegistrationEligible {data.programRegistrationEligible ? "true" : "fal"} > {data.registered ? "true" : "fal"}</Text>
+
+                            <Text>Not your program</Text> */}
+                            <CustomButton1
+                                boxWidth={'75%'}
+                                // onPress={() => { navigation.navigate("ProgramsForm", { programId: `${data.id}`, processingFeeData: `${data.processingFee}`, programPriceData: `${data.programPrice}`, programNameData: `${data.programName}`, processingFeeData: `${data.processingFee}` }) }}
+                                // onPress={handleSubmit}
+                                textStyling={{ marginBottom: -5 }}
+                                stylebtn={{ paddingVertical: 10 }}
+                                // leftIcon={<Entypo
+                                //   // style={styles.icon}
+                                //   name={'login'} size={18} color={'white'} />}
+                                // bgColor={`${!isValid ? "#38B14D" : "#38B14D"}`}
+                                bgColor={"green"}
+
+                            >Not your program</CustomButton1>
+                        </View>
+                    )}
+             
 
 
-                    </View>
 
-                    
+
 
                     <View style={{ height: 20 }}>
 

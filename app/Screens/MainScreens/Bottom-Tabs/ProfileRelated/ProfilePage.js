@@ -1,4 +1,4 @@
-import { FlatList, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ImageBackground, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Entypo, FontAwesome, SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
@@ -30,7 +30,7 @@ const ListItem = ({ leftIcon, ItemName, routeTo }) => {
           resizeMode={"contain"} />
       </View>
     </TouchableOpacity>
-  ) 
+  )
 }
 const ProfilePage = () => {
 
@@ -48,7 +48,7 @@ const ProfilePage = () => {
         { title: 'Feedback', logo: require("../../../../assets/Images/ProfileIcons/Feedback.png"), onPress: () => navigation.navigate('Feedback') },
         // { title: 'Feedback', logo: require("../../../../assets/Images/ProfileIcons/Feedback.png"), onPress: () => {RequestInAppReview()} },
         // { title: 'Contact Us?', logo: require("../../../../assets/Images/ProfileIcons/ContactUs.png"), onPress: () => OpenDialer('9951072005') },
-        { title: 'Contact Us?', logo: require("../../../../assets/Images/ProfileIcons/ContactUs.png"), onPress: () => navigation.navigate('ContactUs')  },
+        { title: 'Contact Us?', logo: require("../../../../assets/Images/ProfileIcons/ContactUs.png"), onPress: () => navigation.navigate('ContactUs') },
       ],
     },
     {
@@ -56,8 +56,8 @@ const ProfilePage = () => {
       subItems: [
         { title: 'Privacy policy', logo: require("../../../../assets/Images/ProfileIcons/Privacypolicy.png"), onPress: () => navigation.navigate('PrivacyPolicy') },
         { title: 'Terms and Conditions', logo: require("../../../../assets/Images/ProfileIcons/TermsandConditions.png"), onPress: () => navigation.navigate('TermsandConditions') },
-        { title: 'Logout', logo: require("../../../../assets/Images/ProfileIcons/Logout.png"), onPress: () => logoutValidation(dispatch)},
-    ],
+        { title: 'Logout', logo: require("../../../../assets/Images/ProfileIcons/Logout.png"), onPress: () => logoutValidation(dispatch) },
+      ],
     },
 
   ];
@@ -66,10 +66,14 @@ const ProfilePage = () => {
 
   // console.log(menuItems[0].subItems)
   return (
-    <View style={[{ flex: 1 },SettingStyleing.ImageBackgroundSettings]}>
+    // <View style={[{ flex: 1 },SettingStyleing.ImageBackgroundSettings]}>
+    <ImageBackground
+      source={require('../../../../assets/Images/Background1.png')} // Replace with the actual path to your image
+      style={[SettingStyleing.ImageBackgroundSettings, { flex: 1 },]}
+    >
       <View style={{ flex: 0.15 }}>
         <View style={{ flexDirection: 'row', marginHorizontal: 32, marginVertical: 30, justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={()=>navigation.navigate('ProgramStatus')} style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProgramStatus')} style={{ flex: 0.15, width: 44, height: 44, backgroundColor: '#FE7B07', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#FFFFFF', fontFamily: 'BalooTamma2', fontWeight: 700, fontSize: 32 }}>{userName[0]}</Text>
           </TouchableOpacity>
           <View style={{ flex: 0.80 }}>
@@ -81,7 +85,7 @@ const ProfilePage = () => {
         </View>
       </View>
 
-      <View style={[{ flex: 0.35,justifyContent:'center', paddingHorizontal: 10 }]}>
+      <View style={[{ flex: 0.35, justifyContent: 'center', paddingHorizontal: 10 }]}>
         <View style={[{}, styles.container]}>
           <FlatList
             data={menuItems[0].subItems}
@@ -93,7 +97,7 @@ const ProfilePage = () => {
         </View>
       </View>
 
-      <View style={[{ flex: 0.3,justifyContent:'center', paddingHorizontal: 10 }]}>
+      <View style={[{ flex: 0.3, justifyContent: 'center', paddingHorizontal: 10 }]}>
         <View style={[{}, styles.container]}>
           <FlatList
             data={menuItems[1].subItems}
@@ -105,9 +109,9 @@ const ProfilePage = () => {
         </View>
       </View>
 
+    </ImageBackground>
 
-
-    </View>
+    // </View>
   )
 }
 

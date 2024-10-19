@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Button, TextInput, Alert } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Button, TextInput, Alert, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../../../../Components/UI/Inputs/CustomTextInput';
@@ -170,6 +170,10 @@ const dispatch=useDispatch()
         />
   
         <View style={styles.container}>
+        <ImageBackground
+                        source={require('../../../../assets/Images/Background2.png')} // Replace with the actual path to your image
+                        style={[SettingStyleing.ImageBackgroundSettings,{ flex: 1, paddingHorizontal: 20 }]}
+                        >
             {/* <Button title="Give Feedback" onPress={toggleModal} /> */}
 
             <Modal visible={isModalVisible} transparent animationType="slide">
@@ -207,6 +211,7 @@ const dispatch=useDispatch()
                     </View>
                 </View>
             </Modal>
+            </ImageBackground>
         </View>
 
         </>

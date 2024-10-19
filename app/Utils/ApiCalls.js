@@ -398,7 +398,22 @@ export const GET_USER_BY_EMAIL_API = async (token) => {
 }
 
 
+export const GET_PROGRAM_STATUS_API = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/getProgramStatus`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
 
+
+export const GET_PROGRAM_PAUSE_REQUEST_APIs = async (token) => {
+  return await axios.get(`${GUEST_URL}/api/programPauseRequestToAdmin`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+  });
+}
 
 
 //  Notifications List 

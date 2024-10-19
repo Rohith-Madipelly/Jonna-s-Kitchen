@@ -13,7 +13,7 @@ import { Entypo, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import CarouselsBasic from "../../Components/UI/CarouselsBasic/CarouselsBasic";
 import SkeletonLoader from "../../Components/UI/Skeletons/SkeletonLoader";
 import Loader1 from "../../Utils/Loader1";
-import { GetAllProgramsAPI } from "../../Utils/ApiCalls";
+import { GET_ALL_BANNERS_API, GetAllProgramsAPI } from "../../Utils/ApiCalls";
 import { StatusBar } from "expo-status-bar";
 import ProgramDeatils from "../ShareScreens/ProgramDeatils";
 import { ServerError, ServerTokenError_Logout } from "../../Utils/ServerError";
@@ -176,6 +176,70 @@ const WelcomeCopy = () => {
 
 
 
+  const [loadingComponent, setLoadingComponent] = useState(true)
+  const [Data, setData] = useState("")
+
+
+  const HomeBanners = async () => {
+    try {
+      const res = await GET_ALL_BANNERS_API(tokenn)
+      if (res) {
+        setData(res.data)
+        setTimeout(() => {
+            setLoadingComponent(false)
+          }, 2000);
+      }
+    } catch (error) {
+      console.log("Error in APi Call in GET_ALL_BANNERS_API >", error.response)
+      if (error.response) {
+        if (error.response.status === 400) {
+
+        }
+        else if (error.response.status === 401) {
+          console.log("Error With 401", error.response.data)
+        }
+        else if (error.response.status === 403) {
+          console.log("Error With 403", error.response.data.message)
+        }
+        else if (error.response.status === 404) {
+          console.log("Error With 404", error.response.data.message)
+          ServerTokenError_Logout(undefined, undefined, dispatch)
+        }
+        else if (error.response.status >= 500) {
+          // console.log("Internal Server Error", error.message)
+          ServerError(undefined, `${error.message}`)
+        }
+        else {
+          console.log("An error occurred response.>>", error)
+        }
+      }
+      else if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out. Please try again later.');
+      }
+      else if (error.request) {
+        console.log("No Response Received From the Server.")
+        if (error.request.status === 0) {
+          Alert.alert("No Network Found", "Please Check your Internet Connection")
+        }
+      }
+      else {
+        console.log("Error in Setting up the Request.")
+      }
+
+    } finally {
+      // console.log("Finally >")
+      setTimeout(() => {
+        // setLoadingComponent(false)
+      }, 2000);
+    }
+  }
+
+  useEffect(() => {
+    HomeBanners()
+  }, [])
+
+
+
     return (
         <>
             <Wapper>
@@ -297,6 +361,11 @@ const WelcomeCopy = () => {
                                                 </View>
                                             </View>
 
+                                            <View style={{ flex: 0.7, marginTop: 1 }}>
+                {loadingComponent  ? <View style={{ height: 200, marginHorizontal: 18, marginTop: 20, }}>
+                  <SkeletonLoader width={200} height={159} borderRadius={5} />
+                </View> :<CarouselsBasic DATA={Data} autoScroll={true} showIndicators={true} />}
+                </View>
 
                                             {/* Transformation */}
                                             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
